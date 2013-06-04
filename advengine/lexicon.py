@@ -1,6 +1,4 @@
-
-
-class Dictionary:
+class Lexicon:
     def __init__(self, wordlists=[]):
         self.synonyms = {}
         
@@ -16,3 +14,7 @@ class Dictionary:
         
         # assign list to each word in list
         self.synonyms.update({word: allwords for word in allwords})
+        
+
+    def __getitem__(self, word):
+        return self.synonyms.get(word)

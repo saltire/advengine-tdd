@@ -1,0 +1,45 @@
+{
+	"rooms": {},
+	"nouns": {},
+	"vars": {
+	    "one": 1,
+	    "two": 2
+	},
+	"words": [
+	    ["red", "rouge"],
+        ["green", "vert"]
+    ],
+    "messages": {
+    	"welcome": "Welcome to the game!",
+        "startturn": "Turn starting.",
+        "passtest": "Test passed",
+        "failtest": "Test failed"
+    },
+    "controls": {
+    	"before_game": ["message welcome"],
+        "before_turn": ["message startturn"],
+        "during_turn": [
+            {
+            	"if": "var one 1",
+            	"then": "message passtest"
+            },
+            {
+            	"if": ["var one 1", "var two 2"],
+            	"then": "message passtest"
+            },
+            {
+            	"if": [
+            	    ["var one 1"],
+            	    ["var two 1"]
+            	],
+            	"then": "message passtest",
+            	"else": "message failtest"
+            },
+            {
+            	
+            }
+        ],
+        "after_turn": [],
+        "after_game": []
+    }
+}
