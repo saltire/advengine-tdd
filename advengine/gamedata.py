@@ -9,6 +9,7 @@ from room import Room
 
 class GameData:
     def __init__(self, data):
+        # if string is passed, treat it as a file path and read that file
         if isinstance(data, basestring):
             with open(data) as dfile:
                 rawdata = dfile.read()
@@ -23,9 +24,10 @@ class GameData:
         self.lexicon = Lexicon(data.get('words', []))
         self.controls = {sid: [Control(cdata) for cdata in stage]
                          for sid, stage in data.get('controls', {}).items()}
-    
-    
+        
+        
     def import_from_json(self, data):
+        """Parse data string as JSON."""
         return json.loads(data, object_pairs_hook=odict)
         
         

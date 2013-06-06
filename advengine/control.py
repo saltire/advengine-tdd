@@ -16,6 +16,7 @@ class Control:
             if not isinstance(results, list):
                 results = [results]
                 
+            # either add a new control or add actions
             return [Control(result) if isinstance(result, dict) else result
                     for result in results]
             
@@ -25,6 +26,8 @@ class Control:
         
         
     def get_actions(self, tests):
+        """Run each set of tests for this control, and if all tests are true
+        for any set of tests, return the 'then' actions, otherwise 'else'."""
         def test_is_true(test):
             method, args = test.split()[0], test.split()[1:]
             return getattr(tests, method)(*args)
@@ -38,8 +41,10 @@ class Control:
         
         for result in results:
             if isinstance(result, Control):
+                # run tests for this control and return its actions
                 actions.extend(result.get_actions(tests))
             else:
+                # return the actions
                 action, args = result.split()[0], result.split()[1:]
                 actions.append((action, args))
 

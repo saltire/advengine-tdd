@@ -7,6 +7,8 @@ class Lexicon:
             
             
     def add_words(self, wordlist):
+        """Given a list of words, create or update the entry for each,
+        containing the given words and any existing synonyms for any of them."""
         # create list of new words + synonyms of all existing words
         allwords = set(wordlist)
         for word in wordlist:
@@ -17,8 +19,10 @@ class Lexicon:
         
         
     def words_match(self, word1, word2):
+        """Check if one word a synonym of the other."""
         return word1 == word2 or word1 in self[word2]
         
 
     def __getitem__(self, word):
+        """Return the list of synonyms for the given word."""
         return self.synonyms.get(word, [word])

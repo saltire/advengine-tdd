@@ -4,4 +4,5 @@ class Actions:
         
         
     def message(self, mid):
+        """Send the message matching the given ID."""
         return [self.state.messages.get(mid, '')]

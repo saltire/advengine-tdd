@@ -28,7 +28,7 @@ class Test_Thesaurus(unittest.TestCase):
     def test_adding_overlapping_wordlist_merges_wordlists(self):
         self.lex.add_words(['green', 'vert'])
         self.lex.add_words(['vert', 'verde'])
-        self.assertItemsEqual(self.lex['green'],
+        self.assertItemsEqual(self.lex['verde'],
                               ['green', 'vert', 'verde'])
 
 
