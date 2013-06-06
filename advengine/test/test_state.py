@@ -58,9 +58,9 @@ class Test_State(unittest.TestCase):
         self.assertTrue(self.state.command_matches('test command'))
         
         
-    def test_command_matches_when_articles_in_current_command(self):
-        self.state.start_turn('test the command')
-        self.assertTrue(self.state.command_matches('test command'))
+    def test_command_matches_and_ignores_articles_and_capitalization(self):
+        self.state.start_turn('tEst the COMMAND')
+        self.assertTrue(self.state.command_matches('Test A Command'))
         
         
     def test_command_matches_when_synonyms_used(self):
@@ -72,6 +72,14 @@ class Test_State(unittest.TestCase):
         self.state.start_turn('test command')
         self.assertFalse(self.state.command_matches('test command extra words'))
         self.assertFalse(self.state.command_matches('test'))
+        
+        
+    def test_command_matches_using_asterisk_wildcard(self):
+        self.state.start_turn('test command')
+        self.assertTrue(self.state.command_matches('test *'))
+        
+        
+    
         
         
     

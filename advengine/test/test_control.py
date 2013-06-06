@@ -44,3 +44,6 @@ class Test_Control(unittest.TestCase):
         self.assertItemsEqual(control.get_actions(self.tests), [])
         
         
+    def test_control_raises_type_error_when_not_passed_string_or_dict(self):
+        self.assertRaises(TypeError, Control, ['action', 'action'])
+    

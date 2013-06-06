@@ -23,12 +23,14 @@ class State:
         
         
     def command_matches(self, command):
-        """Check if the given command matches the current turn's command."""
-        cwords = [cword for cword in command.split()
+        """Check if the given command has the same number of words as the
+        current turn's command, and each word is synonymous or a wildcard."""
+        cwords = [cword for cword in command.lower().split()
                       if cword not in ('a', 'an', 'the')]
         return (len(cwords) == len(self.current_turn.words) and
-                all(self.lexicon.words_match(word, cwords[i])
-                    for i, word in enumerate(self.current_turn.words)))
+                all(cword == '*' or
+                    self.lexicon.words_match(cword, self.current_turn.words[i])
+                    for i, cword in enumerate(cwords)))
                 
             
     def object_by_id(self, oid):

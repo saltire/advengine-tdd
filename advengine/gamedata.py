@@ -22,7 +22,9 @@ class GameData:
         self.vars = data.get('vars', {})
         self.messages = data.get('messages', {})
         self.lexicon = Lexicon(data.get('words', []))
-        self.controls = {sid: [Control(cdata) for cdata in stage]
+        self.controls = {sid: ([Control(cdata) for cdata in stage]
+                               if not isinstance(stage, (basestring, dict))
+                               else [Control(stage)])
                          for sid, stage in data.get('controls', {}).items()}
         
         

@@ -601,27 +601,27 @@
         ],
         "during_turn": [
             {
-                "if": ["input * button"], 
+                "if": ["command * button"], 
                 "then": ["message whichcolour"], 
                 "done": true
             }, 
             {
-                "if": ["input push blue", "room pilot", "var blue 0"], 
+                "if": ["command push blue", "room pilot", "var blue 0"], 
                 "then": ["setvar blue 1", "removeroomnote pilot lightflashing", "removenounnote console consolelightflashing", "setnoundesc light lightnotflashing", "message bluebutton1", "message bluebutton2", "message bluebutton3", "message bluebutton4"], 
                 "done": true
             }, 
             {
                 "if": [
-                    ["input push blue", "room pilot", "var blue 1"], 
-                    ["input push green", "room pilot", "var ack 0"], 
-                    ["input push black", "room e_bridge", "!var storage 0"], 
-                    ["input push white", "room e_bridge", "var ack 0"]
+                    ["command push blue", "room pilot", "var blue 1"], 
+                    ["command push green", "room pilot", "var ack 0"], 
+                    ["command push black", "room e_bridge", "!var storage 0"], 
+                    ["command push white", "room e_bridge", "var ack 0"]
                 ], 
                 "then": ["message nothinghappens"], 
                 "done": true
             }, 
             {
-                "if": ["input push red", "room pilot"], 
+                "if": ["command push red", "room pilot"], 
                 "then": [
                     {
                         "if": ["var blue 1", "var rendez 0"], 
@@ -634,12 +634,12 @@
                 "done": true
             }, 
             {
-                "if": ["input push green", "room pilot", "var ack 1"], 
+                "if": ["command push green", "room pilot", "var ack 1"], 
                 "then": ["setvar ack 0", "setvar rendez 1", "message announces", "message rendezvous1", "message rendezvous2"], 
                 "done": true
             }, 
             {
-                "if": ["input push orange", "room pilot"], 
+                "if": ["command push orange", "room pilot"], 
                 "then": [
                     {
                         "if": ["var rendez 0"], 
@@ -659,7 +659,7 @@
                 ]
             }, 
             {
-                "if": ["input push yellow", "room pilot"], 
+                "if": ["command push yellow", "room pilot"], 
                 "then": [
                     "message tachyon", 
                     {
@@ -683,7 +683,7 @@
                 "done": true
             }, 
             {
-                "if": ["input push yellow", "room maintenance"], 
+                "if": ["command push yellow", "room maintenance"], 
                 "then": [
                     {
                         "if": ["var purify 3"], 
@@ -701,29 +701,29 @@
                 "done": true
             }, 
             {
-                "if": ["input push black", "room e_bridge", "var storage 0"], 
+                "if": ["command push black", "room e_bridge", "var storage 0"], 
                 "then": ["setvar ack 2", "setvar tachyon 2", "message emergencysystem1", "message emergencysystem2", "message emergencysystem3"], 
                 "done": true
             }, 
             {
-                "if": ["input push white", "room e_bridge", "var ack 1"], 
+                "if": ["command push white", "room e_bridge", "var ack 1"], 
                 "then": ["setvar ack 0", "setvar storage 1", "message storageunlocked1", "message storageunlocked2"], 
                 "done": true
             }, 
             {
                 "if": [
-                    ["input up", "room storage", "var g_inner 0"], 
-                    ["input up", "room g_airlock", "var outer 0"], 
-                    ["input up", "room a_airlock", "var a_inner 0"], 
-                    ["input down", "room trans", "var a_inner 0"], 
-                    ["input down", "room a_airlock", "var outer 0"], 
-                    ["input down", "room g_airlock", "var g_inner 0"]
+                    ["command up", "room storage", "var g_inner 0"], 
+                    ["command up", "room g_airlock", "var outer 0"], 
+                    ["command up", "room a_airlock", "var a_inner 0"], 
+                    ["command down", "room trans", "var a_inner 0"], 
+                    ["command down", "room a_airlock", "var outer 0"], 
+                    ["command down", "room g_airlock", "var g_inner 0"]
                 ], 
                 "then": ["message airclosed"], 
                 "done": true
             }, 
             {
-                "if": ["input * door"], 
+                "if": ["command * door"], 
                 "then": [
                     {
                         "if": ["room a_airlock|g_airlock"], 
@@ -738,59 +738,59 @@
             }, 
             {
                 "if": [
-                    ["input examine inner", "room storage|g_airlock", "var g_inner 0"], 
-                    ["input examine inner", "room trans|a_airlock", "var a_inner 0"], 
-                    ["input examine outer", "room a_airlock|g_airlock", "var outer 0"]
+                    ["command examine inner", "room storage|g_airlock", "var g_inner 0"], 
+                    ["command examine inner", "room trans|a_airlock", "var a_inner 0"], 
+                    ["command examine outer", "room a_airlock|g_airlock", "var outer 0"]
                 ], 
                 "then": ["showdesc %2", "message doorclosed"], 
                 "done": true
             }, 
             {
                 "if": [
-                    ["input examine inner", "room storage|g_airlock", "var g_inner 1"], 
-                    ["input examine inner", "room trans|a_airlock", "var a_inner 1"], 
-                    ["input examine outer", "room a_airlock|g_airlock", "var outer 1"]
+                    ["command examine inner", "room storage|g_airlock", "var g_inner 1"], 
+                    ["command examine inner", "room trans|a_airlock", "var a_inner 1"], 
+                    ["command examine outer", "room a_airlock|g_airlock", "var outer 1"]
                 ], 
                 "then": ["showdesc %2", "message dooropen"], 
                 "done": true
             }, 
             {
                 "if": [
-                    ["input open inner", "room g_airlock|a_airlock", "var outer 1"], 
-                    ["input open outer", "room g_airlock", "var g_inner 1"], 
-                    ["input open outer", "room a_airlock", "var a_inner 1"]
+                    ["command open inner", "room g_airlock|a_airlock", "var outer 1"], 
+                    ["command open outer", "room g_airlock", "var g_inner 1"], 
+                    ["command open outer", "room a_airlock", "var a_inner 1"]
                 ], 
                 "then": ["message closeotherdoor"], 
                 "done": true
             }, 
             {
                 "if": [
-                    ["input open inner", "room storage|g_airlock", "var g_inner 1"], 
-                    ["input open inner", "room trans|a_airlock", "var a_inner 1"], 
-                    ["input open outer", "room g_airlock|a_airlock", "var outer 1"]
+                    ["command open inner", "room storage|g_airlock", "var g_inner 1"], 
+                    ["command open inner", "room trans|a_airlock", "var a_inner 1"], 
+                    ["command open outer", "room g_airlock|a_airlock", "var outer 1"]
                 ], 
                 "then": ["message alreadyopen"], 
                 "done": true
             }, 
             {
                 "if": [
-                    ["input close inner", "room storage|g_airlock", "var g_inner 0"], 
-                    ["input close inner", "room trans|a_airlock", "var a_inner 0"], 
-                    ["input close outer", "room g_airlock|a_airlock", "var outer 0"]
+                    ["command close inner", "room storage|g_airlock", "var g_inner 0"], 
+                    ["command close inner", "room trans|a_airlock", "var a_inner 0"], 
+                    ["command close outer", "room g_airlock|a_airlock", "var outer 0"]
                 ], 
                 "then": ["message alreadyclosed"], 
                 "done": true
             }, 
             {
                 "if": [
-                    ["input open inner|close inner", "!room storage|g_airlock|a_airlock|trans"], 
-                    ["input open outer|close outer", "!room g_airlock|a_airlock"]
+                    ["command open inner|close inner", "!room storage|g_airlock|a_airlock|trans"], 
+                    ["command open outer|close outer", "!room g_airlock|a_airlock"]
                 ], 
                 "then": ["message dontsee"], 
                 "done": true
             }, 
             {
-                "if": ["input open outer", "room g_airlock"], 
+                "if": ["command open outer", "room g_airlock"], 
                 "then": [
                     {
                         "if": ["var dock 0"], 
@@ -834,89 +834,89 @@
                 ]
             }, 
             {
-                "if": ["input open inner", "room storage|g_airlock", "var g_inner 0"], 
+                "if": ["command open inner", "room storage|g_airlock", "var g_inner 0"], 
                 "then": ["setvar g_inner 1", "clearroomnotes g_airlock", "addroomnote g_airlock inneropenouterclosed", "message openinnerdoor"], 
                 "done": true
             }, 
             {
-                "if": ["input open inner", "room trans|a_airlock", "var a_inner 0"], 
+                "if": ["command open inner", "room trans|a_airlock", "var a_inner 0"], 
                 "then": ["setvar a_inner 1", "clearroomnotes a_airlock", "addroomnote a_airlock inneropenouterclosed", "message openinnerdoor"], 
                 "done": true
             }, 
             {
-                "if": ["input open outer", "room g_airlock|a_airlock", "var outer 0"], 
+                "if": ["command open outer", "room g_airlock|a_airlock", "var outer 0"], 
                 "then": ["setvar outer 1", "clearroomnotes g_airlock,a_airlock", "addroomnote g_airlock,a_airlock innerclosedouteropen", "message openouterdoor"], 
                 "done": true
             }, 
             {
-                "if": ["input close inner", "room storage|g_airlock", "var g_inner 1"], 
+                "if": ["command close inner", "room storage|g_airlock", "var g_inner 1"], 
                 "then": ["setvar g_inner 0", "clearroomnotes g_airlock", "addroomnote g_airlock innerclosedouterclosed", "message closeinnerdoor"], 
                 "done": true
             }, 
             {
-                "if": ["input close inner", "room trans|a_airlock", "var a_inner 1"], 
+                "if": ["command close inner", "room trans|a_airlock", "var a_inner 1"], 
                 "then": ["setvar a_inner 0", "clearroomnotes a_airlock", "addroomnote a_airlock innerclosedouterclosed", "message closeinnerdoor"], 
                 "done": true
             }, 
             {
-                "if": ["input close outer", "room g_airlock|a_airlock", "var outer 1"], 
+                "if": ["command close outer", "room g_airlock|a_airlock", "var outer 1"], 
                 "then": ["setvar outer 0", "clearroomnotes g_airlock,a_airlock", "addroomnote g_airlock,a_airlock innerclosedouterclosed", "message closeouterdoor"], 
                 "done": true
             }, 
             {
-                "if": ["input go up", "room g_airlock", "var dock 0", "var outer 1"], 
+                "if": ["command go up", "room g_airlock", "var dock 0", "var outer 1"], 
                 "then": ["message cantgo"], 
                 "done": true
             }, 
             {
-                "if": ["input remove suit", "room g_airlock", "var dock 0", "var outer 1"], 
+                "if": ["command remove suit", "room g_airlock", "var dock 0", "var outer 1"], 
                 "then": ["message outerdoorstillopen"], 
                 "done": true
             }, 
             {
                 "if": [
-                    ["input open box", "present box", "var box 0"], 
-                    ["input open panel", "room e_bridge", "var panel 0"], 
-                    ["input open door", "room main_storage", "var storage 0"]
+                    ["command open box", "present box", "var box 0"], 
+                    ["command open panel", "room e_bridge", "var panel 0"], 
+                    ["command open door", "room main_storage", "var storage 0"]
                 ], 
                 "then": ["message locked"], 
                 "done": true
             }, 
             {
                 "if": [
-                    ["input unlock panel", "room e_bridge", "!ininv keys", "var panel 0"], 
-                    ["input unlock box", "present box", "!ininv keys", "var box 0"]
+                    ["command unlock panel", "room e_bridge", "!ininv keys", "var panel 0"], 
+                    ["command unlock box", "present box", "!ininv keys", "var box 0"]
                 ], 
                 "then": ["message nokeys"], 
                 "done": true
             }, 
             {
-                "if": ["input unlock door", "room main_storage", "var storage 0"], 
+                "if": ["command unlock door", "room main_storage", "var storage 0"], 
                 "then": ["message electroniclock"], 
                 "done": true
             }, 
             {
                 "if": [
-                    ["input unlock box", "present box", "var box 1"], 
-                    ["input unlock panel", "room e_bridge", "var panel 1"], 
-                    ["input unlock door", "room main_storage", "var storage 1"]
+                    ["command unlock box", "present box", "var box 1"], 
+                    ["command unlock panel", "room e_bridge", "var panel 1"], 
+                    ["command unlock door", "room main_storage", "var storage 1"]
                 ], 
                 "then": ["message alreadyunlocked"], 
                 "done": true
             }, 
             {
                 "if": [
-                    ["input open box", "present box", "var box 2"], 
-                    ["input open|pry panel", "room e_bridge", "var panel 2"], 
-                    ["input open door", "room main_storage", "var storage 2"]
+                    ["command open box", "present box", "var box 2"], 
+                    ["command open|pry panel", "room e_bridge", "var panel 2"], 
+                    ["command open door", "room main_storage", "var storage 2"]
                 ], 
                 "then": ["message alreadyopen"], 
                 "done": true
             }, 
             {
                 "if": [
-                    ["input examine|search uniform"], 
-                    ["input search skeleton"]
+                    ["command examine|search uniform"], 
+                    ["command search skeleton"]
                 ], 
                 "then": [
                     {
@@ -932,50 +932,50 @@
                 ]
             }, 
             {
-                "if": ["input open pouch", "present pouch"], 
+                "if": ["command open pouch", "present pouch"], 
                 "then": ["message zipperstuck"], 
                 "done": true
             }, 
             {
-                "if": ["input cut pouch", "var pouch 1"], 
+                "if": ["command cut pouch", "var pouch 1"], 
                 "then": ["message alreadycut"], 
                 "done": true
             }, 
             {
-                "if": ["input cut pouch with knife", "!ininv knife"], 
+                "if": ["command cut pouch with knife", "!ininv knife"], 
                 "then": ["message donthave"], 
                 "done": true
             }, 
             {
-                "if": ["input cut pouch", "!ininv knife"], 
+                "if": ["command cut pouch", "!ininv knife"], 
                 "then": ["message withwhat"], 
                 "done": true
             }, 
             {
-                "if": ["input cut pouch", "ininv knife", "present pouch"], 
+                "if": ["command cut pouch", "ininv knife", "present pouch"], 
                 "then": ["setvar pouch 1", "setnoundesc pouch nothingunusual", "sendtonoun crowbar pouch", "message cutpouch"], 
                 "done": true
             }, 
             {
-                "if": ["input unlock panel", "room e_bridge", "ininv keys", "var panel 0"], 
+                "if": ["command unlock panel", "room e_bridge", "ininv keys", "var panel 0"], 
                 "then": ["setvar panel 1", "message unlocked"], 
                 "done": true
             }, 
             {
-                "if": ["input open panel", "room e_bridge", "var panel 1"], 
+                "if": ["command open panel", "room e_bridge", "var panel 1"], 
                 "then": ["message jammed"], 
                 "done": true
             }, 
             {
                 "if": [
-                    ["input pry panel with crowbar", "room e_bridge", "!ininv crowbar"], 
-                    ["input pry panel with crowbar", "room e_bridge", "contained crowbar"]
+                    ["command pry panel with crowbar", "room e_bridge", "!ininv crowbar"], 
+                    ["command pry panel with crowbar", "room e_bridge", "contained crowbar"]
                 ], 
                 "then": ["message donthave"], 
                 "done": true
             }, 
             {
-                "if": ["input pry panel", "room e_bridge"], 
+                "if": ["command pry panel", "room e_bridge"], 
                 "then": [
                     {
                         "if": [
@@ -1005,27 +1005,27 @@
                 "done": true
             }, 
             {
-                "if": ["input unlock box", "present box", "ininv keys", "var box 0"], 
+                "if": ["command unlock box", "present box", "ininv keys", "var box 0"], 
                 "then": ["setvar box 1", "message unlocked"], 
                 "done": true
             }, 
             {
-                "if": ["input open box", "present box", "var box 1"], 
+                "if": ["command open box", "present box", "var box 1"], 
                 "then": ["setvar box 2", "setnoundesc box itsempty", "sendtoroom sonic", "message openfellout"], 
                 "done": true
             }, 
             {
-                "if": ["input go south", "room main_storage", "!var storage 2"], 
+                "if": ["command go south", "room main_storage", "!var storage 2"], 
                 "then": ["message cantgo"], 
                 "done": true
             }, 
             {
-                "if": ["input open door", "room main_storage", "var storage 1"], 
+                "if": ["command open door", "room main_storage", "var storage 1"], 
                 "then": ["removeroomnote main_storage closeddooraft", "addroomnote main_storage opendooraft", "setvar storage 2", "sendnoun force aux_storage", "message itsopen"], 
                 "done": true
             }, 
             {
-                "if": ["input go north", "room out_bridge"], 
+                "if": ["command go north", "room out_bridge"], 
                 "then": [
                     {
                         "if": ["ininv spacesuit"], 
@@ -1036,7 +1036,7 @@
                 ]
             }, 
             {
-                "if": ["input go down", "room stair"], 
+                "if": ["command go down", "room stair"], 
                 "then": [
                     {
                         "if": ["var furniture 0"], 
@@ -1047,7 +1047,7 @@
                 ]
             }, 
             {
-                "if": ["input turn sonic", "present sonic"], 
+                "if": ["command turn sonic", "present sonic"], 
                 "then": [
                     {
                         "if": ["var sonic -1"], 
@@ -1059,22 +1059,22 @@
                 "done": true
             }, 
             {
-                "if": ["input turn molten", "inroom molten"], 
+                "if": ["command turn molten", "inroom molten"], 
                 "then": ["message notbloodylikely"], 
                 "done": true
             }, 
             {
-                "if": ["input take magnet", "inroom magnet"], 
+                "if": ["command take magnet", "inroom magnet"], 
                 "then": ["sendtoinv magnet", "message takemagnet"], 
                 "done": true
             }, 
             {
-                "if": ["input drop magnet", "ininv magnet"], 
+                "if": ["command drop magnet", "ininv magnet"], 
                 "then": ["sendtoroom magnet", "message dropmagnet"], 
                 "done": true
             }, 
             {
-                "if": ["input touch magnet"], 
+                "if": ["command touch magnet"], 
                 "then": [
                     {
                         "if": ["!worn spacesuit", "inroom magnet"], 
@@ -1099,60 +1099,60 @@
             }, 
             {
                 "if": [
-                    ["input go *", "exitexists %2", "var magnet 1"], 
-                    ["input remove suit", "var magnet 1"]
+                    ["command go *", "exitexists %2", "var magnet 1"], 
+                    ["command remove suit", "var magnet 1"]
                 ], 
                 "then": ["setvar magnet 0", "message pullfreeofmagnet"]
             }, 
             {
-                "if": ["input remove suit", "!var purify 3", "room a_airlock|trans|out_trans|vault|out_vault|out_storage|main_storage|aux_storage|out_stair|stair|maintenance|corner|hallway|out_bridge|w_bridge|c_bridge|e_bridge"], 
+                "if": ["command remove suit", "!var purify 3", "room a_airlock|trans|out_trans|vault|out_vault|out_storage|main_storage|aux_storage|out_stair|stair|maintenance|corner|hallway|out_bridge|w_bridge|c_bridge|e_bridge"], 
                 "then": ["message nolongerwearing", "message suitfumes"], 
                 "gameover": true
             }, 
             {
-                "if": ["input examine uniform", "room c_bridge"], 
+                "if": ["command examine uniform", "room c_bridge"], 
                 "replace": "examine captain", 
                 "done": true
             }, 
             {
-                "if": ["input read terminal|sign"], 
+                "if": ["command read terminal|sign"], 
                 "then": ["showdesc %2"], 
                 "done": true
             }, 
             {
-                "if": ["input touch controls", "room c_bridge"], 
+                "if": ["command touch controls", "room c_bridge"], 
                 "then": ["showdesc %2"], 
                 "done": true
             }, 
             {
-                "if": ["input go|enter booth", "room sleep"], 
+                "if": ["command go|enter booth", "room sleep"], 
                 "then": ["message nosleep"], 
                 "done": true
             }, 
             {
                 "if": [
-                    ["input go east", "room out_trans"], 
-                    ["input go west", "room out_vault"]
+                    ["command go east", "room out_trans"], 
+                    ["command go west", "room out_vault"]
                 ], 
                 "then": ["message skeletons"]
             }, 
             {
-                "if": ["input go north", "room vault"], 
+                "if": ["command go north", "room vault"], 
                 "then": ["message vaultlarge"], 
                 "done": true
             }, 
             {
-                "if": ["input hit"], 
+                "if": ["command hit"], 
                 "then": ["message violent"], 
                 "done": true
             }, 
             {
-                "if": ["input fuck"], 
+                "if": ["command fuck"], 
                 "then": ["message nothere"], 
                 "done": true
             }, 
             {
-                "if": ["input health"], 
+                "if": ["command health"], 
                 "then": [
                     {
                         "if": ["var hp 3"], 
@@ -1170,60 +1170,60 @@
                 "done": true
             }, 
             {
-                "if": ["input take inventory"], 
+                "if": ["command take inventory"], 
                 "replace": "inventory"
             }, 
             {
-                "if": ["input put on *"], 
+                "if": ["command put on *"], 
                 "replace": "wear %3"
             }, 
             {
-                "if": ["input take off *"], 
+                "if": ["command take off *"], 
                 "replace": "remove %3"
             }, 
             {
-                "if": ["input go in *"], 
+                "if": ["command go in *"], 
                 "replace": "enter %3"
             }, 
             {
-                "if": ["input look at *"], 
+                "if": ["command look at *"], 
                 "replace": "examine %3"
             }, 
             {
-                "if": ["input north|south|east|west|up|down"], 
+                "if": ["command north|south|east|west|up|down"], 
                 "replace": "go %1"
             }, 
             {
-                "if": ["input pry open *"], 
+                "if": ["command pry open *"], 
                 "replace": "pry %3"
             }, 
             {
-                "if": ["input push|open|close|unlock|cut|pry|remove *", "!present %2"], 
+                "if": ["command push|open|close|unlock|cut|pry|remove *", "!present %2"], 
                 "then": ["message dontsee"], 
                 "done": true
             }, 
             {
-                "if": ["input push|open|close|unlock|cut|pry|enter *"], 
+                "if": ["command push|open|close|unlock|cut|pry|enter *"], 
                 "then": ["message cantverb"], 
                 "done": true
             }, 
             {
-                "if": ["input search"], 
+                "if": ["command search"], 
                 "then": ["message nothingunusual"], 
                 "done": true
             }, 
             {
-                "if": ["input touch *"], 
+                "if": ["command touch *"], 
                 "then": ["message touched"], 
                 "done": true
             }, 
             {
-                "if": ["input wait"], 
+                "if": ["command wait"], 
                 "then": ["message timepasses"], 
                 "done": true
             }, 
             {
-                "if": ["input take *"], 
+                "if": ["command take *"], 
                 "then": [
                     {
                         "if": ["!present %2"], 
@@ -1246,7 +1246,7 @@
                 "done": true
             }, 
             {
-                "if": ["input wear *"], 
+                "if": ["command wear *"], 
                 "then": [
                     {
                         "if": ["!present %2"], 
@@ -1269,7 +1269,7 @@
                 "done": true
             }, 
             {
-                "if": ["input drop *"], 
+                "if": ["command drop *"], 
                 "then": [
                     {
                         "if": ["ininv %2"], 
@@ -1281,7 +1281,7 @@
                 "done": true
             }, 
             {
-                "if": ["input remove *", "wearable %2"], 
+                "if": ["command remove *", "wearable %2"], 
                 "then": [
                     {
                         "if": ["worn %2"], 
@@ -1293,17 +1293,17 @@
                 "done": true
             }, 
             {
-                "if": ["input take|remove *", "contained %2", "present %2"], 
+                "if": ["command take|remove *", "contained %2", "present %2"], 
                 "then": ["sendtoinv %2", "message okay"], 
                 "done": true
             }, 
             {
-                "if": ["input remove *", "present %2", "!contained %2", "!worn %2"], 
+                "if": ["command remove *", "present %2", "!contained %2", "!worn %2"], 
                 "then": ["message fromwhat"], 
                 "done": true
             }, 
             {
-                "if": ["input examine"], 
+                "if": ["command examine"], 
                 "then": [
                     {
                         "if": [
@@ -1319,7 +1319,7 @@
                 "done": true
             }, 
             {
-                "if": ["input inventory"], 
+                "if": ["command inventory"], 
                 "then": [
                     {
                         "if": ["carrying"], 
@@ -1331,12 +1331,12 @@
                 "done": true
             }, 
             {
-                "if": ["input look"], 
+                "if": ["command look"], 
                 "then": ["showdesc", "shownotes", "showcontents %current_room itemcontains 0"], 
                 "done": true
             }, 
             {
-                "if": ["input go north|south|east|west|up|down"], 
+                "if": ["command go north|south|east|west|up|down"], 
                 "then": [
                     {
                         "if": ["exitexists %2"], 
@@ -1348,32 +1348,32 @@
                 "done": true
             }, 
             {
-                "if": ["input go"], 
+                "if": ["command go"], 
                 "then": ["message cantgothere"], 
                 "done": true
             }, 
             {
-                "if": ["input score"], 
+                "if": ["command score"], 
                 "then": ["message turns"], 
                 "done": true
             }, 
             {
-                "if": ["input load"], 
+                "if": ["command load"], 
                 "then": ["load"], 
                 "done": true
             }, 
             {
-                "if": ["input save"], 
+                "if": ["command save"], 
                 "then": ["save"], 
                 "done": true
             }, 
             {
-                "if": ["input * *"], 
+                "if": ["command * *"], 
                 "then": ["message dontknowhowsomething"], 
                 "done": true
             }, 
             {
-                "if": ["input *"], 
+                "if": ["command *"], 
                 "then": ["message dontknowhow"], 
                 "done": true
             }

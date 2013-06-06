@@ -1,26 +1,33 @@
 class Control:
     def __init__(self, cdata):
-        
+        # check that control is a type or an action string
         if isinstance(cdata, basestring):
             cdata = {'then': cdata}
+        elif not isinstance(cdata, dict):
+            raise TypeError
             
+        # parse conditions
         conds = cdata.get('if', [])
-        if isinstance(conds, str):
+        if isinstance(conds, basestring):
+            # single test string - embed it in list of lists
             self.conds = [[conds]]
-        elif conds and isinstance(conds[0], basestring):
+        elif len(conds) and all(isinstance(cond, basestring) for cond in conds):
+            # list of test strings - embed it in list
             self.conds = [conds]
         else:
+            # list of lists of test strings
             self.conds = conds
              
-        def parse_actions(results):
-            if not isinstance(results, list):
+        # parse results
+        def parse_results(results):
+            if isinstance(results, (basestring, dict)):
+                # single action string or control - embed it in list
                 results = [results]
                 
-            # either add a new control or add actions
+            # add each result as a new control or an action
             return [Control(result) if isinstance(result, dict) else result
                     for result in results]
             
-        parse_results = lambda a: [a] if isinstance(a, basestring) else a
         self.true_results = parse_results(cdata.get('then', []))
         self.false_results = parse_results(cdata.get('else', []))
         

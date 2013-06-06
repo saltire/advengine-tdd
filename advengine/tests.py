@@ -5,7 +5,8 @@ class Tests:
         
     def command(self, *words):
         """Check if the given words match the current turn's command."""
-        return self.state.command_matches(' '.join(words))
+        return (self.state.current_turn is not None and
+                self.state.command_matches(' '.join(words)))
         
         
     def var(self, var, value):

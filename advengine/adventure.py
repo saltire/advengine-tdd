@@ -16,16 +16,16 @@ class Adventure:
     
     def start_game(self):
         """Run any actions that occur before the first turn."""
-        return self.do_actions(self.controls['before_game'])
+        return self.do_actions(self.controls.get('before_game', []))
     
     
     def do_command(self, command):
         """Start a new turn with the given command, run any actions,
         and return any resulting messages."""
         self.state.start_turn(command)
-        return (self.do_actions(self.controls['before_turn']) +
-                self.do_actions(self.controls['during_turn']) +
-                self.do_actions(self.controls['after_turn']))
+        return (self.do_actions(self.controls.get('before_turn', [])) +
+                self.do_actions(self.controls.get('during_turn', [])) +
+                self.do_actions(self.controls.get('after_turn', [])))
         
         
     def do_actions(self, controls):
@@ -37,6 +37,8 @@ class Adventure:
             
         messages = []
         for action, args in actions:
+            if action == 'done':
+                break
             msgs = getattr(self.actions, action)(*args)
             if msgs is not None:
                 messages.extend(msgs)
