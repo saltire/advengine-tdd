@@ -18,7 +18,9 @@ class Test_State(unittest.TestCase):
                                       'locs': ['kitchen']
                                       }
                           },
-                'vars': {'number': 2}
+                'vars': {'number': 2},
+                'words': [['command', 'input']
+                          ]
                 }
         
         self.state = State(GameData(data))
@@ -44,3 +46,32 @@ class Test_State(unittest.TestCase):
         
     def test_state_returns_variable(self):
         self.assertEqual(self.state.vars['number'], 2)
+        
+        
+    def test_passing_command_to_state_makes_current_command_available(self):
+        self.state.start_turn('test command')
+        self.assertEqual(self.state.current_turn.command, 'test command')
+        
+        
+    def test_command_matches_when_words_same_as_current_command(self):
+        self.state.start_turn('test command')
+        self.assertTrue(self.state.command_matches('test command'))
+        
+        
+    def test_command_matches_when_articles_in_current_command(self):
+        self.state.start_turn('test the command')
+        self.assertTrue(self.state.command_matches('test command'))
+        
+        
+    def test_command_matches_when_synonyms_used(self):
+        self.state.start_turn('test command')
+        self.assertTrue(self.state.command_matches('test input'))
+
+    
+    def test_command_doesnt_match_when_more_or_less_words_than_command(self):
+        self.state.start_turn('test command')
+        self.assertFalse(self.state.command_matches('test command extra words'))
+        self.assertFalse(self.state.command_matches('test'))
+        
+        
+    

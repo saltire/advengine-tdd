@@ -16,8 +16,3 @@ class Test_Room(unittest.TestCase):
                                     },
                           'start': True
                           })
-
-
-    
-if __name__ == "__main__":
-    unittest.main()

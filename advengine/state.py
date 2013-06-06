@@ -1,3 +1,6 @@
+from turn import Turn
+
+
 class State:
     def __init__(self, data):
         self.nouns = data.nouns
@@ -11,6 +14,20 @@ class State:
             self.locations |= set((noun, self.object_by_id(oid))
                                   for oid in noun.initial_locs())
             
+        self.current_turn = None
+            
+            
+    def start_turn(self, command):
+        self.current_turn = Turn(command)
+        
+        
+    def command_matches(self, command):
+        cwords = [cword for cword in command.split()
+                      if cword not in ('a', 'an', 'the')]
+        return (len(cwords) == len(self.current_turn.words) and
+                all(self.lexicon.words_match(word, cwords[i])
+                    for i, word in enumerate(self.current_turn.words)))
+                
             
     def object_by_id(self, oid):
         return self.nouns.get(oid) or self.rooms.get(oid)

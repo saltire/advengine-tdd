@@ -15,6 +15,10 @@ class Lexicon:
         # assign list to each word in list
         self.synonyms.update({word: allwords for word in allwords})
         
+        
+    def words_match(self, word1, word2):
+        return word1 == word2 or word1 in self[word2]
+        
 
     def __getitem__(self, word):
-        return self.synonyms.get(word)
+        return self.synonyms.get(word, [word])

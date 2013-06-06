@@ -22,7 +22,7 @@ class Test_Thesaurus(unittest.TestCase):
         words = ['blue', 'bleu', 'azul']
         self.lex.add_words(words)
         for word in words:
-            self.assertItemsEqual(words, self.lex[word])
+            self.assertItemsEqual(self.lex[word], words)
             
             
     def test_adding_overlapping_wordlist_merges_wordlists(self):
@@ -30,8 +30,9 @@ class Test_Thesaurus(unittest.TestCase):
         self.lex.add_words(['vert', 'verde'])
         self.assertItemsEqual(self.lex['green'],
                               ['green', 'vert', 'verde'])
-   
 
 
-if __name__ == "__main__":
-    unittest.main()
+    def test_word_match_returns_true_for_synonyms(self):
+        self.lex.add_words(['green', 'vert'])
+        self.assertTrue(self.lex.words_match('green', 'vert'))
+        self.assertTrue(self.lex.words_match('vert', 'green'))

@@ -7,7 +7,7 @@ from advengine.gamedata import GameData
 class Test_DataFile(unittest.TestCase):
     def test_gamedata_inits_from_file(self):
         data = GameData(os.path.abspath(os.path.join(__file__,
-                                                     '../test_data.json')))
+                                                     '../testdata.json')))
         self.assertTrue(hasattr(data, 'nouns'))
 
 

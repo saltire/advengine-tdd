@@ -14,11 +14,15 @@ class Test_Adventure(unittest.TestCase):
                           ],
                 'messages': {'welcome': 'Welcome to the game!',
                              'startturn': 'Turn starting.',
-                             'endturn': 'Turn ending.'
+                             'endturn': 'Turn ending.',
+                             'success': 'Success.'
                              },
                 'controls': {'before_game': ['message welcome'],
                              'before_turn': ['message startturn'],
-                             'during_turn': [],
+                             'during_turn': [{'if': ['command test command'],
+                                              'then': ['message success']
+                                              }
+                                             ],
                              'after_turn': ['message endturn'],
                              'after_game': []
                              }
@@ -31,13 +35,14 @@ class Test_Adventure(unittest.TestCase):
 
 
     def test_running_turn_returns_message_from_before_turn(self):
-        self.adv.start_game()
         self.assertEqual(self.adv.do_command('')[0], 'Turn starting.')
         
     
     def test_running_turn_returns_message_from_end_turn(self):
-        self.adv.start_game()
         self.assertEqual(self.adv.do_command('')[-1], 'Turn ending.')
         
     
-    
+    def test_can_test_for_input(self):
+        self.assertIn('Success.', self.adv.do_command('test command'))
+        self.assertNotIn('Success.', self.adv.do_command('not the same'))
+        
