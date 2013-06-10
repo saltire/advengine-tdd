@@ -622,10 +622,9 @@
                 "then": [
                     {
                         "if": ["var blue 1", "var rendez 0"], 
-                        "then": ["setvar ack 2", "message distress1", "message distress2", "done"]
-                    }, 
-                    "message announces", 
-                    "message functional",
+                        "then": ["setvar ack 2", "message distress1", "message distress2"],
+                        "else": ["message announces", "message functional"]
+                    },
                     "done"
                 ]
             }, 
@@ -796,15 +795,17 @@
                                         "then": ["message finishdocking"]
                                     },
                                     "gameover"
+                                ],
+                                "else": [
+                                    "setvar outer 1", 
+                                    "message openairlockmagnet", 
+                                    {
+                                        "if": ["nounloc force g_airlock"], 
+                                        "then": ["setvar tachyon 3", "destroy force", "message openairlockforce"]
+                                    },
+                                    "done"
                                 ]
-                            }, 
-                            "setvar outer 1", 
-                            "message openairlockmagnet", 
-                            {
-                                "if": ["nounloc force g_airlock"], 
-                                "then": ["setvar tachyon 3", "destroy force", "message openairlockforce"]
-                            },
-                            "done"
+                            }
                         ]
                     }, 
                     {
@@ -942,21 +943,18 @@
                         "then": [
                             {
                                 "if": ["ininv knife"], 
-                                "then": ["message strongerthanknife", "done"]
-                            }, 
-                            "message withwhat",
-                            "done"
+                                "then": ["message strongerthanknife", "done"],
+                                "else": ["message withwhat", "done"]
+                            }
+                        ],
+                        "else": [
+							{
+							    "if": ["var panel 0"], 
+							    "then": ["message cantprypanel", "done"],
+							    "else": ["setvar panel 2", "sendnoun screen,black,white e_bridge", "addroomnote e_bridge panelopen", "message prypanel", "done"]
+							}
                         ]
-                    }, 
-                    {
-                        "if": ["var panel 0"], 
-                        "then": ["message cantprypanel", "done"]
-                    }, 
-                    "setvar panel 2", 
-                    "sendnoun screen,black,white e_bridge", 
-                    "addroomnote e_bridge panelopen", 
-                    "message prypanel",
-                    "done"
+                    }
                 ]
             }, 
             {
@@ -980,9 +978,9 @@
                 "then": [
                     {
                         "if": ["ininv spacesuit"], 
-                        "then": ["message dropsuit", "done"]
-                    }, 
-                    "message squeeze"
+                        "then": ["message dropsuit", "done"],
+                        "else": ["message squeeze"]
+                    }
                 ]
             }, 
             {
@@ -990,9 +988,9 @@
                 "then": [
                     {
                         "if": ["var furniture 0"], 
-                        "then": ["message blockedfurniture", "done"]
-                    }, 
-                    "message descend"
+                        "then": ["message blockedfurniture", "done"],
+                        "else": ["message descend"]
+                    }
                 ]
             }, 
             {
@@ -1000,10 +998,9 @@
                 "then": [
                     {
                         "if": ["var sonic -1"], 
-                        "then": ["setvar sonic 4", "message twistdisruptor", "done"]
-                    }, 
-                    "message alreadyprimed",
-                    "done"
+                        "then": ["setvar sonic 4", "message twistdisruptor", "done"],
+                        "else": ["message alreadyprimed", "done"]
+                    }
                 ]
             }, 
             {
@@ -1198,10 +1195,9 @@
                 "then": [
                     {
                         "if": ["ininv %2"], 
-                        "then": ["sendtoroom %2", "message dropped", "done"]
-                    }, 
-                    "message donthave",
-                    "done"
+                        "then": ["sendtoroom %2", "message dropped", "done"],
+                        "else": ["message donthave", "done"]
+                    }
                 ]
             }, 
             {
@@ -1209,10 +1205,9 @@
                 "then": [
                     {
                         "if": ["worn %2"], 
-                        "then": ["sendtoinv %2", "message nolongerwearing", "done"]
-                    }, 
-                    "message notwearing",
-                    "done"
+                        "then": ["sendtoinv %2", "message nolongerwearing", "done"],
+                        "else": ["message notwearing", "done"]
+                    }
                 ]
             }, 
             {
@@ -1232,10 +1227,9 @@
                             ["present %2", "hasnotes %2"], 
                             ["present %2", "hascontents %2"]
                         ], 
-                        "then": ["showdesc %2:present", "shownotes %2:present", "showcontents %2:present itemcontains 1", "done"]
-                    }, 
-                    "message nothingunusual",
-                    "done"
+                        "then": ["showdesc %2:present", "shownotes %2:present", "showcontents %2:present itemcontains 1", "done"],
+                        "else": ["message nothingunusual", "done"]
+                    }
                 ]
             }, 
             {
@@ -1243,10 +1237,9 @@
                 "then": [
                     {
                         "if": ["carrying"], 
-                        "then": ["message carrying", "inv invitem carryingnothing invitemworn itemcontains", "done"]
-                    }, 
-                    "message carryingnothing",
-                    "done"
+                        "then": ["message carrying", "inv invitem carryingnothing invitemworn itemcontains", "done"],
+                        "else": ["message carryingnothing", "done"]
+                    }
                 ]
             }, 
             {
@@ -1258,10 +1251,9 @@
                 "then": [
                     {
                         "if": ["exitexists %2"], 
-                        "then": ["move %2", "showdesc", "shownotes", "showcontents", "done"]
-                    }, 
-                    "message cantgo",
-                    "done"
+                        "then": ["move %2", "showdesc", "shownotes", "showcontents", "done"],
+                        "else": ["message cantgo", "done"]
+                    }
                 ]
             }, 
             {
