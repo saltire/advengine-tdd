@@ -602,13 +602,11 @@
         "during_turn": [
             {
                 "if": ["command * button"], 
-                "then": ["message whichcolour"], 
-                "done": true
+                "then": ["message whichcolour", "done"]
             }, 
             {
                 "if": ["command push blue", "room pilot", "var blue 0"], 
-                "then": ["setvar blue 1", "removeroomnote pilot lightflashing", "removenounnote console consolelightflashing", "setnoundesc light lightnotflashing", "message bluebutton1", "message bluebutton2", "message bluebutton3", "message bluebutton4"], 
-                "done": true
+                "then": ["setvar blue 1", "removeroomnote pilot lightflashing", "removenounnote console consolelightflashing", "setnoundesc light lightnotflashing", "message bluebutton1", "message bluebutton2", "message bluebutton3", "message bluebutton4", "done"]
             }, 
             {
                 "if": [
@@ -617,44 +615,38 @@
                     ["command push black", "room e_bridge", "!var storage 0"], 
                     ["command push white", "room e_bridge", "var ack 0"]
                 ], 
-                "then": ["message nothinghappens"], 
-                "done": true
+                "then": ["message nothinghappens", "done"]
             }, 
             {
                 "if": ["command push red", "room pilot"], 
                 "then": [
                     {
                         "if": ["var blue 1", "var rendez 0"], 
-                        "then": ["setvar ack 2", "message distress1", "message distress2"], 
-                        "done": true
+                        "then": ["setvar ack 2", "message distress1", "message distress2", "done"]
                     }, 
                     "message announces", 
-                    "message functional"
-                ], 
-                "done": true
+                    "message functional",
+                    "done"
+                ]
             }, 
             {
                 "if": ["command push green", "room pilot", "var ack 1"], 
-                "then": ["setvar ack 0", "setvar rendez 1", "message announces", "message rendezvous1", "message rendezvous2"], 
-                "done": true
+                "then": ["setvar ack 0", "setvar rendez 1", "message announces", "message rendezvous1", "message rendezvous2", "done"]
             }, 
             {
                 "if": ["command push orange", "room pilot"], 
                 "then": [
                     {
                         "if": ["var rendez 0"], 
-                        "then": ["message cantdock"], 
-                        "done": true
+                        "then": ["message cantdock", "done"]
                     }, 
                     {
                         "if": ["var rendez 1", "var dock 0"], 
-                        "then": ["setvar dock 1", "message dock"], 
-                        "done": true
+                        "then": ["setvar dock 1", "message dock", "done"]
                     }, 
                     {
                         "if": ["var dock 1"], 
-                        "then": ["setvar dock 0", "message undock"], 
-                        "done": true
+                        "then": ["setvar dock 0", "message undock", "done"]
                     }
                 ]
             }, 
@@ -676,11 +668,10 @@
                     }, 
                     {
                         "if": ["var tachyon 3"], 
-                        "then": ["message congratulations1", "message congratulations2"], 
-                        "gameover": true
-                    }
-                ], 
-                "done": true
+                        "then": ["message congratulations1", "message congratulations2", "gameover"]
+                    },
+                    "done"
+                ]
             }, 
             {
                 "if": ["command push yellow", "room maintenance"], 
@@ -696,19 +687,17 @@
                     {
                         "if": ["var purify <2"], 
                         "then": ["adjustvar purify +1", "message nothinghappens"]
-                    }
-                ], 
-                "done": true
+                    },
+                    "done"
+                ]
             }, 
             {
                 "if": ["command push black", "room e_bridge", "var storage 0"], 
-                "then": ["setvar ack 2", "setvar tachyon 2", "message emergencysystem1", "message emergencysystem2", "message emergencysystem3"], 
-                "done": true
+                "then": ["setvar ack 2", "setvar tachyon 2", "message emergencysystem1", "message emergencysystem2", "message emergencysystem3", "done"]
             }, 
             {
                 "if": ["command push white", "room e_bridge", "var ack 1"], 
-                "then": ["setvar ack 0", "setvar storage 1", "message storageunlocked1", "message storageunlocked2"], 
-                "done": true
+                "then": ["setvar ack 0", "setvar storage 1", "message storageunlocked1", "message storageunlocked2", "done"]
             }, 
             {
                 "if": [
@@ -719,20 +708,18 @@
                     ["command down", "room a_airlock", "var outer 0"], 
                     ["command down", "room g_airlock", "var g_inner 0"]
                 ], 
-                "then": ["message airclosed"], 
-                "done": true
+                "then": ["message airclosed", "done"]
             }, 
             {
                 "if": ["command * door"], 
                 "then": [
                     {
                         "if": ["room a_airlock|g_airlock"], 
-                        "then": ["message whichdoor"], 
-                        "done": true
+                        "then": ["message whichdoor", "done"]
                     }, 
                     {
                         "if": ["room storage|trans"], 
-                        "replace": "%1 inner"
+                        "then": ["replace %1 inner"]
                     }
                 ]
             }, 
@@ -742,8 +729,7 @@
                     ["command examine inner", "room trans|a_airlock", "var a_inner 0"], 
                     ["command examine outer", "room a_airlock|g_airlock", "var outer 0"]
                 ], 
-                "then": ["showdesc %2", "message doorclosed"], 
-                "done": true
+                "then": ["showdesc %2", "message doorclosed", "done"]
             }, 
             {
                 "if": [
@@ -751,8 +737,7 @@
                     ["command examine inner", "room trans|a_airlock", "var a_inner 1"], 
                     ["command examine outer", "room a_airlock|g_airlock", "var outer 1"]
                 ], 
-                "then": ["showdesc %2", "message dooropen"], 
-                "done": true
+                "then": ["showdesc %2", "message dooropen", "done"]
             }, 
             {
                 "if": [
@@ -760,8 +745,7 @@
                     ["command open outer", "room g_airlock", "var g_inner 1"], 
                     ["command open outer", "room a_airlock", "var a_inner 1"]
                 ], 
-                "then": ["message closeotherdoor"], 
-                "done": true
+                "then": ["message closeotherdoor", "done"]
             }, 
             {
                 "if": [
@@ -769,8 +753,7 @@
                     ["command open inner", "room trans|a_airlock", "var a_inner 1"], 
                     ["command open outer", "room g_airlock|a_airlock", "var outer 1"]
                 ], 
-                "then": ["message alreadyopen"], 
-                "done": true
+                "then": ["message alreadyopen", "done"]
             }, 
             {
                 "if": [
@@ -778,16 +761,14 @@
                     ["command close inner", "room trans|a_airlock", "var a_inner 0"], 
                     ["command close outer", "room g_airlock|a_airlock", "var outer 0"]
                 ], 
-                "then": ["message alreadyclosed"], 
-                "done": true
+                "then": ["message alreadyclosed", "done"]
             }, 
             {
                 "if": [
                     ["command open inner|close inner", "!room storage|g_airlock|a_airlock|trans"], 
                     ["command open outer|close outer", "!room g_airlock|a_airlock"]
                 ], 
-                "then": ["message dontsee"], 
-                "done": true
+                "then": ["message dontsee", "done"]
             }, 
             {
                 "if": ["command open outer", "room g_airlock"], 
@@ -813,65 +794,56 @@
                                     {
                                         "if": ["!nounloc force g_airlock", "var rendez 1"], 
                                         "then": ["message finishdocking"]
-                                    }
-                                ], 
-                                "gameover": true
+                                    },
+                                    "gameover"
+                                ]
                             }, 
                             "setvar outer 1", 
                             "message openairlockmagnet", 
                             {
                                 "if": ["nounloc force g_airlock"], 
                                 "then": ["setvar tachyon 3", "destroy force", "message openairlockforce"]
-                            }
-                        ], 
-                        "done": true
+                            },
+                            "done"
+                        ]
                     }, 
                     {
                         "if": ["var dock 1", "!var purify 3", "!worn spacesuit"], 
-                        "then": ["message airlockfumes"], 
-                        "gameover": true
+                        "then": ["message airlockfumes", "gameover"]
                     }
                 ]
             }, 
             {
                 "if": ["command open inner", "room storage|g_airlock", "var g_inner 0"], 
-                "then": ["setvar g_inner 1", "clearroomnotes g_airlock", "addroomnote g_airlock inneropenouterclosed", "message openinnerdoor"], 
-                "done": true
+                "then": ["setvar g_inner 1", "clearroomnotes g_airlock", "addroomnote g_airlock inneropenouterclosed", "message openinnerdoor", "done"]
             }, 
             {
                 "if": ["command open inner", "room trans|a_airlock", "var a_inner 0"], 
-                "then": ["setvar a_inner 1", "clearroomnotes a_airlock", "addroomnote a_airlock inneropenouterclosed", "message openinnerdoor"], 
-                "done": true
+                "then": ["setvar a_inner 1", "clearroomnotes a_airlock", "addroomnote a_airlock inneropenouterclosed", "message openinnerdoor", "done"]
             }, 
             {
                 "if": ["command open outer", "room g_airlock|a_airlock", "var outer 0"], 
-                "then": ["setvar outer 1", "clearroomnotes g_airlock,a_airlock", "addroomnote g_airlock,a_airlock innerclosedouteropen", "message openouterdoor"], 
-                "done": true
+                "then": ["setvar outer 1", "clearroomnotes g_airlock,a_airlock", "addroomnote g_airlock,a_airlock innerclosedouteropen", "message openouterdoor", "done"]
             }, 
             {
                 "if": ["command close inner", "room storage|g_airlock", "var g_inner 1"], 
-                "then": ["setvar g_inner 0", "clearroomnotes g_airlock", "addroomnote g_airlock innerclosedouterclosed", "message closeinnerdoor"], 
-                "done": true
+                "then": ["setvar g_inner 0", "clearroomnotes g_airlock", "addroomnote g_airlock innerclosedouterclosed", "message closeinnerdoor", "done"]
             }, 
             {
                 "if": ["command close inner", "room trans|a_airlock", "var a_inner 1"], 
-                "then": ["setvar a_inner 0", "clearroomnotes a_airlock", "addroomnote a_airlock innerclosedouterclosed", "message closeinnerdoor"], 
-                "done": true
+                "then": ["setvar a_inner 0", "clearroomnotes a_airlock", "addroomnote a_airlock innerclosedouterclosed", "message closeinnerdoor", "done"]
             }, 
             {
                 "if": ["command close outer", "room g_airlock|a_airlock", "var outer 1"], 
-                "then": ["setvar outer 0", "clearroomnotes g_airlock,a_airlock", "addroomnote g_airlock,a_airlock innerclosedouterclosed", "message closeouterdoor"], 
-                "done": true
+                "then": ["setvar outer 0", "clearroomnotes g_airlock,a_airlock", "addroomnote g_airlock,a_airlock innerclosedouterclosed", "message closeouterdoor", "done"]
             }, 
             {
                 "if": ["command go up", "room g_airlock", "var dock 0", "var outer 1"], 
-                "then": ["message cantgo"], 
-                "done": true
+                "then": ["message cantgo", "done"]
             }, 
             {
                 "if": ["command remove suit", "room g_airlock", "var dock 0", "var outer 1"], 
-                "then": ["message outerdoorstillopen"], 
-                "done": true
+                "then": ["message outerdoorstillopen", "done"]
             }, 
             {
                 "if": [
@@ -879,21 +851,18 @@
                     ["command open panel", "room e_bridge", "var panel 0"], 
                     ["command open door", "room main_storage", "var storage 0"]
                 ], 
-                "then": ["message locked"], 
-                "done": true
+                "then": ["message locked", "done"]
             }, 
             {
                 "if": [
                     ["command unlock panel", "room e_bridge", "!ininv keys", "var panel 0"], 
                     ["command unlock box", "present box", "!ininv keys", "var box 0"]
                 ], 
-                "then": ["message nokeys"], 
-                "done": true
+                "then": ["message nokeys", "done"]
             }, 
             {
                 "if": ["command unlock door", "room main_storage", "var storage 0"], 
-                "then": ["message electroniclock"], 
-                "done": true
+                "then": ["message electroniclock", "done"]
             }, 
             {
                 "if": [
@@ -901,8 +870,7 @@
                     ["command unlock panel", "room e_bridge", "var panel 1"], 
                     ["command unlock door", "room main_storage", "var storage 1"]
                 ], 
-                "then": ["message alreadyunlocked"], 
-                "done": true
+                "then": ["message alreadyunlocked", "done"]
             }, 
             {
                 "if": [
@@ -910,8 +878,7 @@
                     ["command open|pry panel", "room e_bridge", "var panel 2"], 
                     ["command open door", "room main_storage", "var storage 2"]
                 ], 
-                "then": ["message alreadyopen"], 
-                "done": true
+                "then": ["message alreadyopen", "done"]
             }, 
             {
                 "if": [
@@ -921,58 +888,48 @@
                 "then": [
                     {
                         "if": ["room e_bridge", "!somewhere keys"], 
-                        "then": ["sendnoun keys e_bridge", "message somethinginpocket"], 
-                        "done": true
+                        "then": ["sendnoun keys e_bridge", "message somethinginpocket", "done"]
                     }, 
                     {
                         "if": ["room maintenance", "!somewhere knife"], 
-                        "then": ["sendnoun knife maintenance", "message somethinginpocket"], 
-                        "done": true
+                        "then": ["sendnoun knife maintenance", "message somethinginpocket", "done"]
                     }
                 ]
             }, 
             {
                 "if": ["command open pouch", "present pouch"], 
-                "then": ["message zipperstuck"], 
-                "done": true
+                "then": ["message zipperstuck", "done"]
             }, 
             {
                 "if": ["command cut pouch", "var pouch 1"], 
-                "then": ["message alreadycut"], 
-                "done": true
+                "then": ["message alreadycut", "done"]
             }, 
             {
                 "if": ["command cut pouch with knife", "!ininv knife"], 
-                "then": ["message donthave"], 
-                "done": true
+                "then": ["message donthave", "done"]
             }, 
             {
                 "if": ["command cut pouch", "!ininv knife"], 
-                "then": ["message withwhat"], 
-                "done": true
+                "then": ["message withwhat", "done"]
             }, 
             {
                 "if": ["command cut pouch", "ininv knife", "present pouch"], 
-                "then": ["setvar pouch 1", "setnoundesc pouch nothingunusual", "sendtonoun crowbar pouch", "message cutpouch"], 
-                "done": true
+                "then": ["setvar pouch 1", "setnoundesc pouch nothingunusual", "sendtonoun crowbar pouch", "message cutpouch", "done"]
             }, 
             {
                 "if": ["command unlock panel", "room e_bridge", "ininv keys", "var panel 0"], 
-                "then": ["setvar panel 1", "message unlocked"], 
-                "done": true
+                "then": ["setvar panel 1", "message unlocked", "done"]
             }, 
             {
                 "if": ["command open panel", "room e_bridge", "var panel 1"], 
-                "then": ["message jammed"], 
-                "done": true
+                "then": ["message jammed", "done"]
             }, 
             {
                 "if": [
                     ["command pry panel with crowbar", "room e_bridge", "!ininv crowbar"], 
                     ["command pry panel with crowbar", "room e_bridge", "contained crowbar"]
                 ], 
-                "then": ["message donthave"], 
-                "done": true
+                "then": ["message donthave", "done"]
             }, 
             {
                 "if": ["command pry panel", "room e_bridge"], 
@@ -985,52 +942,45 @@
                         "then": [
                             {
                                 "if": ["ininv knife"], 
-                                "then": ["message strongerthanknife"], 
-                                "done": true
+                                "then": ["message strongerthanknife", "done"]
                             }, 
-                            "message withwhat"
-                        ], 
-                        "done": true
+                            "message withwhat",
+                            "done"
+                        ]
                     }, 
                     {
                         "if": ["var panel 0"], 
-                        "then": ["message cantprypanel"], 
-                        "done": true
+                        "then": ["message cantprypanel", "done"]
                     }, 
                     "setvar panel 2", 
                     "sendnoun screen,black,white e_bridge", 
                     "addroomnote e_bridge panelopen", 
-                    "message prypanel"
-                ], 
-                "done": true
+                    "message prypanel",
+                    "done"
+                ]
             }, 
             {
                 "if": ["command unlock box", "present box", "ininv keys", "var box 0"], 
-                "then": ["setvar box 1", "message unlocked"], 
-                "done": true
+                "then": ["setvar box 1", "message unlocked", "done"]
             }, 
             {
                 "if": ["command open box", "present box", "var box 1"], 
-                "then": ["setvar box 2", "setnoundesc box itsempty", "sendtoroom sonic", "message openfellout"], 
-                "done": true
+                "then": ["setvar box 2", "setnoundesc box itsempty", "sendtoroom sonic", "message openfellout", "done"]
             }, 
             {
                 "if": ["command go south", "room main_storage", "!var storage 2"], 
-                "then": ["message cantgo"], 
-                "done": true
+                "then": ["message cantgo", "done"]
             }, 
             {
                 "if": ["command open door", "room main_storage", "var storage 1"], 
-                "then": ["removeroomnote main_storage closeddooraft", "addroomnote main_storage opendooraft", "setvar storage 2", "sendnoun force aux_storage", "message itsopen"], 
-                "done": true
+                "then": ["removeroomnote main_storage closeddooraft", "addroomnote main_storage opendooraft", "setvar storage 2", "sendnoun force aux_storage", "message itsopen", "done"]
             }, 
             {
                 "if": ["command go north", "room out_bridge"], 
                 "then": [
                     {
                         "if": ["ininv spacesuit"], 
-                        "then": ["message dropsuit"], 
-                        "done": true
+                        "then": ["message dropsuit", "done"]
                     }, 
                     "message squeeze"
                 ]
@@ -1040,8 +990,7 @@
                 "then": [
                     {
                         "if": ["var furniture 0"], 
-                        "then": ["message blockedfurniture"], 
-                        "done": true
+                        "then": ["message blockedfurniture", "done"]
                     }, 
                     "message descend"
                 ]
@@ -1051,35 +1000,30 @@
                 "then": [
                     {
                         "if": ["var sonic -1"], 
-                        "then": ["setvar sonic 4", "message twistdisruptor"], 
-                        "done": true
+                        "then": ["setvar sonic 4", "message twistdisruptor", "done"]
                     }, 
-                    "message alreadyprimed"
-                ], 
-                "done": true
+                    "message alreadyprimed",
+                    "done"
+                ]
             }, 
             {
                 "if": ["command turn molten", "inroom molten"], 
-                "then": ["message notbloodylikely"], 
-                "done": true
+                "then": ["message notbloodylikely", "done"]
             }, 
             {
                 "if": ["command take magnet", "inroom magnet"], 
-                "then": ["sendtoinv magnet", "message takemagnet"], 
-                "done": true
+                "then": ["sendtoinv magnet", "message takemagnet", "done"]
             }, 
             {
                 "if": ["command drop magnet", "ininv magnet"], 
-                "then": ["sendtoroom magnet", "message dropmagnet"], 
-                "done": true
+                "then": ["sendtoroom magnet", "message dropmagnet", "done"]
             }, 
             {
                 "if": ["command touch magnet"], 
                 "then": [
                     {
                         "if": ["!worn spacesuit", "inroom magnet"], 
-                        "then": ["message feelslikemagnet"], 
-                        "done": true
+                        "then": ["message feelslikemagnet", "done"]
                     }, 
                     {
                         "if": ["worn spacesuit"], 
@@ -1091,9 +1035,9 @@
                             {
                                 "if": ["inroom magnet"], 
                                 "then": ["setvar magnet 1", "message immobilized"]
-                            }
-                        ], 
-                        "done": true
+                            },
+                            "done"
+                        ]
                     }
                 ]
             }, 
@@ -1106,28 +1050,23 @@
             }, 
             {
                 "if": ["command remove suit", "!var purify 3", "room a_airlock|trans|out_trans|vault|out_vault|out_storage|main_storage|aux_storage|out_stair|stair|maintenance|corner|hallway|out_bridge|w_bridge|c_bridge|e_bridge"], 
-                "then": ["message nolongerwearing", "message suitfumes"], 
-                "gameover": true
+                "then": ["message nolongerwearing", "message suitfumes", "gameover"]
             }, 
             {
                 "if": ["command examine uniform", "room c_bridge"], 
-                "replace": "examine captain", 
-                "done": true
+                "then": ["replace examine captain", "done"]
             }, 
             {
                 "if": ["command read terminal|sign"], 
-                "then": ["showdesc %2"], 
-                "done": true
+                "then": ["showdesc %2", "done"]
             }, 
             {
                 "if": ["command touch controls", "room c_bridge"], 
-                "then": ["showdesc %2"], 
-                "done": true
+                "then": ["showdesc %2", "done"]
             }, 
             {
                 "if": ["command go|enter booth", "room sleep"], 
-                "then": ["message nosleep"], 
-                "done": true
+                "then": ["message nosleep", "done"]
             }, 
             {
                 "if": [
@@ -1138,18 +1077,15 @@
             }, 
             {
                 "if": ["command go north", "room vault"], 
-                "then": ["message vaultlarge"], 
-                "done": true
+                "then": ["message vaultlarge", "done"]
             }, 
             {
                 "if": ["command hit"], 
-                "then": ["message violent"], 
-                "done": true
+                "then": ["message violent", "done"]
             }, 
             {
                 "if": ["command fuck"], 
-                "then": ["message nothere"], 
-                "done": true
+                "then": ["message nothere", "done"]
             }, 
             {
                 "if": ["command health"], 
@@ -1165,142 +1101,127 @@
                     {
                         "if": ["var hp 1"], 
                         "then": ["message healthhp1"]
-                    }
-                ], 
-                "done": true
+                    },
+                    "done"
+                ]
             }, 
             {
                 "if": ["command take inventory"], 
-                "replace": "inventory"
+                "then": ["replace inventory"]
             }, 
             {
                 "if": ["command put on *"], 
-                "replace": "wear %3"
+                "then": ["replace wear %3"]
             }, 
             {
                 "if": ["command take off *"], 
-                "replace": "remove %3"
+                "then": ["replace remove %3"]
             }, 
             {
                 "if": ["command go in *"], 
-                "replace": "enter %3"
+                "then": ["replace enter %3"]
             }, 
             {
                 "if": ["command look at *"], 
-                "replace": "examine %3"
+                "then": ["replace examine %3"]
             }, 
             {
                 "if": ["command north|south|east|west|up|down"], 
-                "replace": "go %1"
+                "then": ["replace go %1"]
             }, 
             {
                 "if": ["command pry open *"], 
-                "replace": "pry %3"
+                "then": ["replace pry %3"]
             }, 
             {
                 "if": ["command push|open|close|unlock|cut|pry|remove *", "!present %2"], 
-                "then": ["message dontsee"], 
-                "done": true
+                "then": ["message dontsee", "done"]
             }, 
             {
                 "if": ["command push|open|close|unlock|cut|pry|enter *"], 
-                "then": ["message cantverb"], 
-                "done": true
+                "then": ["message cantverb", "done"]
             }, 
             {
                 "if": ["command search"], 
-                "then": ["message nothingunusual"], 
-                "done": true
+                "then": ["message nothingunusual", "done"]
             }, 
             {
                 "if": ["command touch *"], 
-                "then": ["message touched"], 
-                "done": true
+                "then": ["message touched", "done"]
             }, 
             {
                 "if": ["command wait"], 
-                "then": ["message timepasses"], 
-                "done": true
+                "then": ["message timepasses", "done"]
             }, 
             {
                 "if": ["command take *"], 
                 "then": [
                     {
                         "if": ["!present %2"], 
-                        "then": ["message dontsee"], 
-                        "done": true
+                        "then": ["message dontsee", "done"]
                     }, 
                     {
                         "if": ["!movable %2"], 
-                        "then": ["message cantverb"], 
-                        "done": true
+                        "then": ["message cantverb", "done"]
                     }, 
                     {
                         "if": ["ininv %2"], 
-                        "then": ["message alreadycarrying"], 
-                        "done": true
+                        "then": ["message alreadycarrying", "done"]
                     }, 
                     "sendtoinv %2", 
-                    "message taken"
-                ], 
-                "done": true
+                    "message taken",
+                    "done"
+                ]
             }, 
             {
                 "if": ["command wear *"], 
                 "then": [
                     {
                         "if": ["!present %2"], 
-                        "then": ["message dontsee"], 
-                        "done": true
+                        "then": ["message dontsee", "done"]
                     }, 
                     {
                         "if": ["!wearable %2"], 
-                        "then": ["message cantverb"], 
-                        "done": true
+                        "then": ["message cantverb", "done"]
                     }, 
                     {
                         "if": ["worn %2"], 
-                        "then": ["message alreadywearing"], 
-                        "done": true
+                        "then": ["message alreadywearing", "done"]
                     }, 
                     "wear %2", 
-                    "message wearing"
-                ], 
-                "done": true
+                    "message wearing",
+                    "done"
+                ]
             }, 
             {
                 "if": ["command drop *"], 
                 "then": [
                     {
                         "if": ["ininv %2"], 
-                        "then": ["sendtoroom %2", "message dropped"], 
-                        "done": true
+                        "then": ["sendtoroom %2", "message dropped", "done"]
                     }, 
-                    "message donthave"
-                ], 
-                "done": true
+                    "message donthave",
+                    "done"
+                ]
             }, 
             {
                 "if": ["command remove *", "wearable %2"], 
                 "then": [
                     {
                         "if": ["worn %2"], 
-                        "then": ["sendtoinv %2", "message nolongerwearing"], 
-                        "done": true
+                        "then": ["sendtoinv %2", "message nolongerwearing", "done"]
                     }, 
-                    "message notwearing"
-                ], 
-                "done": true
+                    "message notwearing",
+                    "done"
+                ]
             }, 
             {
                 "if": ["command take|remove *", "contained %2", "present %2"], 
-                "then": ["sendtoinv %2", "message okay"], 
-                "done": true
+                "then": ["sendtoinv %2", "message okay", "done"]
             }, 
             {
                 "if": ["command remove *", "present %2", "!contained %2", "!worn %2"], 
-                "then": ["message fromwhat"], 
-                "done": true
+                "then": ["message fromwhat", "done"]
             }, 
             {
                 "if": ["command examine"], 
@@ -1311,71 +1232,61 @@
                             ["present %2", "hasnotes %2"], 
                             ["present %2", "hascontents %2"]
                         ], 
-                        "then": ["showdesc %2:present", "shownotes %2:present", "showcontents %2:present itemcontains 1"], 
-                        "done": true
+                        "then": ["showdesc %2:present", "shownotes %2:present", "showcontents %2:present itemcontains 1", "done"]
                     }, 
-                    "message nothingunusual"
-                ], 
-                "done": true
+                    "message nothingunusual",
+                    "done"
+                ]
             }, 
             {
                 "if": ["command inventory"], 
                 "then": [
                     {
                         "if": ["carrying"], 
-                        "then": ["message carrying", "inv invitem carryingnothing invitemworn itemcontains"], 
-                        "done": true
+                        "then": ["message carrying", "inv invitem carryingnothing invitemworn itemcontains", "done"]
                     }, 
-                    "message carryingnothing"
-                ], 
-                "done": true
+                    "message carryingnothing",
+                    "done"
+                ]
             }, 
             {
                 "if": ["command look"], 
-                "then": ["showdesc", "shownotes", "showcontents %current_room itemcontains 0"], 
-                "done": true
+                "then": ["showdesc", "shownotes", "showcontents %current_room itemcontains 0", "done"]
             }, 
             {
                 "if": ["command go north|south|east|west|up|down"], 
                 "then": [
                     {
                         "if": ["exitexists %2"], 
-                        "then": ["move %2", "showdesc", "shownotes", "showcontents"], 
-                        "done": true
+                        "then": ["move %2", "showdesc", "shownotes", "showcontents", "done"]
                     }, 
-                    "message cantgo"
-                ], 
-                "done": true
+                    "message cantgo",
+                    "done"
+                ]
             }, 
             {
                 "if": ["command go"], 
-                "then": ["message cantgothere"], 
-                "done": true
+                "then": ["message cantgothere", "done"]
             }, 
             {
                 "if": ["command score"], 
-                "then": ["message turns"], 
-                "done": true
+                "then": ["message turns", "done"]
             }, 
             {
                 "if": ["command load"], 
-                "then": ["load"], 
-                "done": true
+                "then": ["load", "done"]
             }, 
             {
                 "if": ["command save"], 
-                "then": ["save"], 
-                "done": true
+                "then": ["save", "done"]
             }, 
             {
                 "if": ["command * *"], 
-                "then": ["message dontknowhowsomething"], 
-                "done": true
+                "then": ["message dontknowhowsomething", "done"]
             }, 
             {
                 "if": ["command *"], 
-                "then": ["message dontknowhow"], 
-                "done": true
+                "then": ["message dontknowhow", "done"]
             }
         ], 
         "after_turn": [
@@ -1409,9 +1320,9 @@
                                     {
                                         "if": ["room stair"], 
                                         "then": ["message destroyedfurniture"]
-                                    }
-                                ], 
-                                "gameover": true
+                                    },
+                                    "gameover"
+                                ]
                             }, 
                             {
                                 "if": ["nounloc sonic stair"], 
@@ -1454,8 +1365,7 @@
                                             }, 
                                             {
                                                 "if": ["var hp 0"], 
-                                                "then": ["message jolt3"], 
-                                                "gameover": true
+                                                "then": ["message jolt3", "gameover"]
                                             }
                                         ]
                                     }
