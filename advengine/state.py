@@ -16,7 +16,7 @@ class State:
         # a junction list of nouns and locations
         self.locations = set()
         for noun in self.nouns.values():
-            self.locations |= set((noun, self.location_by_id(lid))
+            self.locations |= set((noun, self.locations_by_id(lid))
                                   for lid in noun.initial_locs())
             
         self.current_turn = None
@@ -38,7 +38,7 @@ class State:
                     for i, cword in enumerate(cwords)))
                 
             
-    def location_by_id(self, lid):
+    def locations_by_id(self, lid):
         """Return the noun or room with the given ID."""
         return (lid if lid in ('INVENTORY', 'WORN') else
                 self.nouns.get(lid) or self.rooms.get(lid))

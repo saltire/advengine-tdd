@@ -49,10 +49,14 @@ class Test_Tests(unittest.TestCase):
         
         
     def test_nounloc(self):
-        #self.assertTrue(self.tests.nounloc('blender', 'kitchen'))
-        #self.assertFalse(self.tests.nounloc('blender', 'bedroom'))
-        pass
+        self.assertTrue(self.tests.nounloc('blender', 'kitchen'))
+        self.assertFalse(self.tests.nounloc('blender', 'bedroom'))
+        self.assertTrue(self.tests.nounloc('blender|wallet', 'kitchen|bedroom'))
         
         
-    def test_nounloc_with_synonym(self):
-        pass
+    def test_ininv(self):
+        self.assertTrue(self.tests.ininv('wallet'))
+        self.assertFalse(self.tests.ininv('blender'))
+        
+        
+    

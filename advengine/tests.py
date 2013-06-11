@@ -1,30 +1,9 @@
-import re
+from filters import noun_filter, noun_location_filter
 
 
 class Tests:
     def __init__(self, state):
         self.state = state
-        
-        
-    def _filter_nouns(self, nfilter):
-        """If passed a numerical wildcard, return nouns matching the
-        corresponding input word. Otherwise, treat the filter as a pipe-
-        delimited list of noun IDs and return those nouns."""
-        if re.match('%(\d+)', nfilter) is not None:
-            return self.state.nouns_by_input_word(int(nfilter[1:]))
-        else:
-            return [self.state.nouns[nid] for nid in nfilter.split('|')]
-        
-        
-    def _filter_locations(self, lfilter):
-        """If passed a numerical wildcard, return nouns matching the
-        corresponding input word. Otherwise, treat the filter as a pipe-
-        delimited list of location IDs and return those locations."""
-        if re.match('%(\d+)', lfilter) is not None:
-            return self.state.nouns_by_input_word(int(lfilter[1:]))
-        else:
-            return [self.state.locations_by_id(lid)
-                    for lid in lfilter.split('|')]
         
         
     def command(self, *words):
@@ -53,12 +32,21 @@ class Tests:
         return direction in self.state.current_room.exits
     
     
-    def carrying(self, nfilter):
+    @noun_filter
+    def carrying(self, nouns):
         """Check if any of the given nouns are in the inventory."""
-        return 'INVENTORY' in self.state.noun_locs(*self._filter_nouns(nfilter))
+        return 'INVENTORY' in self.state.noun_locs(*nouns)
     
     
-    def nounloc(self, nfilter, lfilter):
+    @noun_location_filter
+    def nounloc(self, nouns, locs):
         """Check if any of the given nouns are at any of the given locations."""
-        return bool(self.state.noun_locs(*self._filter_nouns(nfilter)) &
-                    self._filter_locations(lfilter))
+        return bool(self.state.noun_locs(*nouns) & locs)
+        
+    
+    @noun_filter
+    def ininv(self, nouns):
+        """Check if any given noun is in the inventory."""
+        return 'INVENTORY' in self.state.noun_locs(*nouns)
+
+
