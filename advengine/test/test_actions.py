@@ -7,7 +7,8 @@ from advengine.state import State
 
 class Test_Actions(unittest.TestCase):
     def setUp(self):
-        data = GameData({'vars': {'one': 1, 'two': 2},
+        data = GameData({'rooms': {'start': {'start': True}},
+                         'vars': {'one': 1, 'two': 2},
                          'messages': {'pass': 'Pass',
                                       'subword': "Second word is %2"
                                       }

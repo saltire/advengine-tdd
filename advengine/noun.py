@@ -1,6 +1,9 @@
 class Noun:
-    def __init__(self, ndata):
+    def __init__(self, nid, ndata):
+        self.id = nid
         self.data = ndata
+        
+        self.words = set(self.data.get('words', []))
         
         
     def initial_locs(self):

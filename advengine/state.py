@@ -9,10 +9,14 @@ class State:
         self.messages = data.messages
         self.lexicon = data.lexicon
         
+        self.current_room = next(room for room in self.rooms.values()
+                                 if room.is_start)
+        self.current_room.visit()
+        
         self.locations = set()
         for noun in self.nouns.values():
-            self.locations |= set((noun, self.object_by_id(oid))
-                                  for oid in noun.initial_locs())
+            self.locations |= set((noun, self.location_by_id(lid))
+                                  for lid in noun.initial_locs())
             
         self.current_turn = None
             
@@ -33,9 +37,15 @@ class State:
                     for i, cword in enumerate(cwords)))
                 
             
-    def object_by_id(self, oid):
+    def location_by_id(self, lid):
         """Return the noun or room with the given ID."""
-        return self.nouns.get(oid) or self.rooms.get(oid)
+        return (lid if lid in ('INVENTORY', 'WORN') else
+                self.nouns.get(lid) or self.rooms.get(lid))
+        
+        
+    def nouns_by_word(self, *words):
+        """Return a list of nouns that match the given word."""
+        return (noun for noun in self.nouns.values() if set(words) & noun.words)
         
         
     def nouns_at_loc(self, t_obj):

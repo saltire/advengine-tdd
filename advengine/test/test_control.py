@@ -8,7 +8,8 @@ from advengine.tests import Tests
 
 class Test_Control(unittest.TestCase):
     def setUp(self):
-        data = GameData({'vars': {'one': 1, 'two': 2},
+        data = GameData({'rooms': {'start': {'start': True}},
+                         'vars': {'one': 1, 'two': 2},
                          'messages': {'pass': 'Pass'}
                          })
         state = State(data)

@@ -6,21 +6,18 @@ from advengine.state import State
 
 class Test_State(unittest.TestCase):
     def setUp(self):
-        data = {'rooms': {'bedroom': {'name': 'Bedroom',
-                                      },
-                          'kitchen': {'name': 'Kitchen',
-                                      }
+        data = {'rooms': {'bedroom': {'start': True},
+                          'kitchen': {}
                           },
-                'nouns': {'window': {'name': 'Window',
-                                     'locs': ['bedroom', 'kitchen']
-                                     },
-                          'blender': {'name': 'Blender',
-                                      'locs': ['kitchen']
-                                      }
+                'nouns': {'window': {'locs': ['bedroom', 'kitchen']},
+                          'blender': {'locs': ['kitchen'],
+                                      'words': ['blender', 'processor', 'thing']
+                                      },
+                          'wallet': {'locs': ['INVENTORY'],
+                                     'words': ['wallet', 'thing']}
                           },
                 'vars': {'number': 2},
-                'words': [['command', 'input']
-                          ]
+                'words': [['command', 'input']]
                 }
         
         self.state = State(GameData(data))
@@ -42,6 +39,21 @@ class Test_State(unittest.TestCase):
     def test_state_returns_all_locations_of_noun(self):
         self.assertItemsEqual(self.state.noun_locs(self.window),
                               [self.bedroom, self.kitchen])
+        
+        
+    def test_state_returns_nouns_by_words_only(self):
+        self.assertItemsEqual(self.state.nouns_by_word('thing'),
+                              [self.state.nouns['blender'],
+                               self.state.nouns['wallet']])
+        self.assertItemsEqual(self.state.nouns_by_word('window'), [])
+        
+        
+    def test_state_returns_initial_room(self):
+        self.assertEqual(self.state.current_room, self.state.rooms['bedroom'])
+        
+        
+    def test_initial_room_visited_at_start_of_game(self):
+        self.assertTrue(self.state.current_room.has_been_visited)
         
         
     def test_state_returns_variable(self):
