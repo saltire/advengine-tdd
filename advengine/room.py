@@ -1,6 +1,5 @@
 class Room:
-    def __init__(self, rid, rdata):
-        self.id = rid
+    def __init__(self, rdata):
         self.data = rdata
         
         self.exits = self.data.get('exits', {})

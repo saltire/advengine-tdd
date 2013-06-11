@@ -13,8 +13,9 @@ class Test_Tests(unittest.TestCase):
                           'kitchen': {'exits': {'north': 'bedroom'}}
                           },
                 'nouns': {'wallet': {'locs': ['INVENTORY'],
-                                     'words': []},
-                          'blender': {'locs': ['kitchen']}},
+                                     'words': ['wallet']},
+                          'blender': {'locs': ['kitchen'],
+                                      'words': ['blender']}},
                 'vars': {'one': 1, 'two': 2},
                 'messages': {'pass': 'Pass'}
                 }
@@ -41,6 +42,10 @@ class Test_Tests(unittest.TestCase):
     def test_carrying(self):
         self.assertTrue(self.tests.carrying('wallet'))
         self.assertFalse(self.tests.carrying('blender'))
+
+
+    def test_carrying_with_piped_filter(self):
+        self.assertTrue(self.tests.carrying('blender|wallet'))
         
         
     def test_nounloc(self):

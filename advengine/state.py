@@ -13,6 +13,7 @@ class State:
                                  if room.is_start)
         self.current_room.visit()
         
+        # a junction list of nouns and locations
         self.locations = set()
         for noun in self.nouns.values():
             self.locations |= set((noun, self.location_by_id(lid))
@@ -45,15 +46,23 @@ class State:
         
     def nouns_by_word(self, *words):
         """Return a list of nouns that match the given word."""
-        return (noun for noun in self.nouns.values() if set(words) & noun.words)
+        return set(noun for noun in self.nouns.values() if set(words) & noun.words)
+    
+    
+    def nouns_by_input_word(self, wordnum):
+        """Return a list of nouns matching the input word at the given index."""
+        try:
+            return self.nouns_by_word(self.current_turn.words[wordnum - 1])
+        except IndexError:
+            return set()
         
         
-    def nouns_at_loc(self, t_obj):
+    def nouns_at_loc(self, *locs):
         """Return all nouns at the given location."""
-        return set(noun for noun, obj in self.locations if obj == t_obj)
+        return set(noun for noun, loc in self.locations if loc in locs)
     
     
-    def noun_locs(self, t_noun):
+    def noun_locs(self, *nouns):
         """Return all nouns or rooms containing the given noun."""
-        return set(obj for noun, obj in self.locations if noun == t_noun)
+        return set(obj for noun, obj in self.locations if noun in nouns)
     

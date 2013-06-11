@@ -17,8 +17,10 @@ class GameData:
             fn = 'import_from_{0}'.format(data.rsplit('.', 1)[1])
             data = getattr(self, fn)(rawdata)
     
-        self.nouns = {nid: Noun(ndata) for nid, ndata in data.get('nouns', {}).items()}
-        self.rooms = {rid: Room(rdata) for rid, rdata in data.get('rooms', {}).items()}
+        self.nouns = {nid: Noun(ndata)
+                      for nid, ndata in data.get('nouns', {}).items()}
+        self.rooms = {rid: Room(rdata)
+                      for rid, rdata in data.get('rooms', {}).items()}
         self.vars = data.get('vars', {})
         self.messages = data.get('messages', {})
         self.lexicon = Lexicon(data.get('words', []))

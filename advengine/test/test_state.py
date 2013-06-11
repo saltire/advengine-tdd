@@ -11,10 +11,10 @@ class Test_State(unittest.TestCase):
                           },
                 'nouns': {'window': {'locs': ['bedroom', 'kitchen']},
                           'blender': {'locs': ['kitchen'],
-                                      'words': ['blender', 'processor', 'thing']
+                                      'words': ['blender', 'processor', 'item']
                                       },
                           'wallet': {'locs': ['INVENTORY'],
-                                     'words': ['wallet', 'thing']}
+                                     'words': ['wallet', 'item']}
                           },
                 'vars': {'number': 2},
                 'words': [['command', 'input']]
@@ -22,11 +22,10 @@ class Test_State(unittest.TestCase):
         
         self.state = State(GameData(data))
         
-        self.bedroom = self.state.rooms['bedroom']
-        self.kitchen = self.state.rooms['kitchen']
-
-        self.window = self.state.nouns['window']
-        self.blender = self.state.nouns['blender']
+        for rid, room in self.state.rooms.items():
+            setattr(self, rid, room)
+        for nid, noun in self.state.nouns.items():
+            setattr(self, nid, noun)
     
     
     def test_state_returns_all_nouns_at_location(self):
@@ -34,22 +33,31 @@ class Test_State(unittest.TestCase):
                               [self.window, self.blender])
         self.assertItemsEqual(self.state.nouns_at_loc(self.bedroom),
                               [self.window])
+        self.assertItemsEqual(self.state.nouns_at_loc(self.bedroom, 'INVENTORY'),
+                              [self.window, self.wallet])
     
     
     def test_state_returns_all_locations_of_noun(self):
         self.assertItemsEqual(self.state.noun_locs(self.window),
                               [self.bedroom, self.kitchen])
+        self.assertItemsEqual(self.state.noun_locs(self.window, self.wallet),
+                              [self.bedroom, self.kitchen, 'INVENTORY'])
         
         
     def test_state_returns_nouns_by_words_only(self):
-        self.assertItemsEqual(self.state.nouns_by_word('thing'),
-                              [self.state.nouns['blender'],
-                               self.state.nouns['wallet']])
+        self.assertItemsEqual(self.state.nouns_by_word('item'),
+                              [self.blender, self.wallet])
         self.assertItemsEqual(self.state.nouns_by_word('window'), [])
         
         
+    def test_state_returns_nouns_by_numeric_wildcard(self):
+        self.state.start_turn('examine item')
+        self.assertItemsEqual(self.state.nouns_by_input_word(2),
+                              [self.blender, self.wallet])
+        
+        
     def test_state_returns_initial_room(self):
-        self.assertEqual(self.state.current_room, self.state.rooms['bedroom'])
+        self.assertEqual(self.state.current_room, self.bedroom)
         
         
     def test_initial_room_visited_at_start_of_game(self):

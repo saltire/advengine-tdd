@@ -1,6 +1,5 @@
 class Noun:
-    def __init__(self, nid, ndata):
-        self.id = nid
+    def __init__(self, ndata):
         self.data = ndata
         
         self.words = set(self.data.get('words', []))
