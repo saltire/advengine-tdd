@@ -8,8 +8,8 @@ from advengine.state import State
 class Test_Actions(unittest.TestCase):
     def setUp(self):
         data = GameData({'rooms': {'start': {'start': True,
-                                             'desc': 'The starting room'}},
-                         'nouns': {'window': {'desc': "It's made of glass."},
+                                             'desc': 'The starting room.'}},
+                         'nouns': {'window': {'desc': 'Made of glass.'},
                                    'table': {}
                                    },
                          'vars': {'one': 1, 'two': 2},
@@ -36,8 +36,8 @@ class Test_Actions(unittest.TestCase):
     
     
     def test_showdesc(self):
-        self.assertEqual(self.actions.showdesc('window'),
-                         ["It's made of glass."])
+        self.assertEqual(self.actions.showdesc('start'), ['The starting room.'])
+        self.assertEqual(self.actions.showdesc('window'), ['Made of glass.'])
         self.assertEqual(self.actions.showdesc('table'), [])
     
     

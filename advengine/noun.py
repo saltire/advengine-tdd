@@ -3,7 +3,7 @@ class Noun:
         self.data = ndata
         
         self.words = set(self.data.get('words', []))
-        self.description = self.data.get('desc', '')
+        self.description = self.data.get('desc', None)
         self.notes = self.data.get('notes', [])
         self.is_movable = self.data.get('movable', False)
         self.is_wearable = self.data.get('wearable', False)

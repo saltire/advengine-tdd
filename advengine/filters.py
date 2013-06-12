@@ -22,6 +22,17 @@ def _filter_locations(self, lfilter):
                    for lid in lfilter.split('|'))
         
         
+def _filter_objects(self, ofilter):
+    """If passed a numerical wildcard, return nouns matching the
+    corresponding input word. Otherwise, treat the filter as a pipe-
+    delimited list of noun or room IDs and return those nouns/rooms."""
+    if re.match('%(\d+)', ofilter) is not None:
+        return self.state.nouns_by_input_word(int(ofilter[1:]))
+    else:
+        return set(self.state.nouns.get(oid) or self.state.rooms.get(oid)
+                   for oid in ofilter.split('|'))
+        
+        
 def noun_filter(test):
     """Replace the noun filter argument with a list of nouns."""
     def filtered_test(self, nfilter, *args):
@@ -36,6 +47,13 @@ def location_filter(test):
     return filtered_test
     
     
+def object_filter(test):
+    """Replace the object filter argument with a list of nouns and/or rooms."""
+    def filtered_test(self, ofilter, *args):
+        return test(self, _filter_objects(self, ofilter), *args)
+    return filtered_test
+    
+
 def noun_location_filter(test):
     """Replace the first filter argument with a list of nouns, and the second
     with a list of locations."""

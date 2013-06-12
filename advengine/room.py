@@ -2,6 +2,8 @@ class Room:
     def __init__(self, rdata):
         self.data = rdata
         
+        self.description = self.data.get('desc', None)
+        self.notes = self.data.get('notes', [])
         self.exits = self.data.get('exits', {})
         self.is_start = self.data.get('start') is True
         self.has_been_visited = False
