@@ -1,6 +1,6 @@
 import re
 
-from filters import object_filter
+from selector import selector
 
 
 class Actions:
@@ -19,7 +19,7 @@ class Actions:
         return [re.sub('%(\d+)', sub_words, self.state.messages[mid])]
 
 
-    @object_filter
+    @selector('object')
     def showdesc(self, objects):
         return [obj.description for obj in objects if obj.description]
     

@@ -1,6 +1,6 @@
 import random
 
-from filters import noun_filter, noun_location_filter
+from selector import selector
 
 
 class Tests:
@@ -34,37 +34,37 @@ class Tests:
         return direction in self.state.current_room.exits
     
     
-    @noun_filter
+    @selector('noun')
     def carrying(self, nouns):
         """Check if any of the given nouns are in the inventory."""
         return 'INVENTORY' in self.state.noun_locs(*nouns)
     
     
-    @noun_location_filter
+    @selector('noun', 'location')
     def nounloc(self, nouns, locs):
         """Check if any of the given nouns are at any of the given locations."""
         return bool(self.state.noun_locs(*nouns) & locs)
         
     
-    @noun_filter
+    @selector('noun')
     def ininv(self, nouns):
         """Check if any given noun is in the inventory."""
         return 'INVENTORY' in self.state.noun_locs(*nouns)
 
 
-    @noun_filter
+    @selector('noun')
     def worn(self, nouns):
         """Check if any given noun is in the inventory."""
         return 'WORN' in self.state.noun_locs(*nouns)
     
     
-    @noun_filter
+    @selector('noun')
     def inroom(self, nouns):
         """Check if any given noun is in the current room."""
         return self.state.current_room in self.state.noun_locs(*nouns)
 
 
-    @noun_filter
+    @selector('noun')
     def present(self, nouns):
         """Check if any given noun is in the current room, carried, worn,
         or inside another noun that is present."""
@@ -75,44 +75,44 @@ class Tests:
         return any(is_present(noun) for noun in nouns)
     
     
-    @noun_filter
+    @selector('noun')
     def contained(self, nouns):
         """Check if any given noun is inside some other noun."""
         return any(loc in self.state.nouns.values()
                    for loc in self.state.noun_locs(*nouns))
         
         
-    @noun_filter
+    @selector('noun')
     def somewhere(self, nouns):
         """Check if any given noun has at least one location."""
         return bool(self.state.noun_locs(*nouns))
     
     
-    @noun_filter
+    @selector('noun')
     def movable(self, nouns):
         """Check if any given noun can be picked up or dropped."""
         return any(noun.is_movable for noun in nouns)
     
     
-    @noun_filter
+    @selector('noun')
     def wearable(self, nouns):
         """Check if any given noun can be picked up or dropped."""
         return any(noun.is_wearable for noun in nouns)
     
     
-    @noun_filter
+    @selector('noun')
     def hasdesc(self, nouns):
         """Check if any given noun has a description set."""
         return any(noun.description for noun in nouns)
     
     
-    @noun_filter
+    @selector('noun')
     def hasnotes(self, nouns):
         """Check if any given noun has any notes set."""
         return any(noun.notes for noun in nouns)
     
     
-    @noun_filter
+    @selector('noun')
     def hascontents(self, nouns):
         """Check if any given noun has other nouns located inside it."""
         return bool(self.state.nouns_at_loc(*nouns))
