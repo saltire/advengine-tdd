@@ -29,9 +29,8 @@ class Actions:
     @selector('entity')
     def shownotes(self, objects):
         """Return a list of all notes of each object passed."""
-        return reduce(lambda x, y: x + y,
-                      ([self.state.messages[mid] for mid in obj.notes]
-                       for obj in objects))
+        return [self.state.messages[mid]
+                for obj in objects for mid in obj.notes]
 
 
     def move(self, direction):

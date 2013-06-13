@@ -12,4 +12,7 @@ class Test_Turn(unittest.TestCase):
         self.assertEqual(self.turn.words, ['test', 'command'])
         
         
-    
+    def test_words_are_updated_when_command_is_replaced(self):
+        self.turn.replace_command('brand new command')
+        self.assertEqual(self.turn.words, ['brand', 'new', 'command'])
+        
