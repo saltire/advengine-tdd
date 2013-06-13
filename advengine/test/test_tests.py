@@ -34,8 +34,19 @@ class Test_Tests(unittest.TestCase):
         self.tests = Tests(State(GameData(data)))
         
         
-    def test_var(self):
+    def test_variable_equals(self):
         self.assertTrue(self.tests.var('one', 1))
+        self.assertTrue(self.tests.var('one', '1'))
+        self.assertTrue(self.tests.var('one', '=1'))
+        self.assertFalse(self.tests.var('one', 2))
+        self.assertFalse(self.tests.var('one', '2'))
+        
+        
+    def test_variable_less_than_or_greater_than(self):
+        self.assertTrue(self.tests.var('one', '<2'))
+        self.assertFalse(self.tests.var('one', '<0'))
+        self.assertTrue(self.tests.var('one', '>0'))
+        self.assertFalse(self.tests.var('one', '>2'))
         
 
     def test_room(self):

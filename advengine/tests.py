@@ -16,7 +16,16 @@ class Tests:
         
     def var(self, var, value):
         """Check if the given variable is set to the given value."""
-        return self.state.vars.get(var) == int(value)
+        try:
+            if value[0] == '<':
+                return self.state.vars.get(var) < int(value[1:])
+            elif value[0] == '>':
+                return self.state.vars.get(var) > int(value[1:])
+            elif value[0] == '=' or value.isdigit():
+                return self.state.vars.get(var) == int(value.lstrip('='))
+            
+        except TypeError:
+            return self.state.vars.get(var) == int(value)
     
     
     def room(self, rid):

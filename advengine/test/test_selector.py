@@ -23,9 +23,9 @@ class MockTests:
         return locs
 
 
-    @selector('object')
-    def select_objects(self, objects):
-        return objects
+    @selector('entity')
+    def select_entities(self, entities):
+        return entities
 
 
     @selector('noun', 'room')
@@ -59,5 +59,5 @@ class Test_Selector(unittest.TestCase):
         
     def test_numeric_wildcard_replaced_with_matching_noun(self):
         self.tests.state.start_turn('examine item')
-        self.assertItemsEqual(self.tests.select_objects('%2'), [self.thing])
+        self.assertItemsEqual(self.tests.select_entities('%2'), [self.thing])
         

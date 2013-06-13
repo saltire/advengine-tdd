@@ -9,17 +9,19 @@ class Test_Actions(unittest.TestCase):
     def setUp(self):
         data = GameData({'rooms': {'start': {'start': True,
                                              'desc': 'The starting room.',
-                                              'notes': ['pass'],
+                                              'notes': ['pass', 'fail'],
                                               'exits': {'south': 'finish'}},
                                    'finish': {}
                                    },
                          'nouns': {'window': {'desc': 'Made of glass.',
-                                              'notes': ['pass'],
+                                              'notes': ['pass', 'fail'],
                                               'locs': ['start', 'finish']},
-                                   'table': {}
+                                   'hat': {'locs': ['finish']},
+                                   'unicorn': {}
                                    },
                          'vars': {'one': 1, 'two': 2},
                          'messages': {'pass': 'Pass',
+                                      'fail': 'Fail',
                                       'subword': "Second word is %2"
                                       }
                          })
@@ -49,12 +51,12 @@ class Test_Actions(unittest.TestCase):
     def test_showdesc(self):
         self.assertEqual(self.actions.showdesc('start'), ['The starting room.'])
         self.assertEqual(self.actions.showdesc('window'), ['Made of glass.'])
-        self.assertEqual(self.actions.showdesc('table'), [])
+        self.assertEqual(self.actions.showdesc('unicorn'), [])
     
     
     def test_shownotes(self):
-        self.assertItemsEqual(self.actions.shownotes('start|window'),
-                              ['Pass', 'Pass'])
+        self.assertEqual(self.actions.shownotes('start|window'),
+                              ['Pass', 'Fail', 'Pass', 'Fail'])
     
     
     def test_showcontents(self):
@@ -86,71 +88,141 @@ class Test_Actions(unittest.TestCase):
     
     
     def test_sendnoun(self):
-        self.actions.sendnoun('table', 'start')
-        self.assertItemsEqual(self.state.noun_locs(self.table), [self.start])
+        self.actions.sendnoun('hat', 'start')
+        self.assertItemsEqual(self.state.noun_locs(self.hat), [self.start])
     
     
     def test_sendtoroom(self):
-        pass
+        self.actions.sendtoroom('hat')
+        self.assertItemsEqual(self.state.noun_locs(self.hat), [self.start])
     
     
     def test_sendtoinv(self):
-        pass
+        self.actions.sendtoinv('hat')
+        self.assertItemsEqual(self.state.noun_locs(self.hat), ['INVENTORY'])
     
     
     def test_wear(self):
-        pass
+        self.actions.wear('hat')
+        self.assertItemsEqual(self.state.noun_locs(self.hat), ['WORN'])
     
     
     def test_sendtonounloc(self):
-        pass
+        self.actions.sendtonounloc('unicorn', 'hat')
+        self.assertItemsEqual(self.state.noun_locs(self.unicorn), [self.finish])
+        
+        
+    def test_sendtonounloc_works_for_dest_nouns_in_multiple_locations(self):
+        self.actions.sendtonounloc('unicorn', 'window')
+        self.assertItemsEqual(self.state.noun_locs(self.unicorn),
+                              [self.start, self.finish])
     
     
     def test_sendtonoun(self):
-        pass
+        self.actions.sendtonoun('unicorn', 'hat')
+        self.assertItemsEqual(self.state.noun_locs(self.unicorn), [self.hat])
     
     
     def test_swapnouns(self):
-        pass
+        self.actions.swapnouns('hat', 'window')
+        self.assertItemsEqual(self.state.noun_locs(self.hat),
+                              [self.start, self.finish])
+        self.assertItemsEqual(self.state.noun_locs(self.window),
+                              [self.finish])
     
     
     def test_setnoundesc(self):
-        pass
+        self.actions.setnoundesc('hat', 'pass')
+        self.assertEqual(self.hat.description, 'Pass')
     
     
     def test_addnounnote(self):
-        pass
+        self.actions.addnounnote('hat', 'pass')
+        self.assertEqual(self.hat.notes, ['pass'])
+        
+        
+    def test_addnounnote_with_multiple_notes(self):
+        self.actions.addnounnote('hat', 'pass', 'fail')
+        self.assertEqual(self.hat.notes, ['pass', 'fail'])
     
     
     def test_removenounnote(self):
-        pass
+        self.actions.removenounnote('window', 'pass')
+        self.assertEqual(self.window.notes, ['fail'])
     
     
     def test_clearnounnotes(self):
-        pass
+        self.actions.clearnounnotes('window')
+        self.assertEqual(self.window.notes, [])
     
     
     def test_setroomdesc(self):
-        pass
+        self.actions.setroomdesc('start', 'pass')
+        self.assertEqual(self.start.description, 'Pass')
     
     
     def test_addroomnote(self):
-        pass
+        self.actions.addroomnote('start', 'pass')
+        self.assertEqual(self.start.notes, ['pass', 'fail', 'pass'])
+        
+        
+    def test_addroomnote_with_multiple_notes(self):
+        self.actions.addroomnote('start', 'pass', 'fail')
+        self.assertEqual(self.start.notes, ['pass', 'fail', 'pass', 'fail'])
     
     
     def test_removeroomnote(self):
-        pass
+        self.actions.removeroomnote('start', 'pass')
+        self.assertEqual(self.start.notes, ['fail'])
     
     
     def test_clearroomnotes(self):
-        pass
+        self.actions.clearroomnotes('start')
+        self.assertEqual(self.start.notes, [])
     
     
-    def test_setvar(self):
-        pass
+    def test_setvar_on_existing_variable(self):
+        self.actions.setvar('one', 100)
+        self.assertEqual(self.state.vars['one'], 100)
+        
+        
+    def test_setvar_on_nonexisting_variable(self):
+        self.actions.setvar('ten', 10)
+        self.assertEqual(self.state.vars['ten'], 10)
+        
+        
+    def test_setvar_casts_string_value_to_int(self):
+        self.actions.setvar('one', '100')
+        self.assertEqual(self.state.vars['one'], 100)
+        
+        
+    def test_adjustvar_with_integer_adds(self):
+        self.actions.adjustvar('one', 2)
+        self.assertEqual(self.state.vars['one'], 3)
+        
+        
+    def test_adjustvar_with_string_and_no_operator_adds(self):
+        self.actions.adjustvar('two', '2')
+        self.assertEqual(self.state.vars['two'], 4)
     
     
-    def test_adjustvar(self):
-        pass
+    def test_adjustvar_with_plus_adds(self):
+        self.actions.adjustvar('one', '+2')
+        self.assertEqual(self.state.vars['one'], 3)
+    
+    
+    def test_adjustvar_with_minus_subtracts(self):
+        self.actions.adjustvar('one', '-2')
+        self.assertEqual(self.state.vars['one'], -1)
+    
+    
+    def test_adjustvar_with_x_multiplies(self):
+        self.actions.adjustvar('two', 'x2')
+        self.assertEqual(self.state.vars['two'], 4)
+    
+    
+    def test_adjustvar_with_slash_divides(self):
+        self.actions.adjustvar('two', '/2')
+        self.assertEqual(self.state.vars['two'], 1)
     
     

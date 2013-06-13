@@ -46,7 +46,7 @@ class selector:
                        for lid in selector.split('|'))
             
             
-    def select_object(self, obj, selector):
+    def select_entity(self, obj, selector):
         """If passed a numerical wildcard, return nouns matching the
         corresponding input word. Otherwise, treat the selector as a pipe-
         delimited list of noun or room IDs and return those nouns/rooms."""
