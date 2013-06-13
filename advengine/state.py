@@ -45,7 +45,7 @@ class State:
         
         
     def nouns_by_word(self, *words):
-        """Return a list of nouns that match the given word."""
+        """Return a list of nouns that match any of the given words."""
         return set(noun for noun in self.nouns.values() if set(words) & noun.words)
     
     
@@ -58,11 +58,35 @@ class State:
         
         
     def nouns_at_loc(self, *locs):
-        """Return all nouns at the given location."""
+        """Return all nouns at any of the given locations."""
         return set(noun for noun, loc in self.locations if loc in locs)
     
     
     def noun_locs(self, *nouns):
-        """Return all nouns or rooms containing the given noun."""
+        """Return all nouns or rooms containing any of the given nouns."""
         return set(obj for noun, obj in self.locations if noun in nouns)
+    
+    
+    def add_noun(self, noun, *locs):
+        """Add the given noun to all the given locations."""
+        self.locations |= set((noun, loc) for loc in locs)
+        
+        
+    def remove_noun(self, noun, *locs):
+        """Remove the given noun from all the given locations."""
+        self.locations -= set((noun, loc) for loc in locs)
+        
+        
+    def move_noun(self, noun, *locs):
+        """Replace the given noun's current locations with the given ones."""
+        self.clear_noun_locs(noun)
+        self.add_noun(noun, *locs)
+    
+    
+    def clear_noun_locs(self, *nouns):
+        """Remove the given nouns from all locations."""
+        self.locations -= set((noun, loc) for noun, loc in self.locations
+                              if noun in nouns)
+        
+        
     

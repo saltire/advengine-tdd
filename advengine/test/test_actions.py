@@ -8,8 +8,14 @@ from advengine.state import State
 class Test_Actions(unittest.TestCase):
     def setUp(self):
         data = GameData({'rooms': {'start': {'start': True,
-                                             'desc': 'The starting room.'}},
-                         'nouns': {'window': {'desc': 'Made of glass.'},
+                                             'desc': 'The starting room.',
+                                              'notes': ['pass'],
+                                              'exits': {'south': 'finish'}},
+                                   'finish': {}
+                                   },
+                         'nouns': {'window': {'desc': 'Made of glass.',
+                                              'notes': ['pass'],
+                                              'locs': ['start', 'finish']},
                                    'table': {}
                                    },
                          'vars': {'one': 1, 'two': 2},
@@ -19,6 +25,11 @@ class Test_Actions(unittest.TestCase):
                          })
         self.state = State(data)
         self.actions = Actions(self.state)
+
+        for rid, room in self.state.rooms.items():
+            setattr(self, rid, room)
+        for nid, noun in self.state.nouns.items():
+            setattr(self, nid, noun)
 
 
     def test_message(self):
@@ -42,7 +53,8 @@ class Test_Actions(unittest.TestCase):
     
     
     def test_shownotes(self):
-        pass
+        self.assertItemsEqual(self.actions.shownotes('start|window'),
+                              ['Pass', 'Pass'])
     
     
     def test_showcontents(self):
@@ -58,15 +70,24 @@ class Test_Actions(unittest.TestCase):
     
     
     def test_move(self):
-        pass
+        self.actions.move('south')
+        self.assertEqual(self.state.current_room, self.finish)
+        
+        
+    def test_move_does_not_happen_without_matching_exit(self):
+        self.actions.move('north')
+        self.assertEqual(self.state.current_room, self.start)
     
     
     def test_destroy(self):
-        pass
+        self.actions.destroy('window')
+        self.assertItemsEqual(self.state.noun_locs(self.window),
+                              [])
     
     
     def test_sendnoun(self):
-        pass
+        self.actions.sendnoun('table', 'start')
+        self.assertItemsEqual(self.state.noun_locs(self.table), [self.start])
     
     
     def test_sendtoroom(self):

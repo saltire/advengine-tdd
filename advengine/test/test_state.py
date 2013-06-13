@@ -99,7 +99,26 @@ class Test_State(unittest.TestCase):
         self.assertTrue(self.state.command_matches('test *'))
         
         
-    
+    def test_state_adds_noun_to_location(self):
+        self.state.add_noun(self.blender, self.bedroom)
+        self.assertItemsEqual(self.state.noun_locs(self.blender),
+                              [self.bedroom, self.kitchen])
+        
+        
+    def test_state_removes_noun_from_location(self):
+        self.state.remove_noun(self.window, self.bedroom)
+        self.assertItemsEqual(self.state.noun_locs(self.window), [self.kitchen])
+        
+        
+    def test_state_moves_noun_from_one_location_to_another(self):
+        self.state.move_noun(self.blender, self.bedroom)
+        self.assertItemsEqual(self.state.noun_locs(self.blender),
+                              [self.bedroom])
+        
+        
+    def test_state_removes_noun_from_all_locations(self):
+        self.state.clear_noun_locs(self.window)
+        self.assertItemsEqual(self.state.noun_locs(self.window), [])
         
         
     

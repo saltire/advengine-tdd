@@ -591,7 +591,7 @@
     }, 
     "controls": {
     	"before_game": [
-    	    "message intro1", "message intro2", "message intro3", "pause", "message intro4", "showdesc", "shownotes", "showcontents"
+    	    "message intro1 intro2 intro3", "pause", "message intro4", "showdesc", "shownotes", "showcontents"
     	],
         "before_turn": [
     	    {
@@ -606,7 +606,7 @@
             }, 
             {
                 "if": ["command push blue", "room pilot", "var blue 0"], 
-                "then": ["setvar blue 1", "removeroomnote pilot lightflashing", "removenounnote console consolelightflashing", "setnoundesc light lightnotflashing", "message bluebutton1", "message bluebutton2", "message bluebutton3", "message bluebutton4", "done"]
+                "then": ["setvar blue 1", "removeroomnote pilot lightflashing", "removenounnote console consolelightflashing", "setnoundesc light lightnotflashing", , "done"]
             }, 
             {
                 "if": [
@@ -622,15 +622,15 @@
                 "then": [
                     {
                         "if": ["var blue 1", "var rendez 0"], 
-                        "then": ["setvar ack 2", "message distress1", "message distress2"],
-                        "else": ["message announces", "message functional"]
+                        "then": ["setvar ack 2", "message distress1 distress2"],
+                        "else": ["message announces functional"]
                     },
                     "done"
                 ]
             }, 
             {
                 "if": ["command push green", "room pilot", "var ack 1"], 
-                "then": ["setvar ack 0", "setvar rendez 1", "message announces", "message rendezvous1", "message rendezvous2", "done"]
+                "then": ["setvar ack 0", "setvar rendez 1", "message announces rendezvous1 rendezvous2", "done"]
             }, 
             {
                 "if": ["command push orange", "room pilot"], 
@@ -667,7 +667,7 @@
                     }, 
                     {
                         "if": ["var tachyon 3"], 
-                        "then": ["message congratulations1", "message congratulations2", "gameover"]
+                        "then": ["message congratulations1 congratulations2", "gameover"]
                     },
                     "done"
                 ]
@@ -692,11 +692,11 @@
             }, 
             {
                 "if": ["command push black", "room e_bridge", "var storage 0"], 
-                "then": ["setvar ack 2", "setvar tachyon 2", "message emergencysystem1", "message emergencysystem2", "message emergencysystem3", "done"]
+                "then": ["setvar ack 2", "setvar tachyon 2", "message emergencysystem1 emergencysystem2 emergencysystem3", "done"]
             }, 
             {
                 "if": ["command push white", "room e_bridge", "var ack 1"], 
-                "then": ["setvar ack 0", "setvar storage 1", "message storageunlocked1", "message storageunlocked2", "done"]
+                "then": ["setvar ack 0", "setvar storage 1", "message storageunlocked1 storageunlocked2", "done"]
             }, 
             {
                 "if": [
@@ -784,7 +784,7 @@
                                     }, 
                                     {
                                         "if": ["worn spacesuit"], 
-                                        "then": ["message spacedwithsuit1", "message spacedwithsuit2"]
+                                        "then": ["message spacedwithsuit1 spacedwithsuit2"]
                                     }, 
                                     {
                                         "if": ["nounloc force g_airlock"], 
@@ -1047,7 +1047,7 @@
             }, 
             {
                 "if": ["command remove suit", "!var purify 3", "room a_airlock|trans|out_trans|vault|out_vault|out_storage|main_storage|aux_storage|out_stair|stair|maintenance|corner|hallway|out_bridge|w_bridge|c_bridge|e_bridge"], 
-                "then": ["message nolongerwearing", "message suitfumes", "gameover"]
+                "then": ["message nolongerwearing suitfumes", "gameover"]
             }, 
             {
                 "if": ["command examine uniform", "room c_bridge"], 
@@ -1284,7 +1284,7 @@
         "after_turn": [
             {
                 "if": ["var ack 1"], 
-                "then": ["setvar ack 0", "message announces", "message cancelled"]
+                "then": ["setvar ack 0", "message announces cancelled"]
             }, 
             {
                 "if": ["var ack 2"], 
