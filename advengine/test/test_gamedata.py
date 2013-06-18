@@ -1,10 +1,10 @@
 import os
 import unittest
 
-from advengine.gamedata import GameData
+from advengine.gamedata import GameData, ParseError
 
 
-class Test_DataFile(unittest.TestCase):
+class Test_GameData(unittest.TestCase):
     def test_gamedata_inits_from_file(self):
         data = GameData(os.path.abspath(os.path.join(__file__,
                                                      '../testdata.json')))
@@ -30,8 +30,23 @@ class Test_DataFile(unittest.TestCase):
         self.assertEqual(len(data.controls['stage 1']), 1)
         self.assertEqual(len(data.controls['stage 2']), 1)
         self.assertEqual(len(data.controls['stage 3']), 2)
+        
+        
+    def test_variables_are_cast_to_integer(self):
+        data = GameData({'vars': {'one': '1'}})
+        self.assertEqual(data.vars['one'], 1)
+        
+        
+    def test_validation_fails_with_duplicate_entity_ids(self):
+        self.assertRaises(ParseError, GameData, {'nouns': {'test': {}},
+                                                 'rooms': {'test': {}}})
+        
 
-
+    def test_validation_fails_with_reserved_entity_ids(self):
+        self.assertRaises(ParseError, GameData, {'nouns': {'INVENTORY': {}}})
+        self.assertRaises(ParseError, GameData, {'rooms': {'WORN': {}}})
+        
+        
 
 if __name__ == "__main__":
     unittest.main()
