@@ -6,12 +6,20 @@ from advengine.gamedata import GameData, ParseError
 
 class Test_GameData(unittest.TestCase):
     def test_gamedata_inits_from_file(self):
-        data = GameData(os.path.abspath(os.path.join(__file__,
-                                                     '../testdata.json')))
+        gpath = os.path.abspath(os.path.join(__file__, '../testdata.json'))
+        with open(gpath) as gfile:
+            data = GameData(gfile)
         self.assertTrue(hasattr(data, 'nouns'))
-
-
+        
+        
     def test_gamedata_inits_from_string(self):
+        gpath = os.path.abspath(os.path.join(__file__, '../testdata.json'))
+        with open(gpath) as gfile:
+            data = GameData(gfile.read())
+        self.assertTrue(hasattr(data, 'nouns'))    
+
+
+    def test_gamedata_inits_from_dict(self):
         data = GameData({'nouns': {}, 'rooms': {}})
         self.assertTrue(hasattr(data, 'nouns'))
         

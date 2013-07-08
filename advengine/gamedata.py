@@ -9,14 +9,19 @@ from room import Room
 
 class GameData:
     def __init__(self, data):
-        # if string is passed, treat it as a file path and read that file
-        if isinstance(data, basestring):
-            with open(data) as dfile:
-                rawdata = dfile.read()
-            
-            fn = 'import_from_{0}'.format(data.rsplit('.', 1)[1])
-            data = getattr(self, fn)(rawdata)
-    
+        # convert file to string
+        try:
+            data = data.read()
+        except AttributeError:
+            pass
+        
+        # convert string to dict
+        try:
+            data = self.import_from_json(data)
+        except TypeError:
+            pass
+        
+        # read data from dict   
         self.nouns = {nid: Noun(ndata)
                       for nid, ndata in data.get('nouns', {}).items()}
         self.rooms = {rid: Room(rdata)
@@ -35,6 +40,7 @@ class GameData:
         
     def import_from_json(self, data):
         """Parse data string as JSON."""
+        print data
         return json.loads(data, object_pairs_hook=odict)
         
         

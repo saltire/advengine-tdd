@@ -606,7 +606,7 @@
             }, 
             {
                 "if": ["command push blue", "room pilot", "var blue 0"], 
-                "then": ["setvar blue 1", "removeroomnote pilot lightflashing", "removenounnote console consolelightflashing", "setnoundesc light lightnotflashing", , "done"]
+                "then": ["setvar blue 1", "removeroomnote pilot lightflashing", "removenounnote console consolelightflashing", "setnoundesc light lightnotflashing", "message bluebutton1 bluebutton2 bluebutton3 bluebutton4", "done"]
             }, 
             {
                 "if": [

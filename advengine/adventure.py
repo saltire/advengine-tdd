@@ -16,6 +16,8 @@ class Adventure:
         self.actions = Actions(self.state)
         
         self.game_over = False
+        
+        self.start_game()
     
     
     def start_game(self):
