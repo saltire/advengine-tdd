@@ -11,28 +11,31 @@ class Test_Actions(unittest.TestCase):
                                              'desc': 'The starting room.',
                                               'notes': ['pass', 'fail'],
                                               'exits': {'south': 'finish'}},
-                                   'finish': {}
+                                   'finish': {},
                                    },
                          'nouns': {'window': {'name': 'A window.',
                                               'shortname': 'window',
                                               'shortdesc': 'You see a window.',
                                               'desc': 'Made of glass.',
                                               'notes': ['pass', 'fail'],
-                                              'locs': ['start', 'finish']},
+                                              'locs': ['start', 'finish'],
+                                              },
                                    'bowl': {'name': 'A bowl.',
                                            'shortname': 'bowl',
                                            'shortdesc': 'A bowl is here.',
                                            'desc': 'The bowl is red.',
-                                           'locs': ['finish']},
+                                           'locs': ['finish'],
+                                           },
                                    'apple': {'name': 'An apple.',
-                                             'locs': ['bowl']},
-                                   'unicorn': {}
+                                             'locs': ['bowl'],
+                                             },
+                                   'unicorn': {},
                                    },
                          'vars': {'one': 1, 'two': 2},
                          'messages': {'pass': 'Pass',
                                       'fail': 'Fail',
-                                      'subword': "Second word is %2"
-                                      }
+                                      'subword': "Second word is %2",
+                                      },
                          })
         self.state = State(data)
         self.actions = Actions(self.state)
@@ -49,8 +52,7 @@ class Test_Actions(unittest.TestCase):
 
     def test_message_replaces_numerical_wildcard(self):
         self.state.start_turn('testing numbered words')
-        self.assertEqual(self.actions.message('subword'),
-                         ['Second word is numbered'])
+        self.assertEqual(self.actions.message('subword'), ['Second word is numbered'])
 
 
     def test_pause(self):
@@ -64,33 +66,27 @@ class Test_Actions(unittest.TestCase):
 
 
     def test_shownotes(self):
-        self.assertEqual(self.actions.shownotes('start|window'),
-                              ['Pass', 'Fail', 'Pass', 'Fail'])
+        self.assertEqual(self.actions.shownotes('start|window'), ['Pass', 'Fail', 'Pass', 'Fail'])
 
 
     def test_showcontents_lists_names(self):
         self.assertIn(self.actions.showcontents('finish'),
-                      ('A window.\nA bowl.',
-                       'A bowl.\nA window.'))
+                      ('A window.\nA bowl.', 'A bowl.\nA window.'))
 
 
     def test_showcontents_lists_shortdescs(self):
         self.assertIn(self.actions.showcontents('finish', text='shortdesc'),
-                      ('You see a window.\nA bowl is here.',
-                       'A bowl is here.\nYou see a window.'))
+                      ('You see a window.\nA bowl is here.', 'A bowl is here.\nYou see a window.'))
 
 
     def test_showcontents_lists_recursively(self):
         self.assertIn(self.actions.showcontents('finish', recursive=True),
-                      ('A window.\nA bowl.\nAn apple.',
-                       'A bowl.\nAn apple.\nA window.'))
+                      ('A window.\nA bowl.\nAn apple.', 'A bowl.\nAn apple.\nA window.'))
 
 
     def test_showcontents_lists_recursively_with_indent(self):
-        self.assertIn(
-            self.actions.showcontents('finish', recursive=True, indent=True),
-            ('A window.\nA bowl.\n\tAn apple.',
-             'A bowl.\n\tAn apple.\nA window.'))
+        self.assertIn(self.actions.showcontents('finish', recursive=True, indent=True),
+                      ('A window.\nA bowl.\n\tAn apple.', 'A bowl.\n\tAn apple.\nA window.'))
 
 
     def test_inv(self):
@@ -140,8 +136,7 @@ class Test_Actions(unittest.TestCase):
 
     def test_sendtonounloc_works_for_dest_nouns_in_multiple_locations(self):
         self.actions.sendtonounloc('unicorn', 'window')
-        self.assertItemsEqual(self.state.noun_locs(self.unicorn),
-                              [self.start, self.finish])
+        self.assertItemsEqual(self.state.noun_locs(self.unicorn), [self.start, self.finish])
 
 
     def test_sendtonoun(self):
@@ -151,10 +146,8 @@ class Test_Actions(unittest.TestCase):
 
     def test_swapnouns(self):
         self.actions.swapnouns('bowl', 'window')
-        self.assertItemsEqual(self.state.noun_locs(self.bowl),
-                              [self.start, self.finish])
-        self.assertItemsEqual(self.state.noun_locs(self.window),
-                              [self.finish])
+        self.assertItemsEqual(self.state.noun_locs(self.bowl), [self.start, self.finish])
+        self.assertItemsEqual(self.state.noun_locs(self.window), [self.finish])
 
 
     def test_setnoundesc(self):

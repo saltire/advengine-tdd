@@ -27,8 +27,8 @@ class Adventure:
 
     def do_command(self, command):
         """Start a new turn with the given command, run any actions,
-        and return any resulting messages. End the game if the game over flag
-        has been set."""
+        and return any resulting messages. End the game if the gameover
+        flag has been set."""
         self.state.start_turn(command)
         messages = []
 

@@ -13,8 +13,7 @@ class selector:
         def method_with_selection(*args, **kwargs):
             newargs = list(args)
             for i, stype in enumerate(self.stypes):
-                newargs[i + 1] = getattr(self, 'select_' + stype)(args[0],
-                                                                  args[i + 1])
+                newargs[i + 1] = getattr(self, 'select_' + stype)(args[0], args[i + 1])
             return method(*newargs, **kwargs)
         return method_with_selection
 
@@ -42,8 +41,7 @@ class selector:
         if re.match('%(\d+)', selector) is not None:
             return obj.state.nouns_by_input_word(int(selector[1:]))
         else:
-            return set(obj.state.locations_by_id(lid)
-                       for lid in selector.split('|'))
+            return set(obj.state.locations_by_id(lid) for lid in selector.split('|'))
 
 
     def select_entity(self, obj, selector):

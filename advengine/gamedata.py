@@ -22,12 +22,9 @@ class GameData:
             pass
 
         # read data from dict
-        self.nouns = {nid: Noun(ndata)
-                      for nid, ndata in data.get('nouns', {}).items()}
-        self.rooms = {rid: Room(rdata)
-                      for rid, rdata in data.get('rooms', {}).items()}
-        self.vars = {var: int(value)
-                     for var, value in data.get('vars', {}).items()}
+        self.nouns = {nid: Noun(ndata) for nid, ndata in data.get('nouns', {}).items()}
+        self.rooms = {rid: Room(rdata) for rid, rdata in data.get('rooms', {}).items()}
+        self.vars = {var: int(value) for var, value in data.get('vars', {}).items()}
         self.messages = data.get('messages', {})
         self.lexicon = Lexicon(data.get('words', []))
         self.controls = {sid: ([Control(cdata) for cdata in stage]

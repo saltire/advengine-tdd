@@ -75,8 +75,8 @@ class Tests:
 
     @selector('noun')
     def present(self, nouns):
-        """Check if any given noun is in the current room, carried, worn,
-        or inside another noun that is present."""
+        """Check if any given noun is in the current room, carried,
+        worn, or inside another noun that is present."""
         def is_present(noun):
             return any(loc in (self.state.current_room, 'INVENTORY', 'WORN')
                        or (loc in self.state.nouns.values() and is_present(loc))
@@ -87,8 +87,7 @@ class Tests:
     @selector('noun')
     def contained(self, nouns):
         """Check if any given noun is inside some other noun."""
-        return any(loc in self.state.nouns.values()
-                   for loc in self.state.noun_locs(*nouns))
+        return any(loc in self.state.nouns.values() for loc in self.state.noun_locs(*nouns))
 
 
     @selector('noun')

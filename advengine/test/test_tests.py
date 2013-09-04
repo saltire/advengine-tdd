@@ -8,28 +8,32 @@ from advengine.tests import Tests
 class Test_Tests(unittest.TestCase):
     def setUp(self):
         data = {'rooms': {'bedroom': {'start': True,
-                                      'exits': {'south': 'kitchen'}
+                                      'exits': {'south': 'kitchen'},
                                       },
-                          'kitchen': {'exits': {'north': 'bedroom'}}
+                          'kitchen': {'exits': {'north': 'bedroom'}},
                           },
                 'nouns': {'wallet': {'locs': ['INVENTORY'],
                                      'words': ['wallet'],
-                                     'movable': True},
+                                     'movable': True,
+                                     },
                           'money': {'locs': ['wallet'],
                                     'desc': "You're rich!",
                                     'notes': ['pass'],
-                                    'movable': True},
+                                    'movable': True,
+                                    },
                           'hat': {'locs': ['WORN'],
                                   'words': ['wallet'],
                                   'movable': True,
-                                  'wearable': True},
+                                  'wearable': True,
+                                  },
                           'blender': {'locs': ['kitchen'],
-                                      'words': ['blender']},
+                                      'words': ['blender'],
+                                      },
                           'window': {'locs': ['bedroom', 'kitchen']},
-                          'nothing': {}
+                          'nothing': {},
                           },
                 'vars': {'one': 1, 'two': 2},
-                'messages': {'pass': 'Pass'}
+                'messages': {'pass': 'Pass'},
                 }
         self.tests = Tests(State(GameData(data)))
 

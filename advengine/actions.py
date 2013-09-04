@@ -21,8 +21,8 @@ class Actions:
 
 
     def pause(self):
-        """Return a symbol indicating that the game should pause and wait for
-        the player to press a key."""
+        """Return a symbol indicating that the game should pause and
+        wait for the player to press a key."""
         return 'PAUSE'
 
 
@@ -44,8 +44,7 @@ class Actions:
         """Return a listing of all nouns at the given location.
         Contains a subfunction that can be executed recursively."""
 
-        def list_contents(locs, text='name', recursive=False, indent=False,
-                          recmsg=None):
+        def list_contents(locs, text='name', recursive=False, indent=False, recmsg=None):
             inv = []
             for noun in self.state.nouns_at_loc(*locs):
                 inv.append(getattr(noun, text))
@@ -60,11 +59,10 @@ class Actions:
 
 
     def move(self, direction):
-        """If the current room has an exit in the given direction, move to
-        the room at that exit."""
+        """If the current room has an exit in the given direction,
+        move to the room at that exit."""
         try:
-            self.state.current_room = self.state.rooms[
-                self.state.current_room.exits[direction]]
+            self.state.current_room = self.state.rooms[self.state.current_room.exits[direction]]
         except KeyError:
             pass
 
@@ -121,8 +119,8 @@ class Actions:
 
     @selector('noun', 'noun')
     def swapnouns(self, nouns1, nouns2):
-        """Move the first given nouns to the location of the second given nouns,
-        and vice versa."""
+        """Move the first given nouns to the location of the second
+        given nouns, and vice versa."""
         locs1 = self.state.noun_locs(*nouns1)
         locs2 = self.state.noun_locs(*nouns2)
         for noun in nouns1:
@@ -133,8 +131,8 @@ class Actions:
 
     @selector('noun')
     def setnoundesc(self, nouns, mid):
-        """Set the description for the given nouns to the message with the
-        given ID."""
+        """Set the description for the given nouns to the message with
+        the given ID."""
         for noun in nouns:
             noun.set_description(self.state.messages[mid])
 
@@ -162,8 +160,8 @@ class Actions:
 
     @selector('room')
     def setroomdesc(self, rooms, mid):
-        """Set the description for the given rooms to the message with the
-        given ID."""
+        """Set the description for the given rooms to the message with
+        the given ID."""
         for room in rooms:
             room.set_description(self.state.messages[mid])
 
@@ -195,8 +193,9 @@ class Actions:
 
 
     def adjustvar(self, var, value):
-        """Add, subtract, multiply, or divide the given variable depending
-        on the given integer value and any arithmetic operators preceding it."""
+        """Add, subtract, multiply, or divide the given variable
+        depending on the given integer value and any arithmetic
+        operators preceding it."""
         try:
             self.state.vars[var] += value
 

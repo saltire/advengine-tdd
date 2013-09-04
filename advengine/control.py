@@ -40,8 +40,7 @@ class Control:
             return getattr(tests, method)(*args)
 
         results = (self.true_results if not self.conds
-                   or any(all(test_is_true(test) for test in cond)
-                                       for cond in self.conds)
+                   or any(all(test_is_true(test) for test in cond) for cond in self.conds)
                    else self.false_results)
 
         actions = []

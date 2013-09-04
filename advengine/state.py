@@ -9,15 +9,13 @@ class State:
         self.messages = data.messages
         self.lexicon = data.lexicon
 
-        self.current_room = next(room for room in self.rooms.values()
-                                 if room.is_start)
+        self.current_room = next(room for room in self.rooms.values() if room.is_start)
         self.current_room.visit()
 
         # a junction list of nouns and locations
         self.locations = set()
         for noun in self.nouns.values():
-            self.locations |= set((noun, self.locations_by_id(lid))
-                                  for lid in noun.initial_locs())
+            self.locations |= set((noun, self.locations_by_id(lid)) for lid in noun.initial_locs())
 
         self.current_turn = None
 
@@ -30,18 +28,16 @@ class State:
     def command_matches(self, command):
         """Check if the given command has the same number of words as the
         current turn's command, and each word is synonymous or a wildcard."""
-        cwords = [cword for cword in command.lower().split()
-                      if cword not in ('a', 'an', 'the')]
+        cwords = [cword for cword in command.lower().split() if cword not in ('a', 'an', 'the')]
         return (len(cwords) == len(self.current_turn.words) and
-                all(cword == '*' or
-                    self.lexicon.words_match(cword, self.current_turn.words[i])
+                all(cword == '*' or self.lexicon.words_match(cword, self.current_turn.words[i])
                     for i, cword in enumerate(cwords)))
 
 
     def locations_by_id(self, lid):
         """Return the noun or room with the given ID."""
-        return (lid if lid in ('INVENTORY', 'WORN') else
-                self.nouns.get(lid) or self.rooms.get(lid))
+        return (lid if lid in ('INVENTORY', 'WORN')
+                else self.nouns.get(lid) or self.rooms.get(lid))
 
 
     def nouns_by_word(self, *words):
@@ -85,5 +81,4 @@ class State:
 
     def clear_noun_locs(self, *nouns):
         """Remove the given nouns from all locations."""
-        self.locations -= set((noun, loc) for noun, loc in self.locations
-                              if noun in nouns)
+        self.locations -= set((noun, loc) for noun, loc in self.locations if noun in nouns)

@@ -11,5 +11,4 @@ class Turn:
 
     def _parse_words(self, command):
         """Split up the command into a list of words, excluding articles."""
-        return [word for word in command.lower().split()
-                if word not in ('a', 'an', 'the')]
+        return [word for word in command.lower().split() if word not in ('a', 'an', 'the')]

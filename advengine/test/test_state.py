@@ -7,17 +7,17 @@ from advengine.state import State
 class Test_State(unittest.TestCase):
     def setUp(self):
         data = {'rooms': {'bedroom': {'start': True},
-                          'kitchen': {}
+                          'kitchen': {},
                           },
                 'nouns': {'window': {'locs': ['bedroom', 'kitchen']},
                           'blender': {'locs': ['kitchen'],
                                       'words': ['blender', 'processor', 'item']
                                       },
                           'wallet': {'locs': ['INVENTORY'],
-                                     'words': ['wallet', 'item']}
+                                     'words': ['wallet', 'item']},
                           },
                 'vars': {'number': 2},
-                'words': [['command', 'input']]
+                'words': [['command', 'input']],
                 }
 
         self.state = State(GameData(data))
@@ -29,31 +29,26 @@ class Test_State(unittest.TestCase):
 
 
     def test_state_returns_all_nouns_at_location(self):
-        self.assertItemsEqual(self.state.nouns_at_loc(self.kitchen),
-                              [self.window, self.blender])
-        self.assertItemsEqual(self.state.nouns_at_loc(self.bedroom),
-                              [self.window])
+        self.assertItemsEqual(self.state.nouns_at_loc(self.kitchen), [self.window, self.blender])
+        self.assertItemsEqual(self.state.nouns_at_loc(self.bedroom), [self.window])
         self.assertItemsEqual(self.state.nouns_at_loc(self.bedroom, 'INVENTORY'),
                               [self.window, self.wallet])
 
 
     def test_state_returns_all_locations_of_noun(self):
-        self.assertItemsEqual(self.state.noun_locs(self.window),
-                              [self.bedroom, self.kitchen])
+        self.assertItemsEqual(self.state.noun_locs(self.window), [self.bedroom, self.kitchen])
         self.assertItemsEqual(self.state.noun_locs(self.window, self.wallet),
                               [self.bedroom, self.kitchen, 'INVENTORY'])
 
 
     def test_state_returns_nouns_by_words_only(self):
-        self.assertItemsEqual(self.state.nouns_by_word('item'),
-                              [self.blender, self.wallet])
+        self.assertItemsEqual(self.state.nouns_by_word('item'), [self.blender, self.wallet])
         self.assertItemsEqual(self.state.nouns_by_word('window'), [])
 
 
     def test_state_returns_nouns_by_numeric_wildcard(self):
         self.state.start_turn('examine item')
-        self.assertItemsEqual(self.state.nouns_by_input_word(2),
-                              [self.blender, self.wallet])
+        self.assertItemsEqual(self.state.nouns_by_input_word(2), [self.blender, self.wallet])
 
 
     def test_state_returns_initial_room(self):
@@ -101,8 +96,7 @@ class Test_State(unittest.TestCase):
 
     def test_state_adds_noun_to_location(self):
         self.state.add_noun(self.blender, self.bedroom)
-        self.assertItemsEqual(self.state.noun_locs(self.blender),
-                              [self.bedroom, self.kitchen])
+        self.assertItemsEqual(self.state.noun_locs(self.blender), [self.bedroom, self.kitchen])
 
 
     def test_state_removes_noun_from_location(self):
@@ -112,8 +106,7 @@ class Test_State(unittest.TestCase):
 
     def test_state_moves_noun_from_one_location_to_another(self):
         self.state.move_noun(self.blender, self.bedroom)
-        self.assertItemsEqual(self.state.noun_locs(self.blender),
-                              [self.bedroom])
+        self.assertItemsEqual(self.state.noun_locs(self.blender), [self.bedroom])
 
 
     def test_state_removes_noun_from_all_locations(self):

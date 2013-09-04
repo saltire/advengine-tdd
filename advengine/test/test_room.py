@@ -6,9 +6,7 @@ from advengine.room import Room
 class Test_Room(unittest.TestCase):
 
     def setUp(self):
-        self.room = Room({'desc': 'Description',
-                          'notes': ['pass']
-                          })
+        self.room = Room({'desc': 'Description', 'notes': ['pass']})
 
 
     def test_description_setter(self):

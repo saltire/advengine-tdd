@@ -26,13 +26,10 @@ class Test_GameData(unittest.TestCase):
 
     def test_control_stages_can_be_list_or_single_control(self):
         data = GameData({'controls': {'stage 1': 'action',
-                                      'stage 2': {'if': 'test',
-                                                  'then': 'action'},
+                                      'stage 2': {'if': 'test', 'then': 'action'},
                                       'stage 3': ['action',
-                                                  {'if': 'test',
-                                                   'then': 'action',
-                                                   'else': 'action'}
-                                                  ]
+                                                  {'if': 'test','then': 'action','else': 'action'}
+                                                  ],
                                       }
                          })
         self.assertEqual(len(data.controls['stage 1']), 1)
@@ -46,8 +43,7 @@ class Test_GameData(unittest.TestCase):
 
 
     def test_validation_fails_with_duplicate_entity_ids(self):
-        self.assertRaises(ParseError, GameData, {'nouns': {'test': {}},
-                                                 'rooms': {'test': {}}})
+        self.assertRaises(ParseError, GameData, {'nouns': {'test': {}}, 'rooms': {'test': {}}})
 
 
     def test_validation_fails_with_reserved_entity_ids(self):
