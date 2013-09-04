@@ -5,7 +5,7 @@ class Control:
             cdata = {'then': cdata}
         elif not isinstance(cdata, dict):
             raise TypeError
-            
+
         # parse conditions
         conds = cdata.get('if', [])
         if isinstance(conds, basestring):
@@ -17,21 +17,21 @@ class Control:
         else:
             # list of lists of test strings
             self.conds = conds
-             
+
         # parse results
         def parse_results(results):
             if isinstance(results, (basestring, dict)):
                 # single action string or control - embed it in list
                 results = [results]
-                
+
             # add each result as a new control or an action
             return [Control(result) if isinstance(result, dict) else result
                     for result in results]
-            
+
         self.true_results = parse_results(cdata.get('then', []))
         self.false_results = parse_results(cdata.get('else', []))
-        
-        
+
+
     def get_actions(self, tests):
         """Run each set of tests for this control, and if all tests are true
         for any set of tests, return the 'then' actions, otherwise 'else'."""
@@ -43,9 +43,9 @@ class Control:
                    or any(all(test_is_true(test) for test in cond)
                                        for cond in self.conds)
                    else self.false_results)
-        
+
         actions = []
-        
+
         for result in results:
             if isinstance(result, Control):
                 # run tests for this control and return its actions

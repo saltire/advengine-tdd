@@ -948,11 +948,11 @@
                             }
                         ],
                         "else": [
-							{
-							    "if": ["var panel 0"], 
-							    "then": ["message cantprypanel", "done"],
-							    "else": ["setvar panel 2", "sendnoun screen,black,white e_bridge", "addroomnote e_bridge panelopen", "message prypanel", "done"]
-							}
+                            {
+                                "if": ["var panel 0"], 
+                                "then": ["message cantprypanel", "done"],
+                                "else": ["setvar panel 2", "sendnoun screen,black,white e_bridge", "addroomnote e_bridge panelopen", "message prypanel", "done"]
+                            }
                         ]
                     }
                 ]

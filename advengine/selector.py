@@ -4,8 +4,8 @@ import re
 class selector:
     def __init__(self, *stypes):
         self.stypes = stypes
-        
-        
+
+
     def __call__(self, method):
         """For each selection type specified, treat the next argument passed
         to the method as a selector of that type, replace it with the
@@ -17,8 +17,8 @@ class selector:
                                                                   args[i + 1])
             return method(*newargs)
         return method_with_selection
-    
-    
+
+
     def select_noun(self, obj, selector):
         """If passed a numerical wildcard, return nouns matching the
         corresponding input word. Otherwise, treat the selector as a pipe-
@@ -27,14 +27,14 @@ class selector:
             return obj.state.nouns_by_input_word(int(selector[1:]))
         else:
             return set(obj.state.nouns[nid] for nid in selector.split('|'))
-        
-        
+
+
     def select_room(self, obj, selector):
         """Treat the selector as a pipe-delimited list of room IDs
         and return those rooms."""
         return set(obj.state.rooms[rid] for rid in selector.split('|'))
-        
-        
+
+
     def select_location(self, obj, selector):
         """If passed a numerical wildcard, return nouns matching the
         corresponding input word. Otherwise, treat the selector as a pipe-
@@ -44,8 +44,8 @@ class selector:
         else:
             return set(obj.state.locations_by_id(lid)
                        for lid in selector.split('|'))
-            
-            
+
+
     def select_entity(self, obj, selector):
         """If passed a numerical wildcard, return nouns matching the
         corresponding input word. Otherwise, treat the selector as a pipe-
@@ -55,5 +55,3 @@ class selector:
         else:
             return set(obj.state.nouns.get(oid) or obj.state.rooms.get(oid)
                        for oid in selector.split('|'))
-        
-        

@@ -14,14 +14,14 @@ class GameData:
             data = data.read()
         except AttributeError:
             pass
-        
+
         # convert string to dict
         try:
             data = self.import_from_json(data)
         except TypeError:
             pass
-        
-        # read data from dict   
+
+        # read data from dict
         self.nouns = {nid: Noun(ndata)
                       for nid, ndata in data.get('nouns', {}).items()}
         self.rooms = {rid: Room(rdata)
@@ -34,34 +34,33 @@ class GameData:
                                if not isinstance(stage, (basestring, dict))
                                else [Control(stage)])
                          for sid, stage in data.get('controls', {}).items()}
-        
+
         self.validate()
-        
-        
+
+
     def import_from_json(self, data):
         """Parse data string as JSON."""
         print data
         return json.loads(data, object_pairs_hook=odict)
-        
-        
+
+
     def validate(self):
         """Raise a ParseError if the game file contains any illegal data."""
         # room id conflicts with noun id
         for eid in set(self.rooms) & set(self.nouns):
             raise ParseError(1, eid)
-        
+
         # room or noun id conflicts with reserved ids
         for eid in ('INVENTORY', 'WORN'):
             if eid in self.rooms or eid in self.nouns:
                 raise ParseError(2, eid)
-        
-        
-        
+
+
+
 class ParseError(Exception):
     messages = {1: 'Room ID conflicts with noun ID: {0}',
                 2: 'Room or noun ID conflicts with reserved ID: {0}'}
-    
+
     def __init__(self, code, *args):
         self.code = code
         self.message = self.messages[code].format(*args)
-        
