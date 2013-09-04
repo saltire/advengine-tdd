@@ -13,10 +13,19 @@ class Test_Actions(unittest.TestCase):
                                               'exits': {'south': 'finish'}},
                                    'finish': {}
                                    },
-                         'nouns': {'window': {'desc': 'Made of glass.',
+                         'nouns': {'window': {'name': 'A window.',
+                                              'shortname': 'window',
+                                              'shortdesc': 'You see a window.',
+                                              'desc': 'Made of glass.',
                                               'notes': ['pass', 'fail'],
                                               'locs': ['start', 'finish']},
-                                   'hat': {'locs': ['finish']},
+                                   'bowl': {'name': 'A bowl.',
+                                           'shortname': 'bowl',
+                                           'shortdesc': 'A bowl is here.',
+                                           'desc': 'The bowl is red.',
+                                           'locs': ['finish']},
+                                   'apple': {'name': 'An apple.',
+                                             'locs': ['bowl']},
                                    'unicorn': {}
                                    },
                          'vars': {'one': 1, 'two': 2},
@@ -45,7 +54,7 @@ class Test_Actions(unittest.TestCase):
 
 
     def test_pause(self):
-        pass
+        self.assertEqual(self.actions.pause(), 'PAUSE')
 
 
     def test_showdesc(self):
@@ -59,12 +68,29 @@ class Test_Actions(unittest.TestCase):
                               ['Pass', 'Fail', 'Pass', 'Fail'])
 
 
-    def test_showcontents(self):
-        pass
+    def test_showcontents_lists_names(self):
+        self.assertIn(self.actions.showcontents('finish'),
+                      ('A window.\nA bowl.',
+                       'A bowl.\nA window.'))
 
 
-    def test_listcontents(self):
-        pass
+    def test_showcontents_lists_shortdescs(self):
+        self.assertIn(self.actions.showcontents('finish', text='shortdesc'),
+                      ('You see a window.\nA bowl is here.',
+                       'A bowl is here.\nYou see a window.'))
+
+
+    def test_showcontents_lists_recursively(self):
+        self.assertIn(self.actions.showcontents('finish', recursive=True),
+                      ('A window.\nA bowl.\nAn apple.',
+                       'A bowl.\nAn apple.\nA window.'))
+
+
+    def test_showcontents_lists_recursively_with_indent(self):
+        self.assertIn(
+            self.actions.showcontents('finish', recursive=True, indent=True),
+            ('A window.\nA bowl.\n\tAn apple.',
+             'A bowl.\n\tAn apple.\nA window.'))
 
 
     def test_inv(self):
@@ -88,27 +114,27 @@ class Test_Actions(unittest.TestCase):
 
 
     def test_sendnoun(self):
-        self.actions.sendnoun('hat', 'start')
-        self.assertItemsEqual(self.state.noun_locs(self.hat), [self.start])
+        self.actions.sendnoun('bowl', 'start')
+        self.assertItemsEqual(self.state.noun_locs(self.bowl), [self.start])
 
 
     def test_sendtoroom(self):
-        self.actions.sendtoroom('hat')
-        self.assertItemsEqual(self.state.noun_locs(self.hat), [self.start])
+        self.actions.sendtoroom('bowl')
+        self.assertItemsEqual(self.state.noun_locs(self.bowl), [self.start])
 
 
     def test_sendtoinv(self):
-        self.actions.sendtoinv('hat')
-        self.assertItemsEqual(self.state.noun_locs(self.hat), ['INVENTORY'])
+        self.actions.sendtoinv('bowl')
+        self.assertItemsEqual(self.state.noun_locs(self.bowl), ['INVENTORY'])
 
 
     def test_wear(self):
-        self.actions.wear('hat')
-        self.assertItemsEqual(self.state.noun_locs(self.hat), ['WORN'])
+        self.actions.wear('bowl')
+        self.assertItemsEqual(self.state.noun_locs(self.bowl), ['WORN'])
 
 
     def test_sendtonounloc(self):
-        self.actions.sendtonounloc('unicorn', 'hat')
+        self.actions.sendtonounloc('unicorn', 'bowl')
         self.assertItemsEqual(self.state.noun_locs(self.unicorn), [self.finish])
 
 
@@ -119,31 +145,31 @@ class Test_Actions(unittest.TestCase):
 
 
     def test_sendtonoun(self):
-        self.actions.sendtonoun('unicorn', 'hat')
-        self.assertItemsEqual(self.state.noun_locs(self.unicorn), [self.hat])
+        self.actions.sendtonoun('unicorn', 'bowl')
+        self.assertItemsEqual(self.state.noun_locs(self.unicorn), [self.bowl])
 
 
     def test_swapnouns(self):
-        self.actions.swapnouns('hat', 'window')
-        self.assertItemsEqual(self.state.noun_locs(self.hat),
+        self.actions.swapnouns('bowl', 'window')
+        self.assertItemsEqual(self.state.noun_locs(self.bowl),
                               [self.start, self.finish])
         self.assertItemsEqual(self.state.noun_locs(self.window),
                               [self.finish])
 
 
     def test_setnoundesc(self):
-        self.actions.setnoundesc('hat', 'pass')
-        self.assertEqual(self.hat.description, 'Pass')
+        self.actions.setnoundesc('bowl', 'pass')
+        self.assertEqual(self.bowl.description, 'Pass')
 
 
     def test_addnounnote(self):
-        self.actions.addnounnote('hat', 'pass')
-        self.assertEqual(self.hat.notes, ['pass'])
+        self.actions.addnounnote('bowl', 'pass')
+        self.assertEqual(self.bowl.notes, ['pass'])
 
 
     def test_addnounnote_with_multiple_notes(self):
-        self.actions.addnounnote('hat', 'pass', 'fail')
-        self.assertEqual(self.hat.notes, ['pass', 'fail'])
+        self.actions.addnounnote('bowl', 'pass', 'fail')
+        self.assertEqual(self.bowl.notes, ['pass', 'fail'])
 
 
     def test_removenounnote(self):

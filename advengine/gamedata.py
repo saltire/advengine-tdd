@@ -40,7 +40,6 @@ class GameData:
 
     def import_from_json(self, data):
         """Parse data string as JSON."""
-        print data
         return json.loads(data, object_pairs_hook=odict)
 
 

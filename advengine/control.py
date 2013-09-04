@@ -1,12 +1,12 @@
 class Control:
     def __init__(self, cdata):
-        # check that control is a type or an action string
+        # check that control is a dict or an action string
         if isinstance(cdata, basestring):
             cdata = {'then': cdata}
         elif not isinstance(cdata, dict):
             raise TypeError
 
-        # parse conditions
+        # parse conditions (if...) into a list of lists of test strings
         conds = cdata.get('if', [])
         if isinstance(conds, basestring):
             # single test string - embed it in list of lists
@@ -18,7 +18,7 @@ class Control:
             # list of lists of test strings
             self.conds = conds
 
-        # parse results
+        # parse results (then/else...) into a list of controls or actions
         def parse_results(results):
             if isinstance(results, (basestring, dict)):
                 # single action string or control - embed it in list
@@ -56,4 +56,3 @@ class Control:
                 actions.append((action, args))
 
         return actions
-        

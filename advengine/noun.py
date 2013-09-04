@@ -2,11 +2,14 @@ class Noun:
     def __init__(self, ndata):
         self.data = ndata
 
-        self.words = set(self.data.get('words', []))
-        self.description = self.data.get('desc', None)
-        self.notes = self.data.get('notes', [])
+        self.description = self.data.get('desc', '')
         self.is_movable = self.data.get('movable', False)
         self.is_wearable = self.data.get('wearable', False)
+        self.name = self.data.get('name', '')
+        self.notes = self.data.get('notes', [])
+        self.shortdesc = self.data.get('shortdesc', '')
+        self.shortname = self.data.get('shortname', '')
+        self.words = set(self.data.get('words', []))
 
 
     def initial_locs(self):

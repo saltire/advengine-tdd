@@ -20,6 +20,12 @@ class Actions:
                 for mid in mids]
 
 
+    def pause(self):
+        """Return a symbol indicating that the game should pause and wait for
+        the player to press a key."""
+        return 'PAUSE'
+
+
     @selector('entity')
     def showdesc(self, entities):
         """Return the descriptions of each object passed."""
@@ -31,6 +37,26 @@ class Actions:
         """Return a list of all notes of each object passed."""
         return [self.state.messages[mid]
                 for entity in entities for mid in entity.notes]
+
+
+    @selector('location')
+    def showcontents(self, locs, **kwargs):
+        """Return a listing of all nouns at the given location.
+        Contains a subfunction that can be executed recursively."""
+
+        def list_contents(locs, text='name', recursive=False, indent=False,
+                          recmsg=None):
+            inv = []
+            for noun in self.state.nouns_at_loc(*locs):
+                inv.append(getattr(noun, text))
+
+                if recursive:
+                    for item in list_contents([noun], text, True, indent, recmsg):
+                        inv.append(('\t' if indent else '') + item +
+                            (self.state.messages[recmsg] if recmsg else ''))
+            return inv
+
+        return '\n'.join(list_contents(locs, **kwargs))
 
 
     def move(self, direction):

@@ -60,7 +60,9 @@ class Adventure:
                 return self.do_actions(controls)
 
             msgs = getattr(self.actions, action)(*args)
-            if msgs is not None:
+            if isinstance(msgs, basestring):
+                messages.append(msgs)
+            elif msgs is not None:
                 messages.extend(msgs)
 
         return messages

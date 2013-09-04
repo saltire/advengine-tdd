@@ -10,12 +10,12 @@ class selector:
         """For each selection type specified, treat the next argument passed
         to the method as a selector of that type, replace it with the
         selected set of objects, and call the method with the new arguments."""
-        def method_with_selection(*args):
+        def method_with_selection(*args, **kwargs):
             newargs = list(args)
             for i, stype in enumerate(self.stypes):
                 newargs[i + 1] = getattr(self, 'select_' + stype)(args[0],
                                                                   args[i + 1])
-            return method(*newargs)
+            return method(*newargs, **kwargs)
         return method_with_selection
 
 

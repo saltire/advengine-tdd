@@ -5,9 +5,19 @@ from advengine.noun import Noun
 
 class Test_Noun(unittest.TestCase):
     def setUp(self):
-        self.noun = Noun({'desc': "Description",
+        self.noun = Noun({'name': "Name",
+                          'shortname': "Short Name",
+                          'shortdesc': "Short Desc",
+                          'desc': "Description",
                           'notes': ['pass']
                           })
+
+
+    def test_properties(self):
+        self.assertEqual(self.noun.name, "Name")
+        self.assertEqual(self.noun.shortname, "Short Name")
+        self.assertEqual(self.noun.shortdesc, "Short Desc")
+        self.assertEqual(self.noun.description, "Description")
 
 
     def test_description_setter(self):
