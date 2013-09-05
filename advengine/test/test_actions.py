@@ -33,6 +33,7 @@ class Test_Actions(unittest.TestCase):
                                              },
                                    'worm': {'name': 'A worm.', 'locs': ['apple']},
                                    'money': {'name': 'Some money.', 'locs': ['INVENTORY']},
+                                   'hat': {'name': 'A hat.', 'locs': ['WORN']},
                                    'unicorn': {},
                                    },
                          'vars': {'one': 1, 'two': 2},
@@ -40,6 +41,7 @@ class Test_Actions(unittest.TestCase):
                                       'fail': 'Fail',
                                       'subword': 'Second word is %2',
                                       'inside': ' (in the %NOUN)',
+                                      'worn': ' (worn)',
                                       },
                          })
 
@@ -104,8 +106,12 @@ class Test_Actions(unittest.TestCase):
 
 
     def test_inv(self):
-        pass
-        # self.assertItemsEqual(self.actions.inv().split('\n'), ('Some money.',))
+        self.assertItemsEqual(self.actions.inv().split('\n'), ('Some money.', 'A hat.'))
+
+
+    def test_inv_with_worn_message(self):
+        self.assertItemsEqual(self.actions.inv(worn_msg='worn').split('\n'),
+                              ('Some money.', 'A hat. (worn)'))
 
 
     def test_move(self):
@@ -120,8 +126,7 @@ class Test_Actions(unittest.TestCase):
 
     def test_destroy(self):
         self.actions.destroy('window')
-        self.assertItemsEqual(self.state.noun_locs(self.window),
-                              [])
+        self.assertItemsEqual(self.state.noun_locs(self.window), [])
 
 
     def test_sendnoun(self):
