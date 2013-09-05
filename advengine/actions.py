@@ -40,22 +40,38 @@ class Actions:
 
 
     @selector('location')
-    def showcontents(self, locs, **kwargs):
+    def showcontents(self, locs, text='name', recursive=False, indent=False, in_msg=None,
+                     worn_msg=None):
         """Return a listing of all nouns at the given location.
         Contains a subfunction that can be executed recursively."""
 
-        def list_contents(locs, text='name', recursive=False, indent=False, recmsg=None):
-            inv = []
+        def list_contents(locs):
+            # for each item at this location, return its name
+            # if listing recursively, return each of the items inside
+            #     and optionally a message naming the immediate container of each
+            items = []
             for noun in self.state.nouns_at_loc(*locs):
-                inv.append(getattr(noun, text))
+                # get the string for the noun
+                # optionally add a note if the item is being worn
+                name = (getattr(noun, text)
+                        + (self.state.messages[worn_msg] if 'WORN' in self.state.noun_locs(noun)
+                           and worn_msg else ''))
+                items.append((name, ''))
 
                 if recursive:
-                    for item in list_contents([noun], text, True, indent, recmsg):
-                        inv.append(('\t' if indent else '') + item +
-                            (self.state.messages[recmsg] if recmsg else ''))
-            return inv
+                    # message to add to any contained items, with the name of the container
+                    # only add this if the item doesn't already have one from a subcontainer
+                    item_in_msg = (self.state.messages[in_msg].replace('%NOUN', noun.shortname)
+                                   if in_msg else '')
 
-        return '\n'.join(list_contents(locs, **kwargs))
+                    # add contained nouns to listing, with an indent if specified
+                    for subitem, subitem_in_msg in list_contents([noun]):
+                        items.append((('\t' if indent else '') + subitem,
+                                     subitem_in_msg or item_in_msg))
+            return items
+
+        # join each item with its container message, then join them all as separate lines
+        return '\n'.join(''.join(item) for item in list_contents(locs))
 
 
     def move(self, direction):

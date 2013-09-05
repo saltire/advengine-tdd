@@ -9,8 +9,9 @@ class Test_Actions(unittest.TestCase):
     def setUp(self):
         data = GameData({'rooms': {'start': {'start': True,
                                              'desc': 'The starting room.',
-                                              'notes': ['pass', 'fail'],
-                                              'exits': {'south': 'finish'}},
+                                             'notes': ['pass', 'fail'],
+                                             'exits': {'south': 'finish'},
+                                             },
                                    'finish': {},
                                    },
                          'nouns': {'window': {'name': 'A window.',
@@ -21,22 +22,27 @@ class Test_Actions(unittest.TestCase):
                                               'locs': ['start', 'finish'],
                                               },
                                    'bowl': {'name': 'A bowl.',
-                                           'shortname': 'bowl',
-                                           'shortdesc': 'A bowl is here.',
-                                           'desc': 'The bowl is red.',
-                                           'locs': ['finish'],
-                                           },
+                                            'shortname': 'bowl',
+                                            'shortdesc': 'A bowl is here.',
+                                            'desc': 'The bowl is red.',
+                                            'locs': ['finish'],
+                                            },
                                    'apple': {'name': 'An apple.',
+                                             'shortname': 'apple',
                                              'locs': ['bowl'],
                                              },
+                                   'worm': {'name': 'A worm.', 'locs': ['apple']},
+                                   'money': {'name': 'Some money.', 'locs': ['INVENTORY']},
                                    'unicorn': {},
                                    },
                          'vars': {'one': 1, 'two': 2},
                          'messages': {'pass': 'Pass',
                                       'fail': 'Fail',
-                                      'subword': "Second word is %2",
+                                      'subword': 'Second word is %2',
+                                      'inside': ' (in the %NOUN)',
                                       },
                          })
+
         self.state = State(data)
         self.actions = Actions(self.state)
 
@@ -70,27 +76,36 @@ class Test_Actions(unittest.TestCase):
 
 
     def test_showcontents_lists_names(self):
-        self.assertIn(self.actions.showcontents('finish'),
-                      ('A window.\nA bowl.', 'A bowl.\nA window.'))
+        self.assertItemsEqual(self.actions.showcontents('finish').split('\n'),
+                              ('A window.', 'A bowl.'))
 
 
     def test_showcontents_lists_shortdescs(self):
-        self.assertIn(self.actions.showcontents('finish', text='shortdesc'),
-                      ('You see a window.\nA bowl is here.', 'A bowl is here.\nYou see a window.'))
+        self.assertItemsEqual(self.actions.showcontents('finish', text='shortdesc').split('\n'),
+                              ('You see a window.', 'A bowl is here.'))
 
 
     def test_showcontents_lists_recursively(self):
-        self.assertIn(self.actions.showcontents('finish', recursive=True),
-                      ('A window.\nA bowl.\nAn apple.', 'A bowl.\nAn apple.\nA window.'))
+        self.assertItemsEqual(self.actions.showcontents('finish', recursive=True).split('\n'),
+                              ('A window.', 'A bowl.', 'An apple.', 'A worm.'))
 
 
     def test_showcontents_lists_recursively_with_indent(self):
-        self.assertIn(self.actions.showcontents('finish', recursive=True, indent=True),
-                      ('A window.\nA bowl.\n\tAn apple.', 'A bowl.\n\tAn apple.\nA window.'))
+        self.assertItemsEqual(self.actions.showcontents('finish', recursive=True, indent=True)
+                              .split('\n'),
+                              ('A window.', 'A bowl.', '\tAn apple.', '\t\tA worm.'))
+
+
+    def test_showcontents_lists_recursively_with_message(self):
+        self.assertItemsEqual(self.actions.showcontents('finish', recursive=True, in_msg='inside')
+                              .split('\n'),
+                              ('A window.', 'A bowl.', 'An apple. (in the bowl)',
+                               'A worm. (in the apple)'))
 
 
     def test_inv(self):
         pass
+        # self.assertItemsEqual(self.actions.inv().split('\n'), ('Some money.',))
 
 
     def test_move(self):
