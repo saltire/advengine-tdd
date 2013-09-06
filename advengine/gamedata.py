@@ -44,18 +44,26 @@ class GameData:
         """Raise a ParseError if the game file contains any illegal data."""
         # room id conflicts with noun id
         for eid in set(self.rooms) & set(self.nouns):
-            raise ParseError(1, eid)
+            raise GameDataError(1, eid)
 
         # room or noun id conflicts with reserved ids
         for eid in ('INVENTORY', 'WORN'):
             if eid in self.rooms or eid in self.nouns:
-                raise ParseError(2, eid)
+                raise GameDataError(2, eid)
+
+        # no starting room
+        start = [rid for rid, room in self.rooms.items() if room.is_start]
+        if len(start) < 1:
+            raise GameDataError(3)
+        elif len(start) > 1:
+            raise GameDataError(4, ', '.join(start))
 
 
-
-class ParseError(Exception):
+class GameDataError(Exception):
     messages = {1: 'Room ID conflicts with noun ID: {0}',
-                2: 'Room or noun ID conflicts with reserved ID: {0}'}
+                2: 'Room or noun ID conflicts with reserved ID: {0}',
+                3: 'No starting room specified.',
+                4: 'Multiple starting rooms specified: {0}'}
 
     def __init__(self, code, *args):
         self.code = code
