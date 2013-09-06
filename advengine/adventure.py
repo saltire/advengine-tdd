@@ -7,17 +7,15 @@ from tests import Tests
 
 
 class Adventure:
-    def __init__(self, gamedata):
+    def __init__(self, gamedata, testclass=Tests, actionclass=Actions):
         data = GameData(gamedata)
         self.controls = data.controls
 
         self.state = State(data)
-        self.tests = Tests(self.state)
-        self.actions = Actions(self.state)
+        self.tests = testclass(self.state)
+        self.actions = actionclass(self.state)
 
         self.game_over = False
-
-        self.start_game()
 
 
     def start_game(self):

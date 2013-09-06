@@ -3,11 +3,12 @@ import re
 from selector import selector
 
 
-class Actions:
+class BaseActions:
     def __init__(self, state):
         self.state = state
 
 
+class Actions(BaseActions):
     def message(self, *mids):
         """Return the messages matching the given IDs."""
         def sub_words(match):

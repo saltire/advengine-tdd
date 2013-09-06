@@ -3,7 +3,7 @@ import random
 from selector import selector
 
 
-class Tests:
+class BaseTests:
     def __init__(self, state):
         self.state = state
 
@@ -14,6 +14,7 @@ class Tests:
                 self.state.command_matches(' '.join(words)))
 
 
+class Tests(BaseTests):
     def var(self, var, value):
         """Check if the given variable is set to the given value."""
         try:
