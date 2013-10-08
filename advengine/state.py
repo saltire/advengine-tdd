@@ -25,13 +25,14 @@ class State:
         self.current_turn = Turn(command)
 
 
-    def command_matches(self, command):
-        """Check if the given command has the same number of words as the
+    def command_matches(self, control_str):
+        """Check if the given control string has as many or fewer words as the
         current turn's command, and each word is synonymous or a wildcard."""
-        cwords = [cword for cword in command.lower().split() if cword not in ('a', 'an', 'the')]
-        return (len(cwords) == len(self.current_turn.words) and
-                all(cword == '*' or self.lexicon.words_match(cword, self.current_turn.words[i])
-                    for i, cword in enumerate(cwords)))
+        control_words = [conwd for conwd in control_str.lower().split()
+                         if conwd not in ('a', 'an', 'the')]
+        return (len(control_words) <= len(self.current_turn.words) and
+                all(conwd == '*' or self.lexicon.words_match(conwd, self.current_turn.words[i])
+                    for i, conwd in enumerate(control_words)))
 
 
     def locations_by_id(self, lid):

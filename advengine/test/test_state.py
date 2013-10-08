@@ -83,10 +83,14 @@ class Test_State(unittest.TestCase):
         self.assertTrue(self.state.command_matches('test input'))
 
 
-    def test_command_doesnt_match_when_more_or_less_words_than_command(self):
+    def test_command_doesnt_match_with_fewer_words_than_string(self):
         self.state.start_turn('test command')
         self.assertFalse(self.state.command_matches('test command extra words'))
-        self.assertFalse(self.state.command_matches('test'))
+
+
+    def test_command_matches_with_more_words_than_string(self):
+        self.state.start_turn('test command')
+        self.assertTrue(self.state.command_matches('test'))
 
 
     def test_command_matches_using_asterisk_wildcard(self):

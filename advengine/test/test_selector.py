@@ -7,8 +7,14 @@ from advengine.state import State
 
 class MockTests:
     def __init__(self):
-        data = {'nouns': {'thing': {'words': ['item', 'object']}},
-                'rooms': {'place': {'start': True}},
+        data = {'nouns': {'thing': {'words': ['item', 'object'], 'locs': ['place']},
+                          'otherthing': {'locs': ['place']},
+                          'anotherthing': {'locs': ['anotherplace']},
+                          },
+                'rooms': {'place': {'start': True},
+                          'otherplace': {},
+                          'anotherplace': {},
+                          },
                 }
         self.state = State(GameData(data))
 
@@ -39,6 +45,8 @@ class Test_Selector(unittest.TestCase):
         self.tests = MockTests()
 
         self.thing = self.tests.state.nouns['thing']
+        self.anotherthing = self.tests.state.nouns['anotherthing']
+
         self.place = self.tests.state.rooms['place']
 
 
@@ -64,4 +72,16 @@ class Test_Selector(unittest.TestCase):
 
     def test_passing_too_few_selectors_does_not_fail(self):
         self.assertEqual(self.tests.select_nouns(), 'default')
+
+
+    def test_selectors_can_use_pipes(self):
+        self.assertItemsEqual(self.tests.select_nouns('thing|anotherthing'),
+                              [self.thing, self.anotherthing])
+
+
+    def test_selectors_can_use_test_filters(self):
+        self.assertItemsEqual(self.tests.select_nouns('thing|anotherthing:present'), [self.thing])
+
+
+
 
