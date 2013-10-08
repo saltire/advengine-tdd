@@ -14,7 +14,7 @@ class MockTests:
 
 
     @selector('noun')
-    def select_nouns(self, nouns):
+    def select_nouns(self, nouns='default'):
         return nouns
 
 
@@ -60,3 +60,8 @@ class Test_Selector(unittest.TestCase):
     def test_numeric_wildcard_replaced_with_matching_noun(self):
         self.tests.state.start_turn('examine item')
         self.assertItemsEqual(self.tests.select_entities('%2'), [self.thing])
+
+
+    def test_passing_too_few_selectors_does_not_fail(self):
+        self.assertEqual(self.tests.select_nouns(), 'default')
+

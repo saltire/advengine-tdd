@@ -43,17 +43,19 @@ class Adventure:
     def do_actions(self, controls):
         """Evaluate each of the controls, run any actions and return
         any messages. End execution if 'done', end game if 'gameover'."""
-        actions = itertools.chain(*(control.get_actions(self.tests)
-                                    for control in controls))
+        actions = itertools.chain(*(control.get_actions(self.tests) for control in controls))
         messages = []
 
         for action, args in actions:
             if action == 'done':
+                # end execution of actions
                 break
             elif action == 'gameover':
+                # end execution of actions and end the game
                 self.game_over = True
                 break
             elif action == 'replace':
+                # replace the input command and restart execution
                 self.state.current_turn.replace_command(' '.join(args))
                 return self.do_actions(controls)
 

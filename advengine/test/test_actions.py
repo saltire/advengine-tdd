@@ -20,21 +20,34 @@ class Test_Actions(unittest.TestCase):
                                               'desc': 'Made of glass.',
                                               'notes': ['pass', 'fail'],
                                               'locs': ['start', 'finish'],
+                                              'visible': True,
                                               },
                                    'bowl': {'name': 'A bowl.',
                                             'shortname': 'bowl',
                                             'shortdesc': 'A bowl is here.',
                                             'desc': 'The bowl is red.',
                                             'locs': ['finish'],
+                                            'visible': True,
                                             },
                                    'apple': {'name': 'An apple.',
                                              'shortname': 'apple',
                                              'locs': ['bowl'],
+                                             'visible': True,
                                              },
-                                   'worm': {'name': 'A worm.', 'locs': ['apple']},
-                                   'money': {'name': 'Some money.', 'locs': ['INVENTORY']},
-                                   'hat': {'name': 'A hat.', 'locs': ['WORN']},
+                                   'worm': {'name': 'A worm.',
+                                            'locs': ['apple'],
+                                            'visible': True,
+                                            },
+                                   'money': {'name': 'Some money.',
+                                             'locs': ['INVENTORY'],
+                                             'visible': True,
+                                            },
+                                   'hat': {'name': 'A hat.',
+                                           'locs': ['WORN'],
+                                           'visible': True,
+                                            },
                                    'unicorn': {},
+                                   'invisible': {'name': 'An invisible item.', 'locs': ['start']},
                                    },
                          'vars': {'one': 1, 'two': 2},
                          'messages': {'pass': 'Pass',
@@ -73,13 +86,29 @@ class Test_Actions(unittest.TestCase):
         self.assertEqual(self.actions.showdesc('unicorn'), [])
 
 
+    def test_showdesc_defaults_to_current_room(self):
+        self.assertEqual(self.actions.showdesc(), self.actions.showdesc('start'))
+
+
     def test_shownotes(self):
         self.assertEqual(self.actions.shownotes('start|window'), ['Pass', 'Fail', 'Pass', 'Fail'])
+
+
+    def test_shownotes_defaults_to_current_room(self):
+        self.assertEqual(self.actions.shownotes(), self.actions.shownotes('start'))
 
 
     def test_showcontents_lists_names(self):
         self.assertItemsEqual(self.actions.showcontents('finish').split('\n'),
                               ('A window.', 'A bowl.'))
+
+
+    def test_showcontents_doesnt_show_invisible_items(self):
+        self.assertNotIn('An invisible item.', self.actions.showcontents().split('\n'))
+
+
+    def test_showcontents_defaults_to_current_room(self):
+        self.assertEqual(self.actions.showcontents(), self.actions.showcontents('start'))
 
 
     def test_showcontents_lists_shortdescs(self):

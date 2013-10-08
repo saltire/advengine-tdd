@@ -28,46 +28,53 @@ class Actions(BaseActions):
 
 
     @selector('entity')
-    def showdesc(self, entities):
-        """Return the descriptions of each object passed."""
+    def showdesc(self, entities=None):
+        """Return the descriptions of each entity passed.
+        If no entity is passed, return the description of the current room."""
+        entities = entities if entities is not None else [self.state.current_room]
         return [entity.description for entity in entities if entity.description]
 
 
     @selector('entity')
-    def shownotes(self, entities):
-        """Return a list of all notes of each object passed."""
-        return [self.state.messages[mid]
-                for entity in entities for mid in entity.notes]
+    def shownotes(self, entities=None):
+        """Return a list of all notes of each entity passed.
+        If no entity is passed, return the notes for the current room."""
+        entities = entities if entities is not None else [self.state.current_room]
+        return [self.state.messages[mid] for entity in entities for mid in entity.notes]
 
 
     @selector('location')
-    def showcontents(self, locs, text='name', indent=False, in_msg=None, worn_msg=None,
+    def showcontents(self, locs=None, text='name', indent=False, in_msg=None, worn_msg=None,
                      recursive=False):
         """Return a listing of all nouns at the given location.
+        If no location is passed, use the current room.
         Contains a subfunction that can be executed recursively."""
+        locs = locs if locs is not None else [self.state.current_room]
 
         def list_contents(locs, level=0):
             items = []
             for noun in self.state.nouns_at_loc(*locs):
-                name = getattr(noun, text)
-                if indent and level > 0:
-                    # indent the item to show that it is contained in another noun
-                    name = '\t' * level + name
-                if in_msg and level > 0:
-                    # add a note naming this item's containing noun
-                    name += self.state.messages[in_msg].replace('%NOUN', locs[0].shortname)
-                if worn_msg and 'WORN' in self.state.noun_locs(noun):
-                    # add a note that this item is being worn
-                    name += self.state.messages[worn_msg]
-                items.append(name)
+                if noun.is_visible:
+                    name = getattr(noun, text)
+                    if indent and level > 0:
+                        # indent the item to show that it is contained in another noun
+                        name = '\t' * level + name
+                    if in_msg and level > 0:
+                        # add a note naming this item's containing noun
+                        name += self.state.messages[in_msg].replace('%NOUN', locs[0].shortname)
+                    if worn_msg and 'WORN' in self.state.noun_locs(noun):
+                        # add a note that this item is being worn
+                        name += self.state.messages[worn_msg]
+                    items.append(name)
 
-                if recursive:
-                    # also list all the items contained in this noun
-                    items.extend(list_contents([noun], level + 1))
+                    if recursive:
+                        # also list all the items contained in this noun
+                        items.extend(list_contents([noun], level + 1))
 
             return items
 
-        return '\n'.join(list_contents(locs))
+        contents = list_contents(locs)
+        return '\n'.join(contents) if contents else None
 
 
     def inv(self, text='name', indent=False, in_msg=None, worn_msg=None, recursive=False):

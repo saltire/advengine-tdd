@@ -4,6 +4,7 @@ class Noun:
 
         self.description = self.data.get('desc', '')
         self.is_movable = self.data.get('movable', False)
+        self.is_visible = self.data.get('visible', False)
         self.is_wearable = self.data.get('wearable', False)
         self.name = self.data.get('name', '')
         self.notes = self.data.get('notes', [])

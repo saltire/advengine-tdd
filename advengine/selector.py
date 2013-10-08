@@ -12,7 +12,9 @@ class selector:
         selected set of objects, and call the method with the new arguments."""
         def method_with_selection(*args, **kwargs):
             newargs = list(args)
-            for i, stype in enumerate(self.stypes):
+            # don't evaluate more selectors than there are arguments
+            for i, stype in enumerate(self.stypes[:len(args) - 1]):
+                # start replacing arguments at index 1, since index 0 is the calling object
                 newargs[i + 1] = getattr(self, 'select_' + stype)(args[0], args[i + 1])
             return method(*newargs, **kwargs)
         return method_with_selection

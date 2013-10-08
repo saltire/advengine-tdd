@@ -590,14 +590,14 @@
         "gameover": "Would you like to play again?"
     }, 
     "controls": {
-    	"before_game": [
-    	    "message intro1 intro2 intro3", "pause", "message intro4", "showdesc", "shownotes", "showcontents"
-    	],
+        "before_game": [
+            "message intro1 intro2 intro3", "pause", "message intro4", "showdesc", "shownotes", "showcontents"
+        ],
         "before_turn": [
-    	    {
-    	        "if": ["var storage 2", "somewhere force"], 
-    	        "then": ["sendtoroom force"]
-    	    }
+            {
+                "if": ["var storage 2", "somewhere force"], 
+                "then": ["sendtoroom force"]
+            }
         ],
         "during_turn": [
             {
