@@ -13,7 +13,7 @@ class Adventure:
 
         self.state = State(data)
         self.tests = testclass(self.state)
-        self.actions = actionclass(self.state)
+        self.actions = actionclass(self.state, self.tests)
 
         self.game_over = False
 

@@ -1,11 +1,13 @@
 import re
 
 from selector import selector
+from tests import BaseTests
 
 
 class BaseActions:
-    def __init__(self, state):
+    def __init__(self, state, tests=None):
         self.state = state
+        self.tests = tests or BaseTests(state)
 
 
 class Actions(BaseActions):

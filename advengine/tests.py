@@ -6,6 +6,7 @@ from selector import selector
 class BaseTests:
     def __init__(self, state):
         self.state = state
+        self.tests = self
 
 
     def command(self, *words):
@@ -29,14 +30,16 @@ class Tests(BaseTests):
             return self.state.vars.get(var) == int(value)
 
 
-    def room(self, rid):
-        """Check if the given room is the current room."""
-        return self.state.current_room == self.state.rooms[rid]
+    @selector('room')
+    def room(self, rooms):
+        """Check if any given room is the current room."""
+        return self.state.current_room in rooms
 
 
-    def visited(self, rid):
-        """Check if the given room has ever been visited."""
-        return self.state.rooms[rid].has_been_visited
+    @selector('room')
+    def visited(self, rooms):
+        """Check if any given room has ever been visited."""
+        return any(room.has_been_visited for room in rooms)
 
 
     def exitexists(self, direction):
@@ -109,22 +112,22 @@ class Tests(BaseTests):
         return any(noun.is_wearable for noun in nouns)
 
 
-    @selector('noun')
-    def hasdesc(self, nouns):
-        """Check if any given noun has a description set."""
-        return any(noun.description for noun in nouns)
+    @selector('entity')
+    def hasdesc(self, entities):
+        """Check if any given noun or room has a description set."""
+        return any(entity.description for entity in entities)
 
 
-    @selector('noun')
-    def hasnotes(self, nouns):
-        """Check if any given noun has any notes set."""
-        return any(noun.notes for noun in nouns)
+    @selector('entity')
+    def hasnotes(self, entities):
+        """Check if any given noun or room has any notes set."""
+        return any(entity.notes for entity in entities)
 
 
-    @selector('noun')
-    def hascontents(self, nouns):
-        """Check if any given noun has other nouns located inside it."""
-        return bool(self.state.nouns_at_loc(*nouns))
+    @selector('location')
+    def hascontents(self, locs):
+        """Check if any given location has nouns located inside it."""
+        return bool(self.state.nouns_at_loc(*locs))
 
 
     def random(self, percent):
