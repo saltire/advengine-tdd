@@ -34,8 +34,10 @@ class Test_Tests(unittest.TestCase):
                           },
                 'vars': {'one': 1, 'two': 2},
                 'messages': {'pass': 'Pass'},
+                'words': [['north', 'n'], ['south', 's']]
                 }
-        self.tests = Tests(State(GameData(data)))
+        self.state = State(GameData(data))
+        self.tests = Tests(self.state)
 
 
     def test_variable_equals(self):
@@ -66,6 +68,18 @@ class Test_Tests(unittest.TestCase):
         self.assertFalse(self.tests.exitexists('north'))
 
 
+    def test_exitexists_with_synonym(self):
+        self.assertTrue(self.tests.exitexists('s'))
+        self.assertFalse(self.tests.exitexists('n'))
+
+
+    def test_exitexists_with_numerical_wildcard(self):
+        self.state.start_turn('go south')
+        self.assertTrue(self.tests.exitexists('%2'))
+        self.state.start_turn('go east')
+        self.assertFalse(self.tests.exitexists('%2'))
+
+
     def test_carrying(self):
         self.assertTrue(self.tests.carrying('wallet'))
         self.assertFalse(self.tests.carrying('blender'))
@@ -73,6 +87,13 @@ class Test_Tests(unittest.TestCase):
 
     def test_carrying_with_piped_filter(self):
         self.assertTrue(self.tests.carrying('blender|wallet'))
+
+
+    def test_carrying_with_numerical_wildcard(self):
+        self.state.start_turn('examine wallet')
+        self.assertTrue(self.tests.carrying('%2'))
+        self.state.start_turn('examine blender')
+        self.assertFalse(self.tests.carrying('%2'))
 
 
     def test_nounloc(self):

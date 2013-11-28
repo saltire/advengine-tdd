@@ -22,15 +22,15 @@ class GameData:
             pass
 
         # read data from dict
-        self.nouns = {nid: Noun(ndata) for nid, ndata in data.get('nouns', {}).items()}
-        self.rooms = {rid: Room(rdata) for rid, rdata in data.get('rooms', {}).items()}
-        self.vars = {var: int(value) for var, value in data.get('vars', {}).items()}
+        self.nouns = {nid: Noun(ndata) for nid, ndata in data.get('nouns', {}).iteritems()}
+        self.rooms = {rid: Room(rdata) for rid, rdata in data.get('rooms', {}).iteritems()}
+        self.vars = {var: int(value) for var, value in data.get('vars', {}).iteritems()}
         self.messages = data.get('messages', {})
         self.lexicon = Lexicon(data.get('words', []))
         self.controls = {sid: ([Control(cdata) for cdata in stage]
                                if not isinstance(stage, (basestring, dict))
                                else [Control(stage)])
-                         for sid, stage in data.get('controls', {}).items()}
+                         for sid, stage in data.get('controls', {}).iteritems()}
 
         self.validate()
 
@@ -52,7 +52,7 @@ class GameData:
                 raise GameDataError(2, eid)
 
         # no starting room
-        start = [rid for rid, room in self.rooms.items() if room.is_start]
+        start = [rid for rid, room in self.rooms.iteritems() if room.is_start]
         if len(start) < 1:
             raise GameDataError(3)
         elif len(start) > 1:

@@ -9,12 +9,12 @@ class State:
         self.messages = data.messages
         self.lexicon = data.lexicon
 
-        self.current_room = next(room for room in self.rooms.values() if room.is_start)
+        self.current_room = next(room for room in self.rooms.itervalues() if room.is_start)
         self.current_room.visit()
 
         # a junction list of nouns and locations
         self.locations = set()
-        for noun in self.nouns.values():
+        for noun in self.nouns.itervalues():
             self.locations |= set((noun, self.locations_by_id(lid)) for lid in noun.initial_locs())
 
         self.current_turn = None
@@ -26,13 +26,20 @@ class State:
 
 
     def command_matches(self, control_str):
-        """Check if the given control string has as many or fewer words as the
-        current turn's command, and each word is synonymous or a wildcard."""
-        control_words = [conwd for conwd in control_str.lower().split()
-                         if conwd not in ('a', 'an', 'the')]
-        return (len(control_words) <= len(self.current_turn.words) and
-                all(conwd == '*' or self.lexicon.words_match(conwd, self.current_turn.words[i])
-                    for i, conwd in enumerate(control_words)))
+        """Check if the number of terms in the given control string is equal to or less
+        than the number of words in current turn's command, and each term is a wildcard,
+        a synonymous word, or a piped list of words where at least one is synonymous."""
+        control_terms = [cterm for cterm in control_str.lower().split()
+                         if cterm not in ('a', 'an', 'the')]
+        return (len(control_terms) <= len(self.current_turn.words) and
+                all(cterm == '*' or
+                    any(self.lexicon.words_match(cword, self.current_turn.words[i])
+                        for cword in cterm.split('|'))
+                    for i, cterm in enumerate(control_terms)))
+
+
+    def sub_words(self, phrase):
+        return self.current_turn.sub_words(phrase) if self.current_turn is not None else phrase
 
 
     def locations_by_id(self, lid):
@@ -43,7 +50,7 @@ class State:
 
     def nouns_by_word(self, *words):
         """Return a list of nouns that match any of the given words."""
-        return set(noun for noun in self.nouns.values() if set(words) & noun.words)
+        return set(noun for noun in self.nouns.itervalues() if set(words) & noun.words)
 
 
     def nouns_by_input_word(self, wordnum):

@@ -61,9 +61,9 @@ class Test_Actions(unittest.TestCase):
         self.state = State(data)
         self.actions = Actions(self.state)
 
-        for rid, room in self.state.rooms.items():
+        for rid, room in self.state.rooms.iteritems():
             setattr(self, rid, room)
-        for nid, noun in self.state.nouns.items():
+        for nid, noun in self.state.nouns.iteritems():
             setattr(self, nid, noun)
 
 
@@ -145,6 +145,12 @@ class Test_Actions(unittest.TestCase):
 
     def test_move(self):
         self.actions.move('south')
+        self.assertEqual(self.state.current_room, self.finish)
+
+
+    def test_move_with_numerical_wildcard(self):
+        self.state.start_turn('go south')
+        self.actions.move('%2')
         self.assertEqual(self.state.current_room, self.finish)
 
 

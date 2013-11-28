@@ -44,7 +44,9 @@ class Tests(BaseTests):
 
     def exitexists(self, direction):
         """Check if the current room has an exit in the given direction."""
-        return direction in self.state.current_room.exits
+        direction = self.state.sub_words(direction)
+        return any(self.state.lexicon.words_match(direction, exdir)
+                   for exdir in self.state.current_room.exits)
 
 
     @selector('noun')
@@ -83,7 +85,7 @@ class Tests(BaseTests):
         worn, or inside another noun that is present."""
         def is_present(noun):
             return any(loc in (self.state.current_room, 'INVENTORY', 'WORN')
-                       or (loc in self.state.nouns.values() and is_present(loc))
+                       or (loc in self.state.nouns.itervalues() and is_present(loc))
                        for loc in self.state.noun_locs(noun))
         return any(is_present(noun) for noun in nouns)
 
@@ -91,7 +93,7 @@ class Tests(BaseTests):
     @selector('noun')
     def contained(self, nouns):
         """Check if any given noun is inside some other noun."""
-        return any(loc in self.state.nouns.values() for loc in self.state.noun_locs(*nouns))
+        return any(loc in self.state.nouns.itervalues() for loc in self.state.noun_locs(*nouns))
 
 
     @selector('noun')

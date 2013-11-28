@@ -22,9 +22,9 @@ class Test_State(unittest.TestCase):
 
         self.state = State(GameData(data))
 
-        for rid, room in self.state.rooms.items():
+        for rid, room in self.state.rooms.iteritems():
             setattr(self, rid, room)
-        for nid, noun in self.state.nouns.items():
+        for nid, noun in self.state.nouns.iteritems():
             setattr(self, nid, noun)
 
 
@@ -96,6 +96,16 @@ class Test_State(unittest.TestCase):
     def test_command_matches_using_asterisk_wildcard(self):
         self.state.start_turn('test command')
         self.assertTrue(self.state.command_matches('test *'))
+
+
+    def test_command_matches_using_pipe(self):
+        self.state.start_turn('test command')
+        self.assertTrue(self.state.command_matches('test word|command'))
+
+
+    def test_command_matches_using_synonym_and_pipe(self):
+        self.state.start_turn('test command')
+        self.assertTrue(self.state.command_matches('test word|input'))
 
 
     def test_state_adds_noun_to_location(self):

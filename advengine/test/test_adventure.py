@@ -77,3 +77,11 @@ class Test_Adventure(unittest.TestCase):
                                              'message fail'],
                              'after_turn': 'message other'})
         self.assertEqual(adv.do_command('some input'), ['Other', 'Pass', 'Other'])
+
+
+    def test_replace_can_use_wildcards(self):
+        adv = MockAdventure({'during_turn': [{'if': 'command north',
+                                              'then': 'message pass'},
+                                             {'if': 'command go north',
+                                              'then': 'replace %2'}]})
+        self.assertEqual(adv.do_command('go north'), ['Pass'])

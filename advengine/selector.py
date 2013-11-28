@@ -46,24 +46,24 @@ class selector:
 
     def filter_noun(self, obj, items):
         """Given a set of items, return the nouns."""
-        return set(item for item in items if item in obj.state.nouns.values())
+        return set(item for item in items if item in obj.state.nouns.itervalues())
 
 
     def filter_room(self, obj, items):
         """Given a set of items, return the rooms."""
-        return set(item for item in items if item in obj.state.rooms.values())
+        return set(item for item in items if item in obj.state.rooms.itervalues())
 
 
     def filter_entity(self, obj, items):
         """Given a set of items, return the nouns and rooms."""
-        return set(item for item in items if (item in obj.state.nouns.values()
-                                              or item in obj.state.rooms.values()))
+        return set(item for item in items if (item in obj.state.nouns.itervalues()
+                                              or item in obj.state.rooms.itervalues()))
 
 
     def filter_location(self, obj, items):
         """Given a set of items, return the locations."""
-        return set(item for item in items if (item in obj.state.nouns.values()
-                                              or item in obj.state.rooms.values()
+        return set(item for item in items if (item in obj.state.nouns.itervalues()
+                                              or item in obj.state.rooms.itervalues()
                                               or item in ('INVENTORY', 'WORN')))
 
 

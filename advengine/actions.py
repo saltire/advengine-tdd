@@ -1,5 +1,3 @@
-import re
-
 from selector import selector
 from tests import BaseTests
 
@@ -12,15 +10,9 @@ class BaseActions:
 
 class Actions(BaseActions):
     def message(self, *mids):
-        """Return the messages matching the given IDs."""
-        def sub_words(match):
-            wnum = int(match.group(1)) - 1
-            return (self.state.current_turn.words[wnum]
-                    if len(self.state.current_turn.words) > wnum
-                    else '')
-
-        return [re.sub('%(\d+)', sub_words, self.state.messages[mid])
-                for mid in mids]
+        """Return the messages matching the given IDs,
+        substituting numerical wildcards if necessary."""
+        return [self.state.sub_words(self.state.messages[mid]) for mid in mids]
 
 
     def pause(self):
@@ -88,9 +80,12 @@ class Actions(BaseActions):
     def move(self, direction):
         """If the current room has an exit in the given direction,
         move to the room at that exit."""
+        direction = self.state.sub_words(direction)
         try:
-            self.state.current_room = self.state.rooms[self.state.current_room.exits[direction]]
-        except KeyError:
+            self.state.current_room = next(self.state.rooms[rid] for exdir, rid
+                                           in self.state.current_room.exits.iteritems()
+                                           if self.state.lexicon.words_match(direction, exdir))
+        except StopIteration:
             pass
 
 
