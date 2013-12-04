@@ -68,7 +68,7 @@ class State:
 
     def noun_locs(self, *nouns):
         """Return all nouns or rooms containing any of the given nouns."""
-        return set(obj for noun, obj in self.locations if noun in nouns)
+        return set(loc for noun, loc in self.locations if noun in nouns)
 
 
     def add_noun(self, noun, *locs):

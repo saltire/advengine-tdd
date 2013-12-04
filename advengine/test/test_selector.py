@@ -86,3 +86,13 @@ class Test_Selector(unittest.TestCase):
         self.assertItemsEqual(self.actions.select_entities('throneroom|table:noun_starts_with_t'),
                               [self.table])
 
+
+    def test_asterisk_or_blank_selects_all_items_of_selector_type(self):
+        self.assertItemsEqual(self.actions.select_nouns('*'), self.actions.select_nouns(''),
+                              [self.table, self.chair])
+
+
+    def test_asterisk_or_blank_before_filter_selects_all_items_that_pass_filter(self):
+        self.assertItemsEqual(self.actions.select_entities(':starts_with_t'),
+                              self.actions.select_entities('*:starts_with_t'),
+                              [self.table, self.throneroom])

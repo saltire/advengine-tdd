@@ -53,6 +53,12 @@ class Test_Tests(unittest.TestCase):
         self.assertFalse(self.tests.var('one', '<0'))
         self.assertTrue(self.tests.var('one', '>0'))
         self.assertFalse(self.tests.var('one', '>2'))
+        self.assertTrue(self.tests.var('one', '>=0'))
+        self.assertTrue(self.tests.var('one', '>=1'))
+        self.assertFalse(self.tests.var('one', '>=2'))
+        self.assertFalse(self.tests.var('one', '<=0'))
+        self.assertTrue(self.tests.var('one', '<=1'))
+        self.assertTrue(self.tests.var('one', '<=2'))
 
 
     def test_room(self):
@@ -80,6 +86,18 @@ class Test_Tests(unittest.TestCase):
         self.assertFalse(self.tests.exitexists('%2'))
 
 
+    def test_carrying_with_no_arguments_returns_true_if_carrying_anything(self):
+        self.assertTrue(self.tests.carrying())
+        self.state.remove_noun(self.state.nouns['wallet'], 'INVENTORY')
+        self.assertFalse(self.tests.carrying())
+
+
+    def test_wearing_with_no_arguments_returns_true_if_wearing_anything(self):
+        self.assertTrue(self.tests.wearing())
+        self.state.remove_noun(self.state.nouns['hat'], 'WORN')
+        self.assertFalse(self.tests.wearing())
+
+
     def test_carrying(self):
         self.assertTrue(self.tests.carrying('wallet'))
         self.assertFalse(self.tests.carrying('blender'))
@@ -103,14 +121,9 @@ class Test_Tests(unittest.TestCase):
         self.assertTrue(self.tests.nounloc('money', 'wallet'))
 
 
-    def test_ininv(self):
-        self.assertTrue(self.tests.ininv('wallet'))
-        self.assertFalse(self.tests.ininv('blender'))
-
-
-    def test_worn(self):
-        self.assertTrue(self.tests.worn('hat'))
-        self.assertFalse(self.tests.worn('blender'))
+    def test_wearing(self):
+        self.assertTrue(self.tests.wearing('hat'))
+        self.assertFalse(self.tests.wearing('blender'))
 
 
     def test_inroom(self):

@@ -16,7 +16,7 @@ class selector:
         selected set of objects, and call the method with the new arguments."""
         def method_with_selection(*args, **kwargs):
             newargs = list(args)
-            obj = args[0]
+            obj = args[0] # the tests or actions object
 
             # don't evaluate more selectors than there are arguments
             for i, stype in enumerate(self.stypes[:len(args) - 1]):
@@ -25,46 +25,52 @@ class selector:
                     # argument is a selector string: run selector method and filters
                     argparts = arg.split(':')
                     selector, filters = argparts[0], argparts[1:]
-                    # call selector function and get set of items
-                    argitems = getattr(self, 'select_' + stype)(obj, selector)
+
+                    # get all items of this type, or selected items if a selector is passed
+                    argitems = (getattr(self, 'all_' + stype)(obj) if selector in ('', '*')
+                                else getattr(self, 'select_' + stype)(obj, selector))
+
                     # filter argitems to get only those items that pass each filter test given
                     for fname in filters:
-                        fmethod = getattr(obj.tests, fname)
-                        argitems = set(item for item in argitems if fmethod(set([item])))
+                        fmethod = getattr(obj.tests, fname, None)
+                        # only run filter if it has a single selector with the same type as this
+                        if len(getattr(fmethod, 'stypes', [])) == 1:
+                            argitems = set(item for item in argitems if fmethod(set([item])))
+
                     # replace selector argument with list of items
                     newargs[i + 1] = argitems
 
                 else:
                     # argument is a set of items: filter by item type
-                    newargs[i + 1] = getattr(self, 'filter_' + stype)(obj, arg)
+                    newargs[i + 1] = arg & getattr(self, 'all_' + stype)(obj)
 
 
             return method(*newargs, **kwargs)
 
+        # these are used when checking if we can use the method as a filter
+        method_with_selection.stypes = self.stypes
+
         return method_with_selection
 
 
-    def filter_noun(self, obj, items):
-        """Given a set of items, return the nouns."""
-        return set(item for item in items if item in obj.state.nouns.itervalues())
+    def all_noun(self, obj):
+        """Return all nouns."""
+        return set(obj.state.nouns.itervalues())
 
 
-    def filter_room(self, obj, items):
-        """Given a set of items, return the rooms."""
-        return set(item for item in items if item in obj.state.rooms.itervalues())
+    def all_room(self, obj):
+        """Return all rooms."""
+        return set(obj.state.rooms.itervalues())
 
 
-    def filter_entity(self, obj, items):
-        """Given a set of items, return the nouns and rooms."""
-        return set(item for item in items if (item in obj.state.nouns.itervalues()
-                                              or item in obj.state.rooms.itervalues()))
+    def all_entity(self, obj):
+        """Return all nouns and rooms."""
+        return self.all_noun(obj) | self.all_room(obj)
 
 
-    def filter_location(self, obj, items):
-        """Given a set of items, return the locations."""
-        return set(item for item in items if (item in obj.state.nouns.itervalues()
-                                              or item in obj.state.rooms.itervalues()
-                                              or item in ('INVENTORY', 'WORN')))
+    def all_location(self, obj, items):
+        """Return all locations."""
+        return self.all_entity(obj) | set('INVENTORY', 'WORN')
 
 
     def select_noun(self, obj, selector):

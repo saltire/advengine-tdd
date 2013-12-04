@@ -38,8 +38,8 @@ class Actions(BaseActions):
 
 
     @selector('location')
-    def showcontents(self, locs=None, text='name', indent=False, in_msg=None, worn_msg=None,
-                     recursive=False):
+    def showcontents(self, locs=None, text='name', noun_msg=None, in_msg=None, worn_msg=None,
+                     recursive=False, indent=False, contains_msg=None):
         """Return a listing of all nouns at the given location.
         If no location is passed, use the current room.
         Contains a subfunction that can be executed recursively."""
@@ -50,6 +50,9 @@ class Actions(BaseActions):
             for noun in self.state.nouns_at_loc(*locs):
                 if noun.is_visible:
                     name = getattr(noun, text)
+                    if noun_msg:
+                        # use a message instead of the plain name
+                        name = self.state.messages[noun_msg].replace('%NOUN', name)
                     if indent and level > 0:
                         # indent the item to show that it is contained in another noun
                         name = '\t' * level + name
@@ -61,7 +64,10 @@ class Actions(BaseActions):
                         name += self.state.messages[worn_msg]
                     items.append(name)
 
-                    if recursive:
+                    if recursive and self.state.nouns_at_loc(noun):
+                        if contains_msg:
+                            items.append(self.state.messages[contains_msg]
+                                         .replace('%NOUN', noun.shortname))
                         # also list all the items contained in this noun
                         items.extend(list_contents([noun], level + 1))
 
@@ -71,10 +77,12 @@ class Actions(BaseActions):
         return '\n'.join(contents) if contents else None
 
 
-    def inv(self, text='name', indent=False, in_msg=None, worn_msg=None, recursive=False):
+    def inv(self, text='name', noun_msg=None, in_msg=None, worn_msg=None,
+            recursive=False, indent=False, contains_msg=None):
         """Return a listing of all nouns that are in the inventory
         or being worn."""
-        return self.showcontents('INVENTORY|WORN', text, indent, in_msg, worn_msg, recursive)
+        return self.showcontents('INVENTORY|WORN', text, noun_msg, in_msg, worn_msg,
+                                 recursive, indent, contains_msg)
 
 
     def move(self, direction):

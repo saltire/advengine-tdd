@@ -43,7 +43,7 @@ class Adventure:
     def do_actions(self, controls):
         """Evaluate each of the controls, run any actions and return
         any messages. End execution if 'done', end game if 'gameover'."""
-        actions = itertools.chain(*(control.get_actions(self.tests) for control in controls))
+        actions = itertools.chain(*[control.get_actions(self.tests) for control in controls])
         messages = []
 
         for action, args in actions:
@@ -59,7 +59,15 @@ class Adventure:
                 self.state.current_turn.replace_command(' '.join(args))
                 return self.do_actions(controls)
 
-            msgs = getattr(self.actions, action)(*args)
+            # treat name=value args as keyword args
+            pargs, kwargs = [], {}
+            for arg in args:
+                if '=' in arg:
+                    kwargs.update([arg.split('=', 1)])
+                else:
+                    pargs.append(arg)
+
+            msgs = getattr(self.actions, action)(*pargs, **kwargs)
             if isinstance(msgs, basestring):
                 messages.append(msgs)
             elif msgs is not None:

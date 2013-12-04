@@ -36,5 +36,12 @@ class Test_Control(unittest.TestCase):
         self.assertItemsEqual(control.get_actions(self.tests), [])
 
 
+    def test_control_returns_opposite_when_preceded_by_bang(self):
+        control = Control({'if': ['!var one 1'], 'then': 'message pass'})
+        self.assertItemsEqual(control.get_actions(self.tests), [])
+        control = Control({'if': ['!var one 2'], 'then': 'message pass'})
+        self.assertItemsEqual(control.get_actions(self.tests), [('message', ['pass'])])
+
+
     def test_control_raises_type_error_when_not_passed_string_or_dict(self):
         self.assertRaises(TypeError, Control, ['action', 'action'])

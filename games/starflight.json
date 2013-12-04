@@ -573,6 +573,7 @@
         "nothinghappens": "Nothing happens.", 
         "carrying": "You are carrying:", 
         "invitem": "%NOUN.", 
+        "invinside": " (in the %NOUN)", 
         "invitemworn": "%NOUN (being worn).", 
         "itemcontains": "The %NOUN contains:", 
         "taken": "Taken.", 
@@ -856,8 +857,8 @@
             }, 
             {
                 "if": [
-                    ["command unlock panel", "room e_bridge", "!ininv keys", "var panel 0"], 
-                    ["command unlock box", "present box", "!ininv keys", "var box 0"]
+                    ["command unlock panel", "room e_bridge", "!carrying keys", "var panel 0"], 
+                    ["command unlock box", "present box", "!carrying keys", "var box 0"]
                 ], 
                 "then": ["message nokeys", "done"]
             }, 
@@ -906,19 +907,19 @@
                 "then": ["message alreadycut", "done"]
             }, 
             {
-                "if": ["command cut pouch with knife", "!ininv knife"], 
+                "if": ["command cut pouch with knife", "!carrying knife"], 
                 "then": ["message donthave", "done"]
             }, 
             {
-                "if": ["command cut pouch", "!ininv knife"], 
+                "if": ["command cut pouch", "!carrying knife"], 
                 "then": ["message withwhat", "done"]
             }, 
             {
-                "if": ["command cut pouch", "ininv knife", "present pouch"], 
+                "if": ["command cut pouch", "carrying knife", "present pouch"], 
                 "then": ["setvar pouch 1", "setnoundesc pouch nothingunusual", "sendtonoun crowbar pouch", "message cutpouch", "done"]
             }, 
             {
-                "if": ["command unlock panel", "room e_bridge", "ininv keys", "var panel 0"], 
+                "if": ["command unlock panel", "room e_bridge", "carrying keys", "var panel 0"], 
                 "then": ["setvar panel 1", "message unlocked", "done"]
             }, 
             {
@@ -927,7 +928,7 @@
             }, 
             {
                 "if": [
-                    ["command pry panel with crowbar", "room e_bridge", "!ininv crowbar"], 
+                    ["command pry panel with crowbar", "room e_bridge", "!carrying crowbar"], 
                     ["command pry panel with crowbar", "room e_bridge", "contained crowbar"]
                 ], 
                 "then": ["message donthave", "done"]
@@ -937,12 +938,12 @@
                 "then": [
                     {
                         "if": [
-                            ["!ininv crowbar"], 
+                            ["!carrying crowbar"], 
                             ["contained crowbar"]
                         ], 
                         "then": [
                             {
-                                "if": ["ininv knife"], 
+                                "if": ["carrying knife"], 
                                 "then": ["message strongerthanknife", "done"],
                                 "else": ["message withwhat", "done"]
                             }
@@ -958,7 +959,7 @@
                 ]
             }, 
             {
-                "if": ["command unlock box", "present box", "ininv keys", "var box 0"], 
+                "if": ["command unlock box", "present box", "carrying keys", "var box 0"], 
                 "then": ["setvar box 1", "message unlocked", "done"]
             }, 
             {
@@ -977,7 +978,7 @@
                 "if": ["command go north", "room out_bridge"], 
                 "then": [
                     {
-                        "if": ["ininv spacesuit"], 
+                        "if": ["carrying spacesuit"], 
                         "then": ["message dropsuit", "done"],
                         "else": ["message squeeze"]
                     }
@@ -1012,7 +1013,7 @@
                 "then": ["sendtoinv magnet", "message takemagnet", "done"]
             }, 
             {
-                "if": ["command drop magnet", "ininv magnet"], 
+                "if": ["command drop magnet", "carrying magnet"], 
                 "then": ["sendtoroom magnet", "message dropmagnet", "done"]
             }, 
             {
@@ -1026,7 +1027,7 @@
                         "if": ["worn spacesuit"], 
                         "then": [
                             {
-                                "if": ["ininv magnet"], 
+                                "if": ["carrying magnet"], 
                                 "then": ["message clingstofingers"]
                             }, 
                             {
@@ -1162,7 +1163,7 @@
                         "then": ["message cantverb", "done"]
                     }, 
                     {
-                        "if": ["ininv %2"], 
+                        "if": ["carrying %2"], 
                         "then": ["message alreadycarrying", "done"]
                     }, 
                     "sendtoinv %2", 
@@ -1194,7 +1195,7 @@
                 "if": ["command drop *"], 
                 "then": [
                     {
-                        "if": ["ininv %2"], 
+                        "if": ["carrying %2"], 
                         "then": ["sendtoroom %2", "message dropped", "done"],
                         "else": ["message donthave", "done"]
                     }
@@ -1237,14 +1238,14 @@
                 "then": [
                     {
                         "if": ["carrying"], 
-                        "then": ["message carrying", "inv invitem carryingnothing invitemworn itemcontains", "done"],
+                        "then": ["message carrying", "inv noun_msg=invitem in_msg=invinside worn_msg=invitemworn", "done"],
                         "else": ["message carryingnothing", "done"]
                     }
                 ]
             }, 
             {
                 "if": ["command look"], 
-                "then": ["showdesc", "shownotes", "showcontents %current_room itemcontains 0", "done"]
+                "then": ["showdesc", "shownotes", "showcontents recursive=1 contains_msg=itemcontains", "done"]
             }, 
             {
                 "if": ["command go north|south|east|west|up|down"], 

@@ -1,4 +1,5 @@
 import random
+import re
 
 from selector import selector
 
@@ -18,16 +19,12 @@ class BaseTests:
 class Tests(BaseTests):
     def var(self, var, value):
         """Check if the given variable is set to the given value."""
-        try:
-            if value[0] == '<':
-                return self.state.vars.get(var) < int(value[1:])
-            elif value[0] == '>':
-                return self.state.vars.get(var) > int(value[1:])
-            elif value[0] == '=' or value.isdigit():
-                return self.state.vars.get(var) == int(value.lstrip('='))
+        match = re.match('([<>]?=*)-?(\d+)', str(value))
+        if match is None:
+            return False
 
-        except TypeError:
-            return self.state.vars.get(var) == int(value)
+        oper = '==' if match.group(1) in ('', '=') else match.group(1)
+        return eval('self.state.vars[var]{0}{1}'.format(oper, match.group(2)))
 
 
     @selector('room')
@@ -49,12 +46,6 @@ class Tests(BaseTests):
                    for exdir in self.state.current_room.exits)
 
 
-    @selector('noun')
-    def carrying(self, nouns):
-        """Check if any of the given nouns are in the inventory."""
-        return 'INVENTORY' in self.state.noun_locs(*nouns)
-
-
     @selector('noun', 'location')
     def nounloc(self, nouns, locs):
         """Check if any of the given nouns are at any of the given locations."""
@@ -62,14 +53,20 @@ class Tests(BaseTests):
 
 
     @selector('noun')
-    def ininv(self, nouns):
-        """Check if any given noun is in the inventory."""
+    def carrying(self, nouns=None):
+        """Check if any given noun is in the inventory,
+        or if any noun at all is in the inventory if none specified."""
+        if nouns is None:
+            return bool(self.state.nouns_at_loc('INVENTORY'))
         return 'INVENTORY' in self.state.noun_locs(*nouns)
 
 
     @selector('noun')
-    def worn(self, nouns):
-        """Check if any given noun is in the inventory."""
+    def wearing(self, nouns=None):
+        """Check if any given noun is being worn,
+        or if any noun at all is being worn if none specified."""
+        if nouns is None:
+            return bool(self.state.nouns_at_loc('WORN'))
         return 'WORN' in self.state.noun_locs(*nouns)
 
 
@@ -110,7 +107,7 @@ class Tests(BaseTests):
 
     @selector('noun')
     def wearable(self, nouns):
-        """Check if any given noun can be picked up or dropped."""
+        """Check if any given noun can be worn."""
         return any(noun.is_wearable for noun in nouns)
 
 

@@ -36,8 +36,11 @@ class Control:
         """Run each set of tests for this control, and if all tests are true
         for any set of tests, return the 'then' actions, otherwise 'else'."""
         def test_is_true(test):
+            # return opposite if test is preceded by a bang
+            neg, test = (True, test[1:]) if test[0] == '!' else (False, test)
+
             method, args = test.split()[0], test.split()[1:]
-            return getattr(tests, method)(*args)
+            return getattr(tests, method)(*args) ^ neg
 
         results = (self.true_results if not self.conds
                    or any(all(test_is_true(test) for test in cond) for cond in self.conds)
