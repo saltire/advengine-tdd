@@ -26,3 +26,8 @@ class Lexicon:
     def __getitem__(self, word):
         """Return the list of synonyms for the given word."""
         return self.synonyms.get(word, [word])
+
+
+    def get_word_sets(self):
+        """Return a set of all unique sets of synonyms."""
+        return set(frozenset(wordlist) for wordlist in self.synonyms.itervalues())
