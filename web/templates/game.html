@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Adventure Engine</title>
+		<link rel='stylesheet' type='text/css' href='static/game.css'>
+		<script type='text/javascript' type='text/css' src='static/jquery-1.11.0.min.js'></script>
+		<script type='text/javascript' type='text/css' src='static/game.js'></script>
+	</head>
+	<body>
+		<div>
+			<h1>Rooms</h1>
+			<ul>
+			{% for rid, room in rooms %}
+				<li>
+					<h3>{{ room.name }}</h3>
+					<div class='details'>
+						Start? <input type='checkbox'{% if room.is_start %} checked='checked'{% endif %}>
+						<div>{{ room.description }}</div>
+						<dl>
+						{% for ex, dest in room.exits.items()|sort %}
+							<dt>{{ ex }}</dt><dd>{{ dest }}</dd>
+						{% endfor %}
+						</dl>
+					</div>
+				</li>
+			{% endfor %}
+			</ul>
+		</div>
+		<div>
+			<h1>Nouns</h1>
+			<ul>
+			{% for nid, noun in nouns %}
+				<li>
+					<h3>{{ nid }}</h3>
+					<div class='details'>
+						<div>{{ noun.shortname }}</div>
+						<div>{{ noun.name }}</div>
+						<div>{{ noun.shortdesc }}</div>
+						<div>{{ noun.description }}</div>
+						<ul>
+						{% for loc in noun.initial_locs()|sort %}
+							<li>{{ loc }}</li>
+						{% endfor %}
+						</ul>
+					</div>
+				</li>
+			{% endfor %}
+			</ul>
+		</div>
+		<div>
+			<h1>Variables</h1>
+			<dl>
+			{% for var, value in vars.items() %}
+				<dt>{{ var }}</dt><dd>{{ value }}</dd>
+			{% endfor %}
+			</dl>
+		</div>
+		<div>
+			<h1>Words</h1>
+			<ul>
+			{% for wordlist in words %}
+				<li>{{ wordlist|sort|join(', ') }}</li>
+			{% endfor %}
+			</ul>
+		</div>
+	</body>
+</html>
