@@ -15,7 +15,7 @@ class State:
         # a junction list of nouns and locations
         self.locations = set()
         for noun in self.nouns.itervalues():
-            self.locations |= set((noun, self.locations_by_id(lid)) for lid in noun.initial_locs())
+            self.locations |= set((noun, self.locations_by_id(lid)) for lid in noun.initial_locs)
 
         self.current_turn = None
 

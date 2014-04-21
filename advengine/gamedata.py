@@ -22,9 +22,9 @@ class GameData:
             pass
 
         # read data from dict
-        self.nouns = {nid: Noun(ndata) for nid, ndata in data.get('nouns', {}).iteritems()}
-        self.rooms = {rid: Room(rdata) for rid, rdata in data.get('rooms', {}).iteritems()}
-        self.vars = {var: int(value) for var, value in data.get('vars', {}).iteritems()}
+        self.nouns = odict((nid, Noun(ndata)) for nid, ndata in data.get('nouns', {}).iteritems())
+        self.rooms = odict((rid, Room(rdata)) for rid, rdata in data.get('rooms', {}).iteritems())
+        self.vars = odict((var, int(value)) for var, value in data.get('vars', {}).iteritems())
         self.messages = data.get('messages', {})
         self.lexicon = Lexicon(data.get('words', []))
         self.controls = {sid: ([Control(cdata) for cdata in stage]
