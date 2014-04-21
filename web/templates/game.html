@@ -38,7 +38,7 @@
 						<div>{{ noun.shortdesc }}</div>
 						<div>{{ noun.description }}</div>
 						<ul>
-						{% for loc in noun.initial_locs()|sort %}
+						{% for loc in noun.initial_locs|sort %}
 							<li>{{ loc }}</li>
 						{% endfor %}
 						</ul>
