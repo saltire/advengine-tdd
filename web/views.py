@@ -28,7 +28,7 @@ def get_gamedata(game='starflight'):
 
     # dicts can't be ordered in javascript, so we convert the container into a list (JS array)
     # we only want the attributes of the objects, so we convert each one into a dict (JS object)
-    def convert_to_dicts(objs):
+    def json_ordered_array(objs):
         # we're now indexing by number instead of id, so add the id to each dict as an attribute
         return [dict([('_id', oid)] +
                      # we can't serialize sets as json, so convert set attributes into sorted lists
@@ -36,11 +36,12 @@ def get_gamedata(game='starflight'):
                       for attr, val in obj.__dict__.iteritems()])
                      for oid, obj in objs.iteritems()]
 
-    return jsonify(nouns=convert_to_dicts(gdata.nouns),
-                   rooms=convert_to_dicts(gdata.rooms),
+    return jsonify(nouns=json_ordered_array(gdata.nouns),
+                   rooms=json_ordered_array(gdata.rooms),
                    vars=gdata.vars,
                    words=sorted(sorted(wordlist) for wordlist in gdata.lexicon.get_word_sets()),
-                   sort_keys=False)
+                   controls=gdata.controls,
+                   )
 
 
 @app.route('/flask')
