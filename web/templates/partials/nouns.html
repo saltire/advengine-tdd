@@ -1,0 +1,15 @@
+			<h1>Nouns</h1>
+			<ul class='objects'>
+				<li ng-repeat='noun in nouns'>
+					<h4>{{noun._id}}</h4>
+					<h3>{{noun.shortname}}</h3>
+					<div class='details'>
+						<div>{{noun.name}}</div>
+						<div>{{noun.shortdesc}}</div>
+						<div>{{noun.description}}</div>
+						<ul>
+							<li ng-repeat='loc in noun.initial_locs'>{{loc}}</li>
+						</ul>
+					</div>
+				</li>
+			</ul>

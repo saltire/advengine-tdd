@@ -10,50 +10,8 @@
 	</head>
 	<body ng-controller='AdvControl'>
 		<div>
-			<h1>Rooms</h1>
-			<ul>
-				<li ng-repeat='room in rooms'>
-					<h3>{{room.name}}</h3>
-					<div class='details'>
-						Start? <input type='checkbox' ng-checked='room.is_start'>
-						<div>{{room.description}}</div>
-						<dl>
-							<dt ng-repeat-start='(ex, dest) in room.exits'>{{ex}}</dt>
-							<dd ng-repeat-end>{{dest}}</dd>
-						</dl>
-					</div>
-				</li>
-			</ul>
+			<p ng-repeat='view in views' ng-click='switchView(view)' ng-class='{selected: view == currentView}'>{{view}}</p>
 		</div>
-		<div>
-			<h1>Nouns</h1>
-			<ul>
-				<li ng-repeat='noun in nouns'>
-					<h3>{{noun._id}}</h3>
-					<div class='details'>
-						<div>{{noun.shortname}}</div>
-						<div>{{noun.name}}</div>
-						<div>{{noun.shortdesc}}</div>
-						<div>{{noun.description}}</div>
-						<ul>
-							<li ng-repeat='loc in noun.initial_locs'>{{loc}}</li>
-						</ul>
-					</div>
-				</li>
-			</ul>
-		</div>
-		<div>
-			<h1>Variables</h1>
-			<dl>
-				<dt ng-repeat-start='(var, value) in vars'>{{var}}</dt>
-				<dd ng-repeat-end>{{value}}</dd>
-			</dl>
-		</div>
-		<div>
-			<h1>Words</h1>
-			<ul>
-				<li ng-repeat='wordlist in words'>{{wordlist.join(', ')}}</li>
-			</ul>
-		</div>
+		<div ng-include='viewTemplate'></div>
 	</body>
 </html>

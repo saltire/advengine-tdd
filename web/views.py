@@ -15,6 +15,11 @@ def index():
     return make_response(open('web/templates/game-ng.html').read())
 
 
+@app.route('/partials/<template>')
+def get_partial(template):
+    return make_response(open('web/templates/partials/{}.html'.format(template)).read())
+
+
 @app.route('/gamedata')
 @app.route('/gamedata/<game>')
 def get_gamedata(game='starflight'):

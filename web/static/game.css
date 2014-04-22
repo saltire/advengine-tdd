@@ -3,8 +3,11 @@
 body { margin: 0; background: #545059; color: #f2dae6; font-family: 'Open Sans'; }
 body > div { float: left; width: 300px; margin: 20px; padding: 0 10px; background: #3c393f; }
 
+p { cursor: pointer; text-transform: capitalize; }
+p.selected { font-weight: bold; }
+
 h1 { margin: 0 0 .5em; }
-h3 { font-weight: normal; cursor: pointer; }
+h3, h4 { margin: 0; font-weight: normal; cursor: pointer; }
 
 ul { padding: 0; list-style: none; }
 li { margin: 0 0 10px; }
@@ -13,3 +16,5 @@ dt { float: left; }
 dd { margin: 0; text-align: right; }
 
 .details { display: none; }
+
+.word { display: inline-block; margin-right: 5px; }
