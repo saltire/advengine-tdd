@@ -20,7 +20,7 @@ class Adventure:
 
     def start_game(self):
         """Run any actions that occur before the first turn."""
-        return self.do_actions(self.controls.get('before_game', []))
+        return self.do_actions('before_game')
 
 
     def do_command(self, command):
@@ -31,10 +31,10 @@ class Adventure:
         messages = []
 
         for stage in ('before_turn', 'during_turn', 'after_turn'):
-            messages += self.do_actions(self.controls.get(stage, []))
+            messages += self.do_actions(stage)
 
             if self.game_over:
-                messages += self.do_actions(self.controls.get('after_game', []))
+                messages += self.do_actions('after_game')
                 break
 
         return messages
@@ -50,16 +50,16 @@ class Adventure:
             method, args = test.split()[0], test.split()[1:]
             return getattr(self.tests, method)(*args) ^ neg
 
-        results = (control['true_results'] if not control['conds']
-                   or any(all(test_is_true(test) for test in cond) for cond in control['conds'])
-                   else control['false_results'])
+        results = (control['then'] if not control['if']
+                   or any(all(test_is_true(test) for test in cond) for cond in control['if'])
+                   else control['else'])
 
         actions = []
 
         for result in results:
             if isinstance(result, dict):
                 # run tests for this control and return its actions
-                actions.extend(self.get_control_actions(control))
+                actions.extend(self.get_control_actions(result))
             else:
                 # return the actions
                 action, args = result.split()[0], result.split()[1:]
@@ -68,10 +68,11 @@ class Adventure:
         return actions
 
 
-    def do_actions(self, controls):
+    def do_actions(self, stage):
         """Evaluate each of the controls, run any actions and return
         any messages. End execution if 'done', end game if 'gameover'."""
-        actions = itertools.chain(*[control.get_actions(self.tests) for control in controls])
+        actions = itertools.chain(*[self.get_control_actions(control)
+                                    for control in self.controls.get(stage, [])])
         messages = []
 
         for action, args in actions:
@@ -85,7 +86,7 @@ class Adventure:
             elif action == 'replace':
                 # replace the input command and restart execution
                 self.state.current_turn.replace_command(' '.join(args))
-                return self.do_actions(controls)
+                return self.do_actions(stage)
 
             # treat name=value args as keyword args
             pargs, kwargs = [], {}

@@ -14,6 +14,7 @@ class MockActions(BaseActions):
 class MockAdventure(Adventure):
     def __init__(self, controls):
         Adventure.__init__(self, {'rooms': {'start': {'start': True}},
+                                  'vars': {'one': 1, 'two': 2},
                                   'controls': controls},
                            BaseTests, MockActions)
 
@@ -85,3 +86,22 @@ class Test_Adventure(unittest.TestCase):
                                              {'if': 'command go north',
                                               'then': 'replace %2'}]})
         self.assertEqual(adv.do_command('go north'), ['Pass'])
+
+
+    def test_control_returns_actions_when_if_is_list_of_true(self):
+        adv = MockAdventure({'during_turn': {'if': ['command north', 'command north'],
+                                             'then': 'message pass'}})
+        self.assertEqual(adv.do_command('north'), ['Pass'])
+
+
+    def test_control_doesnt_return_actions_when_if_is_list_with_false(self):
+        adv = MockAdventure({'during_turn': {'if': ['command north', 'command south'],
+                                             'then': 'message pass'}})
+        self.assertEqual(adv.do_command('north'), [])
+
+
+    def test_control_returns_opposite_when_preceded_by_bang(self):
+        adv = MockAdventure({'during_turn': {'if': '!command north', 'then': 'message pass'}})
+        self.assertEqual(adv.do_command('north'), [])
+        adv = MockAdventure({'during_turn': {'if': '!command south', 'then': 'message pass'}})
+        self.assertEqual(adv.do_command('north'), ['Pass'])

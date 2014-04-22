@@ -1,7 +1,6 @@
 from collections import OrderedDict as odict
 import json
 
-from control import Control
 from lexicon import Lexicon
 from noun import Noun
 from room import Room
@@ -27,10 +26,10 @@ class GameData:
         self.vars = odict((var, int(value)) for var, value in data.get('vars', {}).iteritems())
         self.messages = data.get('messages', {})
         self.lexicon = Lexicon(data.get('words', []))
-        self.controls = {sid: ([Control(cdata) for cdata in stage]
-                               if not isinstance(stage, (basestring, dict))
-                               else [Control(stage)])
-                         for sid, stage in data.get('controls', {}).iteritems()}
+        self.controls = odict((stage, ([self.parse_control(cdata) for cdata in scontrols]
+                                       if not isinstance(scontrols, (basestring, dict))
+                                       else [self.parse_control(scontrols)]))
+                              for stage, scontrols in data.get('controls', {}).iteritems())
 
         self.validate()
 
@@ -57,6 +56,41 @@ class GameData:
             raise GameDataError(3)
         elif len(start) > 1:
             raise GameDataError(4, ', '.join(start))
+
+
+    def parse_control(self, cdata):
+        # check that control is a dict or an action string
+        if isinstance(cdata, basestring):
+            cdata = {'then': cdata}
+        elif not isinstance(cdata, dict):
+            raise TypeError
+
+        # parse conditions (if...) into a list of lists of test strings
+        conds = cdata.get('if', [])
+        if isinstance(conds, basestring):
+            # single test string - embed it in list of lists
+            conds = [[conds]]
+        elif len(conds) and all(isinstance(cond, basestring) for cond in conds):
+            # list of test strings - embed it in list
+            conds = [conds]
+        else:
+            # list of lists of test strings
+            conds = conds
+
+        # parse results (then/else...) into a list of controls or actions
+        def parse_results(results):
+            if isinstance(results, (basestring, dict)):
+                # single action string or control - embed it in list
+                results = [results]
+
+            # add each result as a new control or an action
+            return [self.parse_control(result) if isinstance(result, dict) else result
+                    for result in results]
+
+        return {'if': conds,
+                'then': parse_results(cdata.get('then', [])),
+                'else': parse_results(cdata.get('else', [])),
+                }
 
 
 class GameDataError(Exception):
