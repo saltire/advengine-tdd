@@ -18,6 +18,12 @@ class MockTests(BaseTests):
         return any(entity for entity in entities if entity.name.lower()[0] == 't')
 
 
+    @selector('entity', 'entity')
+    def name_longer_than(self, entities1, entities2):
+        return any(any(len(entity1.name) > len(entity2.name) for entity1 in entities1)
+                   for entity2 in entities2)
+
+
 class MockActions(BaseActions):
     @selector('noun')
     def select_nouns(self, nouns):
@@ -101,4 +107,19 @@ class Test_Selector(unittest.TestCase):
         self.assertItemsEqual(self.actions.select_entities(':starts_with_t'),
                               self.actions.select_entities('*:starts_with_t'),
                               [self.table, self.throneroom])
+
+
+    def test_two_argument_filter_takes_second_selector_in_parens(self):
+        self.assertItemsEqual(self.actions.select_entities(':name_longer_than(dungeon)'),
+                              [self.throneroom])
+
+
+    def test_two_argument_filter_is_ignored_if_no_parens(self):
+        self.assertItemsEqual(self.actions.select_entities(':name_longer_than'),
+                              [self.table, self.chair, self.throneroom, self.dungeon])
+
+
+    def test_two_argument_filter_uses_all_for_blank_second_selector(self):
+        self.assertItemsEqual(self.actions.select_entities(':name_longer_than()'),
+                              [self.throneroom, self.dungeon])
 

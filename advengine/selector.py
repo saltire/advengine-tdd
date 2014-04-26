@@ -31,11 +31,26 @@ class selector:
                                 else getattr(self, 'select_' + stype)(obj, selector))
 
                     # filter argitems to get only those items that pass each filter test given
-                    for fname in filters:
+                    # items will of course be filtered by the selector type of the filter method
+                    for fstring in filters:
+                        # skip filters that don't match 'filter_name' or 'filter_name(selector)'
+                        m = re.match('^(\w*)(?:\(([\w%\|\*]*)\))?$', fstring)
+                        try:
+                            fname, fsel2 = m.group(1), m.group(2)
+                        except AttributeError:
+                            continue
+
                         fmethod = getattr(obj.tests, fname, None)
-                        # only run filter if it has a single selector with the same type as this
-                        if len(getattr(fmethod, 'stypes', [])) == 1:
+                        fargcount = len(getattr(fmethod, 'stypes', []))
+
+                        if fargcount == 1:
+                            # run one-argument filter on items
                             argitems = set(item for item in argitems if fmethod(set([item])))
+
+                        elif fargcount == 2 and fsel2 is not None:
+                            # run two-argument filter, using items and second argument
+                            argitems = set(item for item in argitems
+                                           if fmethod(set([item]), fsel2))
 
                     # replace selector argument with list of items
                     newargs[i + 1] = argitems
@@ -43,7 +58,6 @@ class selector:
                 else:
                     # argument is a set of items: filter by item type
                     newargs[i + 1] = arg & getattr(self, 'all_' + stype)(obj)
-
 
             return method(*newargs, **kwargs)
 

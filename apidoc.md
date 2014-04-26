@@ -27,11 +27,14 @@ and the test or action would be performed on that noun or nouns.
 
 A *filter* consists of a colon (`:`) followed by the name of an existing test,
 and is used to narrow down the list of objects identified by a selector.
-Any test that takes a single selector argument can be used as a filter.
+Any test that takes a selector argument can be used as a filter.
 Any objects matching the selector will be sent to that filter test,
 and only the ones for which the test returns true will be sent to the original test or action.
+If the filter takes more than one selector argument, the current set of objects is used
+as the first, and the second can be specified in parentheses (e.g. `:test_name(selector2)`).
 If the selector has more than one filter, each will be called in turn
 with the results of the previous one.
+
 
 
 ## Tests
