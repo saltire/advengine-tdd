@@ -40,6 +40,15 @@ class Test_Tests(unittest.TestCase):
         self.tests = Tests(self.state)
 
 
+    def test_any_returns_true_for_any_selector_with_at_least_one_result(self):
+        self.assertTrue(self.tests.any(''))
+        self.assertTrue(self.tests.any('hat'))
+        self.assertTrue(self.tests.any('hat|bedroom'))
+        self.assertTrue(self.tests.any('fake|bedroom'))
+        self.assertTrue(self.tests.any('fake|hat'))
+        self.assertFalse(self.tests.any('pass'))
+
+
     def test_variable_equals(self):
         self.assertTrue(self.tests.var('one', 1))
         self.assertTrue(self.tests.var('one', '1'))

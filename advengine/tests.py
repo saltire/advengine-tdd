@@ -17,6 +17,13 @@ class BaseTests:
 
 
 class Tests(BaseTests):
+
+    @selector('entity')
+    def any(self, entities):
+        """Check if the selector matches at least one noun or room."""
+        return any(entities)
+
+
     def var(self, var, value):
         """Check if the given variable is set to the given value."""
         match = re.match('([<>]?=*)-?(\d+)', str(value))

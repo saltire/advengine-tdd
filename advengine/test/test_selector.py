@@ -54,6 +54,11 @@ class Test_Selector(unittest.TestCase):
         self.dungeon = state.rooms['dungeon']
 
 
+    def test_blank_selector_returns_all(self):
+        self.assertItemsEqual(self.actions.select_entities(''),
+                              [self.table, self.chair, self.throneroom, self.dungeon])
+
+
     def test_selector_passes_objects_to_function(self):
         self.assertItemsEqual(self.actions.select_nouns('table'), [self.table])
 
@@ -96,3 +101,4 @@ class Test_Selector(unittest.TestCase):
         self.assertItemsEqual(self.actions.select_entities(':starts_with_t'),
                               self.actions.select_entities('*:starts_with_t'),
                               [self.table, self.throneroom])
+

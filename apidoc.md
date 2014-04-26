@@ -39,6 +39,11 @@ with the results of the previous one.
 Tests always return true or false.
 When preceded by a bang (`!`), they will return the opposite of their actual result.
 
+### **any** *entity*
+
+Check if any nouns or rooms match the selector.
+A blank selector will return all entities. This can be used in conjunction with filters.
+
 ### **var** *variable* [<>=]*value*
 
 Check if *variable* is set to the given *value*. If *value* begins with
