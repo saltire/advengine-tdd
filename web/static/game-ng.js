@@ -11,10 +11,15 @@ advApp.controller('AdvControl', ['$scope', '$http', 'game', function($scope, $ht
 	});
 
 	// set views, and allow us to switch
-	$scope.views = ['rooms', 'nouns', 'vars', 'words', 'controls'];
+	$scope.views = ['Rooms', 'Nouns', 'Variables', 'Words', 'Controls'];
 	$scope.switchView = function(view) {
 		$scope.currentView = view;
-		$scope.viewTemplate = 'partials/' + view;
+		$scope.viewTemplate = 'partials/' + view.toLowerCase();
 	};
 	$scope.switchView($scope.views[0]);
+}]);
+
+advApp.controller('LogicControl', ['$scope', function($scope) {
+	$scope.stages = ['Before Game', 'Before Turn', 'During Turn', 'After Turn', 'After Game'];
+	$scope.isControl = angular.isObject;
 }]);

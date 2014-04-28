@@ -30,7 +30,7 @@ def get_gamedata(game='starflight'):
     # we only want the attributes of the objects, so we convert each one into a dict (JS object)
     def json_ordered_array(objs):
         # we're now indexing by number instead of id, so add the id to each dict as an attribute
-        return [dict([('_id', oid)] +
+        return [dict([('id', oid)] +
                      # we can't serialize sets as json, so convert set attributes into sorted lists
                      [(attr, sorted(val) if isinstance(val, set) else val)
                       for attr, val in obj.__dict__.iteritems()])
@@ -38,9 +38,9 @@ def get_gamedata(game='starflight'):
 
     return jsonify(nouns=json_ordered_array(gdata.nouns),
                    rooms=json_ordered_array(gdata.rooms),
-                   vars=gdata.vars,
+                   vars=[{'id': var, 'value': value} for var, value in gdata.vars.iteritems()],
                    words=sorted(sorted(wordlist) for wordlist in gdata.lexicon.get_word_sets()),
-                   controls=gdata.controls,
+                   controls=gdata.controls.values(),
                    )
 
 

@@ -1,9 +1,9 @@
 			<h1>Controls</h1>
-			<ul class='objects'>
-				<li ng-repeat='stage in game.controls'>
-					<h3>{{stage}}</h3>
-					<ul class='tree'>
-						<li><!-- controls will go here recursively --></li>
-					</ul>
+			<ul class='objects' ng-controller='LogicControl'>
+				<li ng-repeat='controls in game.controls'>
+					<h3>{{stages[$index]}}</h3>
+					<div class='control-list'>
+						<div class='control-container' ng-repeat='control in controls' ng-include="'partials/control'"></li>
+					</div>
 				</li>
 			</ul>
