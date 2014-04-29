@@ -6,9 +6,9 @@
 									</div>
 								</div>
 								<div class='control-list then'>
-									<div class='control-container' ng-repeat='control in control.then' ng-include="'partials/control'"></div>
+									<div ng-repeat='control in control.then' ng-include="'partials/control'"></div>
 								</div>
 								<div class='control-list else'>
-									<div class='control-container' ng-repeat='control in control.else' ng-include="'partials/control'"></div>
+									<div ng-repeat='control in control.else' ng-include="'partials/control'"></div>
 								</div>
 							</div>

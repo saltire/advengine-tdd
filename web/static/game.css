@@ -1,7 +1,18 @@
 @import "http://fonts.googleapis.com/css?family=Open+Sans:400,700";
 
-body { margin: 0; background: #545059; color: #f2dae6; font-family: 'Open Sans'; }
-body > div { float: left; margin: 20px; padding: 0 10px; background: #3c393f; }
+/*
+
+#f2eeda
+#d8d5c3
+#bfbcac
+#8c897e
+#595750
+#3f3e39
+
+*/
+
+body { margin: 0; background: #f2eeda; color: #3f3e39; font-family: 'Open Sans'; }
+body > div { float: left; margin: 20px; padding: 0 10px; background: #bfbcac; }
 
 p { cursor: pointer; text-transform: capitalize; }
 p.selected { font-weight: bold; }
@@ -17,11 +28,14 @@ dd { margin: 0; text-align: right; }
 
 .details { display: none; }
 
-.test, .word { display: inline-block; margin-right: 5px; background: #545059; }
+.test, .word, .action { display: inline-block; margin: 0 4px 4px 0; padding: 0 2px; background: #f2eeda; }
 
-.control { margin-bottom: 5px; padding: 5px 5px 0; border: 1px dotted #f2dae6; }
+.control { margin-bottom: 5px; padding: 4px 5px 0; border: 1px solid #595750;
+	border-top-width: 10px; background: #bfbcac; }
 
-.control-list { margin-bottom: 5px; padding-left: 5px; }
-.if { border-left: 10px solid #fff; }
-.then { border-left: 10px solid #9f9; }
-.else { border-left: 10px solid #f99; }
+.cond { max-width: 400px; white-space: break-word; }
+
+.control-list { /*min-height: 22px;*/ margin-bottom: 5px; padding: 4px 5px 0; background: #d8d5c3; }
+.if { border-left: 10px solid #f2eeda; }
+.then { border-left: 10px solid #bde595; }
+.else { border-left: 10px solid #e5a295; }
