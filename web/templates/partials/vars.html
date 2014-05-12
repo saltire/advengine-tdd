@@ -1,5 +1,5 @@
 			<h1>Variables</h1>
-			<dl class='vars'>
-				<dt ng-repeat-start='var in game.vars'>{{var.id}}</dt>
-				<dd ng-repeat-end>{{var.value}}</dd>
-			</dl>
+			<div class='object vars' ng-repeat='var in game.vars'>
+				<label>{{var.id}}</label>
+				<input class='field' type='number' value='{{var.value}}'>
+			</div>

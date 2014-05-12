@@ -40,5 +40,6 @@ def get_gamedata(game='starflight'):
                    rooms=json_ordered_array(gdata.rooms),
                    vars=[{'id': var, 'value': value} for var, value in gdata.vars.iteritems()],
                    words=sorted(sorted(wordlist) for wordlist in gdata.lexicon.get_word_sets()),
+                   messages=[{'id': mid, 'msg': msg} for mid, msg in gdata.messages.iteritems()],
                    controls=gdata.controls.values(),
                    )

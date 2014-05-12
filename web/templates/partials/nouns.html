@@ -7,17 +7,17 @@
 					</h3>
 					<div class='details'>
 						<label>Name</label>
-						<div><input type='text' value='{{noun.name}}'></div>
+						<div class='field'><input type='text' value='{{noun.name}}'></div>
 						
 						<label>Short Desc</label>
-						<div><input type='text' value='{{noun.shortdesc}}'></div>
+						<div class='field'><input type='text' value='{{noun.shortdesc}}'></div>
 						
 						<label>Description</label>
-						<div><textarea>{{noun.description}}</textarea></div>
+						<div class='field'><textarea>{{noun.description}}</textarea></div>
 						
 						<label>Locations</label>
-						<div class='taglist'>
-							<span class='loc' ng-repeat='loc in noun.initial_locs'>{{loc}}</span>
+						<div class='field'>
+							<span class='tag' ng-repeat='loc in noun.initial_locs'>{{loc}}</span>
 						</div>
 					</div>
 				</li>

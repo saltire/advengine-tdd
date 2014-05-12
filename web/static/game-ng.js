@@ -8,6 +8,7 @@ advApp.constant('views', {
 	nouns: 'Nouns',
 	vars: 'Variables',
 	words: 'Words',
+	messages: 'Messages',
 	controls: 'Controls'
 });
 
@@ -34,7 +35,7 @@ advApp.controller('advController', ['$scope', '$location', '$http', 'game', 'vie
 	});
 
 	// values for nav menu
-	$scope.nav = ['rooms', 'nouns', 'vars', 'words', 'controls'];
+	$scope.nav = ['rooms', 'nouns', 'vars', 'words', 'messages', 'controls'];
 	$scope.vnames = views;
 	$scope.isCurrent = function(view) {
 		return view == $location.path().slice(1);
@@ -59,5 +60,8 @@ advApp.controller('wordsController', ['$scope', function($scope) {
 advApp.controller('controlsController', ['$scope', function($scope) {
 	$scope.stages = ['Before Game', 'Before Turn', 'During Turn', 'After Turn', 'After Game'];
 	$scope.isControl = angular.isObject;
+}]);
+
+advApp.controller('messagesController', ['$scope', function($scope) {
 }]);
 

@@ -1,19 +1,16 @@
 @import "http://fonts.googleapis.com/css?family=Open+Sans:400,700";
 
 /*
-
 #f2eeda
 #d8d5c3
 #bfbcac
 #8c897e
 #595750
 #3f3e39
-
 */
 
-body { margin: 0; background: #f2eeda; color: #3f3e39; font-family: 'Open Sans'; font-size: 16px; 
-	line-height: 24px; }
-body > div { float: left; margin: 20px; padding: 0 10px; background: #bfbcac; }
+body { margin: 0; background: #f2eeda; color: #3f3e39; font-family: 'Open Sans'; font-size: 16px; }
+body > div { float: left; margin: 20px; padding: 0 10px; border-radius: 5px; background: #bfbcac; }
 
 a { color: #595750; }
 a:hover, a:focus { color: #3f3e39; }
@@ -26,26 +23,36 @@ li { margin: 0 0 10px; }
 dt { float: left; }
 dd { margin: 0; text-align: right; }
 
-.nav a { display: block; margin: 1em 0; text-decoration: none; }
+label { color: #595750; font-size: 13px; }
+input, select, textarea { width: 300px; margin-bottom: 5px; border: 0; background: #f2eeda;
+	font-family: 'Open Sans'; font-size: 16px; }
+textarea { resize: vertical; }
+
+.nav a { display: block; width: 80px; margin: 1em 0; text-decoration: none; }
 .nav a.selected { font-weight: bold; }
 
-/*.objects .details, .control-item { display: none; }*/
+.startroom { float: right; }
+.startroom .obj-id { float: left; font-size: 13px; color: #595750; }
 
 .objects h3 { background: #595750; margin: 0; padding: 2px 8px; color: #f2eeda; font-size: 18px; 
 	font-weight: normal; cursor: pointer; }
 .objects h3 .obj-id { display: block; font-size: 13px; line-height: 13px; }
-.objects .details { padding: 5px; background: #d8d5c3; }
-.objects .details label { float: left; width: 75px; font-size: 13px; }
-.objects .details div,
-.objects .details dl { min-height: 24px; margin: 0 0 5px 100px; }
+.objects .details { margin-bottom: 0; }
 
-input, textarea { width: 300px; border: 0; background: #f2eeda; font-family: 'Open Sans';
-	font-size: 16px; }
-textarea { resize: vertical; }
+.details, .object { margin-bottom: 10px; padding: 5px; background: #d8d5c3; line-height: 24px; }
+.details label { float: left; width: 75px; }
+.details .field { min-height: 24px; margin-left: 100px; }
 
-.wordlist { margin-bottom: 10px; }
+.object { overflow: auto; }
+.object .field { float: right; margin-bottom: 0; }
 
-.taglist span, .test, .action { display: inline-block; margin-right: 4px; padding: 0 2px;
+.vars { width: 200px; }
+.vars .field { width: 98px; text-align: center; }
+
+.messages { width: 500px; }
+.messages .field { width: 398px; }
+
+.tag { display: inline-block; margin-right: 4px; padding: 0 2px;
 	background: #f2eeda; }
 
 .control { margin-bottom: 5px; border: 1px solid #595750;
@@ -56,7 +63,9 @@ textarea { resize: vertical; }
 
 .cond { max-width: 400px; white-space: break-word; }
 
-.control-list { /*min-height: 22px;*/ margin-bottom: 5px; padding: 4px 5px 0; background: #d8d5c3; }
+.control-list { margin-bottom: 5px; padding: 4px 5px 0; background: #d8d5c3; }
 .if { border-left: 10px solid #f2eeda; }
 .then { border-left: 10px solid #bde595; }
 .else { border-left: 10px solid #e5a295; }
+
+/*.objects .details, .control-item { display: none; }*/

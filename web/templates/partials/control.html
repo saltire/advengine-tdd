@@ -1,10 +1,10 @@
-							<span class='action' ng-if='!isControl(control)'>{{control}}</span>
+							<span class='tag' ng-if='!isControl(control)'>{{control}}</span>
 							<div class='control' ng-if='isControl(control)'>
 								<div class='control-header'></div>
 								<div class='control-inner'>
 									<div class='control-list if'>
 										<div class='control-item cond' ng-repeat='cond in control.if'>
-											<span class='test' ng-repeat='test in cond'>{{test}}</span>
+											<span class='tag' ng-repeat='test in cond'>{{test}}</span>
 										</div>
 									</div>
 									<div class='control-list then'>
