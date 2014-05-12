@@ -1,4 +1,3 @@
-			<h1>Nouns</h1>
 			<ul class='objects'>
 				<li ng-repeat='noun in game.nouns'>
 					<h3>
@@ -7,13 +6,13 @@
 					</h3>
 					<div class='details'>
 						<label>Name</label>
-						<div class='field'><input type='text' value='{{noun.name}}'></div>
+						<input class='field' type='text' ng-model='noun.name'>
 						
 						<label>Short Desc</label>
-						<div class='field'><input type='text' value='{{noun.shortdesc}}'></div>
+						<input class='field' type='text' ng-model='noun.shortdesc'>
 						
 						<label>Description</label>
-						<div class='field'><textarea>{{noun.description}}</textarea></div>
+						<textarea class='field' ng-model='noun.description'></textarea>
 						
 						<label>Locations</label>
 						<div class='field'>

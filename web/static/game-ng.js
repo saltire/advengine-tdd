@@ -11,6 +11,7 @@ advApp.constant('views', {
 	messages: 'Messages',
 	controls: 'Controls'
 });
+advApp.value('gamedata', {});
 
 advApp.config(['$routeProvider', 'views', function($routeProvider, views) {
 	$routeProvider.when('/', {
@@ -37,8 +38,9 @@ advApp.controller('advController', ['$scope', '$location', '$http', 'game', 'vie
 	// values for nav menu
 	$scope.nav = ['rooms', 'nouns', 'vars', 'words', 'messages', 'controls'];
 	$scope.vnames = views;
-	$scope.isCurrent = function(view) {
-		return view == $location.path().slice(1);
+	
+	$scope.current = function() {
+		return $location.path().slice(1);
 	}
 }]);
 
@@ -46,6 +48,24 @@ advApp.controller('homeController', ['$scope', function($scope) {
 }]);
 
 advApp.controller('roomsController', ['$scope', function($scope) {
+	var roomList = $scope.$parent.game.rooms;
+	var rooms = {};
+	
+	$scope.startRoom = '';
+	for (i in roomList) {
+		var room = roomList[i];
+		
+		rooms[room.id] = room;
+		
+		// find first room with start flag set to true
+		if ($scope.startRoom == '' && room.is_start) {
+			$scope.startRoom = room.id;
+		}
+	}
+	
+	$scope.getLabel = function(rid) {
+		return rooms[rid].name || rooms[rid].id;
+	}
 }]);
 
 advApp.controller('nounsController', ['$scope', function($scope) {

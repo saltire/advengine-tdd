@@ -1,5 +1,4 @@
-			<h1>Messages</h1>
-			<div class='object messages' ng-repeat='msg in game.messages'>
+			<div class='details' ng-repeat='msg in game.messages'>
 				<label>{{msg.id}}</label>
-				<textarea class='field'>{{msg.msg}}</textarea>
+				<textarea class='field' ng-model='msg.msg'></textarea>
 			</div>

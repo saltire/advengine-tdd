@@ -10,9 +10,15 @@
 		<script type='text/javascript' type='text/css' src='static/effects.js'></script>
 	</head>
 	<body ng-controller='advController'>
-		<div class='nav'>
-			<a ng-repeat='view in nav' ng-class='{selected: isCurrent(view)}' href='#{{view}}'>{{vnames[view]}}</a>
+		<div class='header'>
+			<h1>Adventure Engine Builder</h1>
 		</div>
-		<div ng-view></div>
+		<div class='nav'>
+			<a ng-repeat='view in nav' ng-class='{selected: view == current()}' href='#{{view}}'>{{vnames[view]}}</a>
+		</div>
+		<div class='content {{current()}}'>
+			<h2>{{vnames[current()]}}</h2>
+			<div ng-view autoscroll='true'></div>
+		</div>
 	</body>
 </html>

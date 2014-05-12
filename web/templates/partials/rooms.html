@@ -1,8 +1,7 @@
-			<h1>Rooms</h1>
-			<div class='object'>
+			<div class='details'>
 				<label>Start</label>
-				<select class='startroom field'>
-					<option ng-repeat='room in game.rooms' selected=>{{room.id}} - {{room.name}}</option>
+				<select class='startroom field' ng-model='startRoom' ng-options='room.id as getLabel(room.id) for room in game.rooms'>
+					<option value=''>-</option>
 				</select>
 			</div>
 			<ul class='objects'>
@@ -13,13 +12,13 @@
 					</h3>
 					<div class='details'>
 						<label>Description</label>
-						<div class='field'><textarea>{{room.description}}</textarea></div>
+						<textarea class='field' ng-model='room.description'></textarea>
 							
 						<label>Exits</label>
-						<dl class='field'>
-							<dt ng-repeat-start='(ex, dest) in room.exits'>{{ex}}</dt>
-							<dd ng-repeat-end>{{dest}}</dd>
-						</dl>
+						<div class='field' ng-repeat='(ex, dest) in room.exits'>
+							<label>{{ex}}</label>
+							<div class='field'>{{getLabel(dest)}}</div>
+						</div>
 					</div>
 				</li>
 			</ul>
