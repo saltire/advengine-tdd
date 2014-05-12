@@ -4,14 +4,15 @@
 		<title>Adventure Engine</title>
 		<link rel='stylesheet' type='text/css' href='static/game.css'>
 		<script type='text/javascript' type='text/css' src='static/angular.min.js'></script>
+		<script type='text/javascript' type='text/css' src='static/angular-route.min.js'></script>
 		<script type='text/javascript' type='text/css' src='static/jquery-1.11.0.min.js'></script>
 		<script type='text/javascript' type='text/css' src='static/game-ng.js'></script>
 		<script type='text/javascript' type='text/css' src='static/game.js'></script>
 	</head>
-	<body ng-controller='AdvControl'>
-		<div>
-			<p ng-repeat='view in views' ng-click='switchView(view)' ng-class='{selected: view == currentView}'>{{view}}</p>
+	<body ng-controller='advController'>
+		<div class='nav'>
+			<a ng-repeat='view in nav' ng-class='{selected: isCurrent(view)}' href='#{{view}}'>{{vnames[view]}}</a>
 		</div>
-		<div ng-include='viewTemplate'></div>
+		<div ng-view></div>
 	</body>
 </html>

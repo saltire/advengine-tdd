@@ -14,8 +14,8 @@
 body { margin: 0; background: #f2eeda; color: #3f3e39; font-family: 'Open Sans'; }
 body > div { float: left; margin: 20px; padding: 0 10px; background: #bfbcac; }
 
-p { cursor: pointer; text-transform: capitalize; }
-p.selected { font-weight: bold; }
+a { color: #595750; }
+a:hover, a:focus { color: #3f3e39; }
 
 h1 { margin: 0 0 .5em; }
 h3, h4 { margin: 0; font-weight: normal; cursor: pointer; }
@@ -25,6 +25,9 @@ li { margin: 0 0 10px; }
 
 dt { float: left; }
 dd { margin: 0; text-align: right; }
+
+.nav a { display: block; margin: 1em 0; text-decoration: none; }
+.nav a.selected { font-weight: bold; }
 
 .details { display: none; }
 

@@ -1,5 +1,5 @@
 			<h1>Controls</h1>
-			<ul class='objects' ng-controller='LogicControl'>
+			<ul class='objects'>
 				<li ng-repeat='controls in game.controls'>
 					<h3>{{stages[$index]}}</h3>
 					<div ng-repeat='control in controls' ng-include="'partials/control'"></li>

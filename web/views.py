@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, make_response, render_template
+from flask import Flask, jsonify, make_response
 
 from advengine.gamedata import GameData
 
@@ -42,16 +42,3 @@ def get_gamedata(game='starflight'):
                    words=sorted(sorted(wordlist) for wordlist in gdata.lexicon.get_word_sets()),
                    controls=gdata.controls.values(),
                    )
-
-
-@app.route('/flask')
-def index_flask():
-    with open('games/starflight.json', 'rb') as gamefile:
-        game = GameData(gamefile)
-
-    return render_template('game.html',
-                           rooms=game.rooms.items(),
-                           nouns=game.nouns.items(),
-                           vars=game.vars,
-                           words=game.lexicon.get_word_sets(),
-                           )
