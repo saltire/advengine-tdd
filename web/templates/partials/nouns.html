@@ -1,15 +1,24 @@
 			<h1>Nouns</h1>
 			<ul class='objects'>
 				<li ng-repeat='noun in game.nouns'>
-					<h4>{{noun.id}}</h4>
-					<h3>{{noun.shortname}}</h3>
+					<h3>
+						<span class='obj-id'>{{noun.id}}</span>
+						{{noun.shortname}}
+					</h3>
 					<div class='details'>
-						<div>{{noun.name}}</div>
-						<div>{{noun.shortdesc}}</div>
-						<div>{{noun.description}}</div>
-						<ul>
-							<li ng-repeat='loc in noun.initial_locs'>{{loc}}</li>
-						</ul>
+						<label>Name</label>
+						<div><input type='text' value='{{noun.name}}'></div>
+						
+						<label>Short Desc</label>
+						<div><input type='text' value='{{noun.shortdesc}}'></div>
+						
+						<label>Description</label>
+						<div><textarea>{{noun.description}}</textarea></div>
+						
+						<label>Locations</label>
+						<div class='taglist'>
+							<span class='loc' ng-repeat='loc in noun.initial_locs'>{{loc}}</span>
+						</div>
 					</div>
 				</li>
 			</ul>

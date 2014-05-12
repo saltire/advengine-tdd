@@ -1,14 +1,17 @@
-							<div class='action' ng-if='!isControl(control)'>{{control}}</div>
+							<span class='action' ng-if='!isControl(control)'>{{control}}</span>
 							<div class='control' ng-if='isControl(control)'>
-								<div class='control-list if'>
-									<div class='cond' ng-repeat='cond in control.if'>
-										<div class='test' ng-repeat='test in cond'>{{test}}</div>
+								<div class='control-header'></div>
+								<div class='control-inner'>
+									<div class='control-list if'>
+										<div class='control-item cond' ng-repeat='cond in control.if'>
+											<span class='test' ng-repeat='test in cond'>{{test}}</span>
+										</div>
 									</div>
-								</div>
-								<div class='control-list then'>
-									<div ng-repeat='control in control.then' ng-include="'partials/control'"></div>
-								</div>
-								<div class='control-list else'>
-									<div ng-repeat='control in control.else' ng-include="'partials/control'"></div>
+									<div class='control-list then'>
+										<div class='control-item' ng-repeat='control in control.then' ng-include="'partials/control'"></div>
+									</div>
+									<div class='control-list else'>
+										<div class='control-item' ng-repeat='control in control.else' ng-include="'partials/control'"></div>
+									</div>
 								</div>
 							</div>

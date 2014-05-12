@@ -11,14 +11,14 @@
 
 */
 
-body { margin: 0; background: #f2eeda; color: #3f3e39; font-family: 'Open Sans'; }
+body { margin: 0; background: #f2eeda; color: #3f3e39; font-family: 'Open Sans'; font-size: 16px; 
+	line-height: 24px; }
 body > div { float: left; margin: 20px; padding: 0 10px; background: #bfbcac; }
 
 a { color: #595750; }
 a:hover, a:focus { color: #3f3e39; }
 
 h1 { margin: 0 0 .5em; }
-h3, h4 { margin: 0; font-weight: normal; cursor: pointer; }
 
 ul { padding: 0; list-style: none; }
 li { margin: 0 0 10px; }
@@ -29,12 +29,30 @@ dd { margin: 0; text-align: right; }
 .nav a { display: block; margin: 1em 0; text-decoration: none; }
 .nav a.selected { font-weight: bold; }
 
-.details { display: none; }
+/*.objects .details, .control-item { display: none; }*/
 
-.test, .word, .action { display: inline-block; margin: 0 4px 4px 0; padding: 0 2px; background: #f2eeda; }
+.objects h3 { background: #595750; margin: 0; padding: 2px 8px; color: #f2eeda; font-size: 18px; 
+	font-weight: normal; cursor: pointer; }
+.objects h3 .obj-id { display: block; font-size: 13px; line-height: 13px; }
+.objects .details { padding: 5px; background: #d8d5c3; }
+.objects .details label { float: left; width: 75px; font-size: 13px; }
+.objects .details div,
+.objects .details dl { min-height: 24px; margin: 0 0 5px 100px; }
 
-.control { margin-bottom: 5px; padding: 4px 5px 0; border: 1px solid #595750;
-	border-top-width: 10px; background: #bfbcac; }
+input, textarea { width: 300px; border: 0; background: #f2eeda; font-family: 'Open Sans';
+	font-size: 16px; }
+textarea { resize: vertical; }
+
+.wordlist { margin-bottom: 10px; }
+
+.taglist span, .test, .action { display: inline-block; margin-right: 4px; padding: 0 2px;
+	background: #f2eeda; }
+
+.control { margin-bottom: 5px; border: 1px solid #595750;
+	background: #bfbcac; }
+.control-header { height: 10px; background: #595750; }
+.control-inner { padding: 4px 5px 0; }
+.control-item { padding-bottom: 4px; }
 
 .cond { max-width: 400px; white-space: break-word; }
 

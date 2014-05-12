@@ -1,11 +1,15 @@
 			<h1>Rooms</h1>
 			<ul class='objects'>
 				<li ng-repeat='room in game.rooms'>
-					<h4>{{room.id}}</h4>
-					<h3>{{room.name}}</h3>
+					<h3>
+						<span class='obj-id'>{{room.id}}</span>
+						{{room.name}}
+					</h3>
 					<div class='details'>
-						Start? <input type='checkbox' ng-checked='room.is_start'>
-						<div>{{room.description}}</div>
+						<label>Description</label>
+						<div><textarea>{{room.description}}</textarea></div>
+							
+						<label>Exits</label>
 						<dl>
 							<dt ng-repeat-start='(ex, dest) in room.exits'>{{ex}}</dt>
 							<dd ng-repeat-end>{{dest}}</dd>
