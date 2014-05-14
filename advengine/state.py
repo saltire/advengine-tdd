@@ -17,9 +17,9 @@ class State:
         self.tags = set()
         for noun in self.nouns.itervalues():
             self.locations |= set((noun, self.locations_by_id(lid)) for lid in noun.initial_locs)
-            self.tags |= set((noun, tag) for tag in noun.tags)
+            self.tags |= set((noun, tag) for tag in noun.initial_tags)
         for room in self.rooms.itervalues():
-            self.tags |= set((room, tag) for tag in room.tags)
+            self.tags |= set((room, tag) for tag in room.initial_tags)
 
         self.current_turn = None
 
@@ -55,6 +55,16 @@ class State:
     def entities_by_tag(self, *tags):
         """Return a list of rooms or nouns with at least one of the given tags."""
         return set(entity for entity, tag in self.tags if tag in tags)
+
+
+    def nouns_by_tag(self, *tags):
+        """Return a list of nouns with at least one of the given tags."""
+        return self.entities_by_tag(*tags) & set(self.nouns.itervalues())
+
+
+    def rooms_by_tag(self, *tags):
+        """Return a list of rooms with at least one of the given tags."""
+        return self.entities_by_tag(*tags) & set(self.rooms.itervalues())
 
 
     def nouns_by_word(self, *words):
@@ -99,3 +109,13 @@ class State:
     def clear_noun_locs(self, *nouns):
         """Remove the given nouns from all locations."""
         self.locations -= set((noun, loc) for noun, loc in self.locations if noun in nouns)
+
+
+    def add_tag(self, tag, *entities):
+        """Add the tag to all given entities."""
+        self.tags |= set((entity, tag) for entity in entities)
+
+
+    def remove_tag(self, tag, *entities):
+        """Remove the tag from all given entities."""
+        self.tags -= set((entity, tag) for entity in entities)

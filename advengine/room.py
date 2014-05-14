@@ -3,10 +3,10 @@ class Room:
         self.description = rdata.get('desc', '')
         self.exits = rdata.get('exits', {})
         self.has_been_visited = False
+        self.initial_tags = set(rdata.get('tags', []))
         self.is_start = rdata.get('start') is True
         self.name = rdata.get('name', '')
         self.notes = rdata.get('notes', [])
-        self.tags = set(rdata.get('tags', []))
 
 
     def visit(self):

@@ -787,11 +787,11 @@
                                 "if": ["var magnet 0"], 
                                 "then": [
                                     {
-                                        "if": ["!worn spacesuit"], 
+                                        "if": ["!wearing spacesuit"], 
                                         "then": ["message spacednosuit"]
                                     }, 
                                     {
-                                        "if": ["worn spacesuit"], 
+                                        "if": ["wearing spacesuit"], 
                                         "then": ["message spacedwithsuit1 spacedwithsuit2"]
                                     }, 
                                     {
@@ -817,7 +817,7 @@
                         ]
                     }, 
                     {
-                        "if": ["var dock 1", "!var purify 3", "!worn spacesuit"], 
+                        "if": ["var dock 1", "!var purify 3", "!wearing spacesuit"], 
                         "then": ["message airlockfumes", "gameover"]
                     }
                 ]
@@ -1027,11 +1027,11 @@
                 "if": ["command touch magnet"], 
                 "then": [
                     {
-                        "if": ["!worn spacesuit", "inroom magnet"], 
+                        "if": ["!wearing spacesuit", "inroom magnet"], 
                         "then": ["message feelslikemagnet", "done"]
                     }, 
                     {
-                        "if": ["worn spacesuit"], 
+                        "if": ["wearing spacesuit"], 
                         "then": [
                             {
                                 "if": ["carrying magnet"], 
@@ -1190,7 +1190,7 @@
                         "then": ["message cantverb", "done"]
                     }, 
                     {
-                        "if": ["worn %2"], 
+                        "if": ["wearing %2"], 
                         "then": ["message alreadywearing", "done"]
                     }, 
                     "wear %2", 
@@ -1212,7 +1212,7 @@
                 "if": ["command remove *", "tagged %2 wearable"], 
                 "then": [
                     {
-                        "if": ["worn %2"], 
+                        "if": ["wearing %2"], 
                         "then": ["sendtoinv %2", "message nolongerwearing", "done"],
                         "else": ["message notwearing", "done"]
                     }
@@ -1223,7 +1223,7 @@
                 "then": ["sendtoinv %2", "message okay", "done"]
             }, 
             {
-                "if": ["command remove *", "present %2", "!contained %2", "!worn %2"], 
+                "if": ["command remove *", "present %2", "!contained %2", "!wearing %2"], 
                 "then": ["message fromwhat", "done"]
             }, 
             {

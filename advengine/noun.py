@@ -2,11 +2,11 @@ class Noun:
     def __init__(self, ndata):
         self.description = ndata.get('desc', '')
         self.initial_locs = set(ndata.get('locs', []))
+        self.initial_tags = set(ndata.get('tags', []))
         self.name = ndata.get('name', '')
         self.notes = ndata.get('notes', [])
         self.shortdesc = ndata.get('shortdesc', '')
         self.shortname = ndata.get('shortname', '')
-        self.tags = set(ndata.get('tags', []))
         self.words = set(ndata.get('words', []))
 
 
