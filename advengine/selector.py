@@ -82,9 +82,9 @@ class selector:
         return self.all_noun(obj) | self.all_room(obj)
 
 
-    def all_location(self, obj, items):
+    def all_location(self, obj):
         """Return all locations."""
-        return self.all_entity(obj) | set('INVENTORY', 'WORN')
+        return self.all_entity(obj) | set(['INVENTORY', 'WORN'])
 
 
     def numerical_wildcard(self, obj, selector):

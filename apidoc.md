@@ -45,7 +45,14 @@ When preceded by a bang (`!`), they will return the opposite of their actual res
 ### **any** *entity*
 
 Check if any nouns or rooms match the selector.
-A blank selector will return all entities. This can be used in conjunction with filters.
+A blank selector will return all entities.
+This is useful in conjunction with filters.
+
+### **anynoun** *noun*
+### **anyroom** *room*
+### **anyloc** *location*
+
+Like **any**, will check if any items of the particular type match the selector.
 
 ### **var** *variable* [<>=]*value*
 

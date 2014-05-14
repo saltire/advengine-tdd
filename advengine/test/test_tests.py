@@ -45,7 +45,33 @@ class Test_Tests(unittest.TestCase):
         self.assertTrue(self.tests.any('hat|bedroom'))
         self.assertTrue(self.tests.any('fake|bedroom'))
         self.assertTrue(self.tests.any('fake|hat'))
-        self.assertFalse(self.tests.any('pass'))
+        self.assertFalse(self.tests.any('fake'))
+
+
+    def test_any_noun(self):
+        self.assertTrue(self.tests.anynoun(''))
+        self.assertTrue(self.tests.anynoun('hat'))
+        self.assertTrue(self.tests.anynoun('hat|bedroom'))
+        self.assertFalse(self.tests.anynoun('kitchen|bedroom'))
+        self.assertFalse(self.tests.anynoun('fake'))
+
+
+    def test_any_room(self):
+        self.assertTrue(self.tests.anyroom(''))
+        self.assertTrue(self.tests.anyroom('kitchen'))
+        self.assertTrue(self.tests.anyroom('hat|bedroom'))
+        self.assertFalse(self.tests.anyroom('hat|blender'))
+        self.assertFalse(self.tests.anyroom('INVENTORY'))
+        self.assertFalse(self.tests.anyroom('fake'))
+
+
+    def test_any_location(self):
+        self.assertTrue(self.tests.anyloc(''))
+        self.assertTrue(self.tests.anyloc('hat'))
+        self.assertTrue(self.tests.anyloc('hat|bedroom'))
+        self.assertTrue(self.tests.anyloc('fake|bedroom'))
+        self.assertTrue(self.tests.anyloc('INVENTORY'))
+        self.assertFalse(self.tests.anyloc('fake'))
 
 
     def test_variable_equals(self):

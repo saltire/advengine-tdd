@@ -24,6 +24,24 @@ class Tests(BaseTests):
         return any(entities)
 
 
+    @selector('noun')
+    def anynoun(self, nouns):
+        """Check if the selector matches at least one noun."""
+        return any(nouns)
+
+
+    @selector('room')
+    def anyroom(self, rooms):
+        """Check if the selector matches at least one room."""
+        return any(rooms)
+
+
+    @selector('location')
+    def anyloc(self, locs):
+        """Check if the selector matches at least one location."""
+        return any(locs)
+
+
     def var(self, var, value):
         """Check if the given variable is set to the given value."""
         match = re.match('([<>]?=*)-?(\d+)', str(value))
