@@ -12,10 +12,14 @@ class State:
         self.current_room = next(room for room in self.rooms.itervalues() if room.is_start)
         self.current_room.visit()
 
-        # a junction list of nouns and locations
+        # junction lists
         self.locations = set()
+        self.tags = set()
         for noun in self.nouns.itervalues():
             self.locations |= set((noun, self.locations_by_id(lid)) for lid in noun.initial_locs)
+            self.tags |= set((noun, tag) for tag in noun.tags)
+        for room in self.rooms.itervalues():
+            self.tags |= set((room, tag) for tag in room.tags)
 
         self.current_turn = None
 
@@ -46,6 +50,11 @@ class State:
         """Return the noun or room with the given ID."""
         return (lid if lid in ('INVENTORY', 'WORN')
                 else self.nouns.get(lid) or self.rooms.get(lid))
+
+
+    def entities_by_tag(self, *tags):
+        """Return a list of rooms or nouns with at least one of the given tags."""
+        return set(entity for entity, tag in self.tags if tag in tags)
 
 
     def nouns_by_word(self, *words):

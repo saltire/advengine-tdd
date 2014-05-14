@@ -20,34 +20,36 @@ class Test_Actions(unittest.TestCase):
                                               'desc': 'Made of glass.',
                                               'notes': ['pass', 'fail'],
                                               'locs': ['start', 'finish'],
-                                              'visible': True,
+                                              'tags': ['visible'],
                                               },
                                    'bowl': {'name': 'A bowl.',
                                             'shortname': 'bowl',
                                             'shortdesc': 'A bowl is here.',
                                             'desc': 'The bowl is red.',
                                             'locs': ['finish'],
-                                            'visible': True,
+                                            'tags': ['visible'],
                                             },
                                    'apple': {'name': 'An apple.',
                                              'shortname': 'apple',
                                              'locs': ['bowl'],
-                                             'visible': True,
+                                             'tags': ['visible'],
                                              },
                                    'worm': {'name': 'A worm.',
                                             'locs': ['apple'],
-                                            'visible': True,
+                                            'tags': ['visible'],
                                             },
                                    'money': {'name': 'Some money.',
                                              'locs': ['INVENTORY'],
-                                             'visible': True,
+                                             'tags': ['visible'],
                                             },
                                    'hat': {'name': 'A hat.',
                                            'locs': ['WORN'],
-                                           'visible': True,
+                                           'tags': ['visible'],
                                             },
                                    'unicorn': {},
-                                   'invisible': {'name': 'An invisible item.', 'locs': ['start']},
+                                   'invisible': {'name': 'An invisible item.',
+                                                 'locs': ['start'],
+                                                 },
                                    },
                          'vars': {'one': 1, 'two': 2},
                          'messages': {'pass': 'Pass',
@@ -103,8 +105,9 @@ class Test_Actions(unittest.TestCase):
                               ('A window.', 'A bowl.'))
 
 
-    def test_showcontents_doesnt_show_invisible_items(self):
-        self.assertNotIn('An invisible item.', self.actions.showcontents().split('\n'))
+    def test_showcontents_filters_by_tag(self):
+        self.assertNotIn('An invisible item.',
+                         self.actions.showcontents(tags='visible').split('\n'))
 
 
     def test_showcontents_defaults_to_current_room(self):

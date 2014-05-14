@@ -18,8 +18,9 @@ if __name__ == '__main__':
                 raw_input('Press any key...')
                 print
             else:
-                for line in textwrap.wrap(message):
-                    print line
+                for line in message.splitlines():
+                    for wrapline in textwrap.wrap(line):
+                        print wrapline
                 print
 
         messages = adv.do_command(raw_input('> '))

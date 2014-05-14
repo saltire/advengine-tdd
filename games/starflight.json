@@ -40,7 +40,8 @@
             "exits": {
                 "down": "g_airlock", 
                 "up": "trans"
-            }
+            }, 
+            "tags": ["poison"]
         }, 
         "trans": {
             "name": "Transporter Room", 
@@ -48,7 +49,8 @@
             "exits": {
                 "down": "a_airlock", 
                 "north": "out_trans"
-            }
+            }, 
+            "tags": ["poison"]
         }, 
         "out_trans": {
             "name": "Outside Transporter Room", 
@@ -57,7 +59,8 @@
                 "west": "out_stair", 
                 "east": "out_vault", 
                 "south": "trans"
-            }
+            }, 
+            "tags": ["poison"]
         }, 
         "out_vault": {
             "name": "Outside Passenger Vault", 
@@ -66,14 +69,16 @@
                 "west": "out_trans", 
                 "east": "out_storage", 
                 "north": "vault"
-            }
+            }, 
+            "tags": ["poison"]
         }, 
         "vault": {
             "name": "Passenger Vault", 
             "desc": "You are in the passenger vault, a chamber so immense that the forward side of it is lost in dark mists. Lined up to port and starboard are tier after tier of cold sleep booths, containing the hibernating bodies of the Armstrong's passengers. To aft is a door.", 
             "exits": {
                 "south": "out_vault"
-            }
+            }, 
+            "tags": ["poison"]
         }, 
         "out_storage": {
             "name": "Outside Storage Room", 
@@ -81,7 +86,8 @@
             "exits": {
                 "west": "out_vault", 
                 "south": "main_storage"
-            }
+            }, 
+            "tags": ["poison"]
         }, 
         "main_storage": {
             "name": "Main Storage Room", 
@@ -90,14 +96,16 @@
                 "north": "out_storage", 
                 "south": "aux_storage"
             }, 
-            "notes": ["closeddooraft"]
+            "notes": ["closeddooraft"], 
+            "tags": ["poison"]
         }, 
         "aux_storage": {
             "name": "Auxiliary Storage Room", 
             "desc": "You are in the Armstrong's auxiliary storage room. Unopened boxes are anchored to the walls with baling wire.", 
             "exits": {
                 "north": "main_storage"
-            }
+            }, 
+            "tags": ["poison"]
         }, 
         "out_stair": {
             "name": "Outside Stairshaft", 
@@ -106,7 +114,8 @@
                 "west": "corner", 
                 "east": "out_trans", 
                 "south": "stair"
-            }
+            }, 
+            "tags": ["poison"]
         }, 
         "stair": {
             "name": "Winding Stairshaft", 
@@ -114,14 +123,16 @@
             "exits": {
                 "down": "maintenance", 
                 "north": "out_stair"
-            }
+            }, 
+            "tags": ["poison"]
         }, 
         "maintenance": {
             "name": "Maintenance Room", 
             "desc": "You are in the Armstrong's maintenance room. Another uniformed skeleton is sprawled over a console covered with gauges and instruments. There is a stairshaft leading up.", 
             "exits": {
                 "up": "stair"
-            }
+            }, 
+            "tags": ["poison"]
         }, 
         "corner": {
             "name": "Corner of Two Hallways", 
@@ -129,7 +140,8 @@
             "exits": {
                 "east": "out_stair", 
                 "north": "hallway"
-            }
+            }, 
+            "tags": ["poison"]
         }, 
         "hallway": {
             "name": "Long Hallway", 
@@ -137,7 +149,8 @@
             "exits": {
                 "north": "out_bridge", 
                 "south": "corner"
-            }
+            }, 
+            "tags": ["poison"]
         }, 
         "out_bridge": {
             "name": "Outside Bridge", 
@@ -146,7 +159,8 @@
                 "east": "w_bridge", 
                 "north": "debris", 
                 "south": "hallway"
-            }
+            }, 
+            "tags": ["poison"]
         }, 
         "w_bridge": {
             "name": "Port Side of Bridge", 
@@ -154,7 +168,8 @@
             "exits": {
                 "west": "out_bridge", 
                 "east": "c_bridge"
-            }
+            }, 
+            "tags": ["poison"]
         }, 
         "c_bridge": {
             "name": "Centre of Bridge", 
@@ -162,14 +177,16 @@
             "exits": {
                 "west": "w_bridge", 
                 "east": "e_bridge"
-            }
+            }, 
+            "tags": ["poison"]
         }, 
         "e_bridge": {
             "name": "Starboard Side of Bridge", 
             "desc": "You are on the starboard side of the Armstrong's bridge. A skeleton in a science officer's uniform is sprawled next to a plastic panel set into the wall.", 
             "exits": {
                 "west": "c_bridge"
-            }
+            }, 
+            "tags": ["poison"]
         }, 
         "debris": {
             "name": "In the Middle of Debris", 
@@ -181,93 +198,83 @@
     }, 
     "nouns": {
         "spacesuit": {
-            "visible": true, 
-            "movable": true, 
-            "wearable": true, 
             "shortdesc": "There is a bulky spacesuit here.", 
             "shortname": "spacesuit", 
             "name": "a bulky spacesuit", 
             "words": ["spacesuit", "suit"], 
             "desc": "Almost the entire suit, including the flexible portions, is made of heavily metallized fabric, apparently incorporating some sort of iron mesh.", 
-            "locs": ["storage"]
+            "locs": ["storage"], 
+            "tags": ["movable", "visible", "wearable"]
         }, 
         "pouch": {
-            "visible": true, 
-            "movable": true, 
             "shortdesc": "There is a plastic pouch here.", 
             "shortname": "plastic pouch", 
             "name": "a plastic pouch", 
             "words": ["pouch", "bag", "plastic"], 
             "desc": "It's heavy.", 
-            "locs": ["storage"]
+            "locs": ["storage"], 
+            "tags": ["movable", "visible"]
         }, 
         "crowbar": {
-            "visible": true, 
-            "movable": true, 
             "shortdesc": "There is a crowbar here.", 
             "shortname": "crowbar", 
             "name": "a crowbar", 
-            "words": ["crowbar", "bar"]
+            "words": ["crowbar", "bar"], 
+            "tags": ["movable", "visible"]
         }, 
         "knife": {
-            "visible": true, 
-            "movable": true, 
             "shortdesc": "There is a small knife here.", 
             "shortname": "knife", 
             "name": "a small knife", 
-            "words": ["knife"]
+            "words": ["knife"], 
+            "tags": ["movable", "visible"]
         }, 
         "keys": {
-            "visible": true, 
-            "movable": true, 
             "shortdesc": "There is a set of keys here.", 
             "shortname": "set of keys", 
             "name": "a set of keys", 
-            "words": ["keys", "key", "set"]
+            "words": ["keys", "key", "set"], 
+            "tags": ["movable", "visible"]
         }, 
         "sonic": {
-            "visible": true, 
-            "movable": true, 
             "shortdesc": "There is a sonic disruptor here.", 
             "shortname": "sonic disruptor", 
             "name": "a sonic disruptor", 
             "words": ["sonic", "disruptor", "cylinder", "cylinders"], 
+            "tags": ["movable", "visible"], 
             "desc": "The sonic disruptor is made of two independently rotatable metal cylinders, mounted end to end."
         }, 
         "molten": {
-            "visible": true, 
             "shortdesc": "There is a molten sonic disruptor here.", 
             "name": "a molten sonic disruptor", 
-            "words": ["molten", "sonic", "disruptor", "cylinder", "cylinders"]
+            "words": ["molten", "sonic", "disruptor", "cylinder", "cylinders"], 
+            "tags": ["visible"]
         }, 
         "box": {
-            "visible": true, 
-            "movable": true, 
             "shortdesc": "There is a wooden box here.", 
             "shortname": "wooden box", 
             "name": "a wooden box", 
             "words": ["box", "wooden", "wood", "crate"], 
             "desc": "There seems to be something inside.", 
-            "locs": ["main_storage"]
+            "locs": ["main_storage"], 
+            "tags": ["movable", "visible"]
         }, 
         "magnet": {
-            "visible": true, 
-            "movable": true, 
             "shortdesc": "There is a powerful bar magnet here.", 
             "shortname": "magnet", 
             "name": "a powerful bar magnet", 
             "words": ["magnet"], 
-            "locs": ["debris"]
+            "locs": ["debris"], 
+            "tags": ["movable", "visible"]
         }, 
         "radio": {
-            "visible": true, 
-            "movable": true, 
             "shortdesc": "There is a two-way radio here.", 
             "shortname": "two-way radio", 
             "name": "a two-way radio", 
             "words": ["radio", "twoway"], 
             "desc": "It appears to need batteries.", 
-            "locs": ["storage"]
+            "locs": ["storage"], 
+            "tags": ["movable", "visible"]
         }, 
         "inner": {
             "words": ["inner", "innerdoor"], 
@@ -592,7 +599,7 @@
     }, 
     "controls": {
         "before_game": [
-            "message intro1 intro2 intro3", "pause", "message intro4", "showdesc", "shownotes", "showcontents"
+            "message intro1 intro2 intro3", "pause", "message intro4", "showdesc", "shownotes"
         ],
         "before_turn": [
             {
@@ -1047,7 +1054,7 @@
                 "then": ["setvar magnet 0", "message pullfreeofmagnet"]
             }, 
             {
-                "if": ["command remove suit", "!var purify 3", "room a_airlock|trans|out_trans|vault|out_vault|out_storage|main_storage|aux_storage|out_stair|stair|maintenance|corner|hallway|out_bridge|w_bridge|c_bridge|e_bridge"], 
+                "if": ["command remove suit", "!var purify 3", "tagged %ROOM poison"], 
                 "then": ["message nolongerwearing suitfumes", "gameover"]
             }, 
             {
@@ -1159,7 +1166,7 @@
                         "then": ["message dontsee", "done"]
                     }, 
                     {
-                        "if": ["!movable %2"], 
+                        "if": ["!tagged %2 movable"], 
                         "then": ["message cantverb", "done"]
                     }, 
                     {
@@ -1179,7 +1186,7 @@
                         "then": ["message dontsee", "done"]
                     }, 
                     {
-                        "if": ["!wearable %2"], 
+                        "if": ["!tagged %2 wearable"], 
                         "then": ["message cantverb", "done"]
                     }, 
                     {
@@ -1202,7 +1209,7 @@
                 ]
             }, 
             {
-                "if": ["command remove *", "wearable %2"], 
+                "if": ["command remove *", "tagged %2 wearable"], 
                 "then": [
                     {
                         "if": ["worn %2"], 
@@ -1228,7 +1235,7 @@
                             ["present %2", "hasnotes %2"], 
                             ["present %2", "hascontents %2"]
                         ], 
-                        "then": ["showdesc %2:present", "shownotes %2:present", "showcontents %2:present itemcontains 1", "done"],
+                        "then": ["showdesc %2:present", "shownotes %2:present", "showcontents %2:present itemcontains recursive=1", "done"],
                         "else": ["message nothingunusual", "done"]
                     }
                 ]
@@ -1245,14 +1252,14 @@
             }, 
             {
                 "if": ["command look"], 
-                "then": ["showdesc", "shownotes", "showcontents recursive=1 contains_msg=itemcontains", "done"]
+                "then": ["showdesc", "shownotes", "showcontents recursive=1 text=shortdesc contains_msg=itemcontains tags=visible", "done"]
             }, 
             {
                 "if": ["command go north|south|east|west|up|down"], 
                 "then": [
                     {
                         "if": ["exitexists %2"], 
-                        "then": ["move %2", "showdesc", "shownotes", "showcontents", "done"],
+                        "then": ["move %2", "showdesc", "shownotes", "showcontents recursive=1 text=shortdesc contains_msg=itemcontains tags=visible", "done"],
                         "else": ["message cantgo", "done"]
                     }
                 ]

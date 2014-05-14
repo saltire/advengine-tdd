@@ -39,7 +39,7 @@ class Actions(BaseActions):
 
     @selector('location')
     def showcontents(self, locs=None, text='name', noun_msg=None, in_msg=None, worn_msg=None,
-                     recursive=False, indent=False, contains_msg=None):
+                     recursive=False, indent=False, contains_msg=None, tags=None):
         """Return a listing of all nouns at the given location.
         If no location is passed, use the current room.
         Contains a subfunction that can be executed recursively."""
@@ -48,7 +48,7 @@ class Actions(BaseActions):
         def list_contents(locs, level=0):
             items = []
             for noun in self.state.nouns_at_loc(*locs):
-                if noun.is_visible:
+                if tags is None or any(tag in noun.tags for tag in tags.split('|')):
                     name = getattr(noun, text)
                     if noun_msg:
                         # use a message instead of the plain name

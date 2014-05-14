@@ -14,17 +14,16 @@ class Test_Tests(unittest.TestCase):
                           },
                 'nouns': {'wallet': {'locs': ['INVENTORY'],
                                      'words': ['wallet'],
-                                     'movable': True,
+                                     'tags': ['movable'],
                                      },
                           'money': {'locs': ['wallet'],
                                     'desc': "You're rich!",
                                     'notes': ['pass'],
-                                    'movable': True,
+                                    'tags': ['movable'],
                                     },
                           'hat': {'locs': ['WORN'],
                                   'words': ['wallet'],
-                                  'movable': True,
-                                  'wearable': True,
+                                  'tags': ['movable', 'wearable'],
                                   },
                           'blender': {'locs': ['kitchen'],
                                       'words': ['blender'],
@@ -163,14 +162,13 @@ class Test_Tests(unittest.TestCase):
         self.assertFalse(self.tests.somewhere('nothing'))
 
 
-    def test_movable(self):
-        self.assertTrue(self.tests.movable('wallet'))
-        self.assertFalse(self.tests.movable('window'))
-
-
-    def test_wearable(self):
-        self.assertTrue(self.tests.wearable('hat'))
-        self.assertFalse(self.tests.wearable('blender'))
+    def test_tagged(self):
+        self.assertTrue(self.tests.tagged('wallet', 'movable'))
+        self.assertFalse(self.tests.tagged('window', 'movable'))
+        self.assertTrue(self.tests.tagged('money', 'movable|wearable'))
+        self.assertFalse(self.tests.tagged('blender', 'movable|wearable'))
+        self.assertTrue(self.tests.tagged('money|blender', 'movable'))
+        self.assertFalse(self.tests.tagged('money|blender', 'wearable'))
 
 
     def test_hasdesc(self):

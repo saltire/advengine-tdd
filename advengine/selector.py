@@ -87,42 +87,51 @@ class selector:
         return self.all_entity(obj) | set('INVENTORY', 'WORN')
 
 
+    def numerical_wildcard(self, obj, selector):
+        """If wildcard matches, return nouns matching the input word at this position."""
+        if re.match('%(\d+)', selector) is not None:
+            return obj.state.nouns_by_input_word(int(selector[1:]))
+
+
+    def room_wildcard(self, obj, selector):
+        """If wildcard matches, return the current room."""
+        if selector == '%ROOM':
+            return set([obj.state.current_room])
+
+
     def select_noun(self, obj, selector):
         """If passed a numerical wildcard, return nouns matching the
         corresponding input word. Otherwise, treat the selector as a pipe-
         delimited list of noun IDs and return those nouns."""
-        if re.match('%(\d+)', selector) is not None:
-            return obj.state.nouns_by_input_word(int(selector[1:]))
-        else:
-            return set(obj.state.nouns[nid] for nid in selector.split('|')
-                       if nid in obj.state.nouns)
+        return (self.numerical_wildcard(obj, selector) or
+                set(obj.state.nouns[nid] for nid in selector.split('|')
+                    if nid in obj.state.nouns))
 
 
     def select_room(self, obj, selector):
         """Treat the selector as a pipe-delimited list of room IDs
         and return those rooms."""
-        return set(obj.state.rooms[rid] for rid in selector.split('|')
-                   if rid in obj.state.rooms)
+        return (self.room_wildcard(obj, selector) or
+                set(obj.state.rooms[rid] for rid in selector.split('|')
+                    if rid in obj.state.rooms))
 
 
     def select_location(self, obj, selector):
         """If passed a numerical wildcard, return nouns matching the
         corresponding input word. Otherwise, treat the selector as a pipe-
         delimited list of location IDs and return those locations."""
-        if re.match('%(\d+)', selector) is not None:
-            return obj.state.nouns_by_input_word(int(selector[1:]))
-        else:
-            return set(obj.state.locations_by_id(lid) for lid in selector.split('|')
-                       if obj.state.locations_by_id(lid))
+        return (self.numerical_wildcard(obj, selector) or
+                self.room_wildcard(obj, selector) or
+                set(obj.state.locations_by_id(lid) for lid in selector.split('|')
+                    if obj.state.locations_by_id(lid)))
 
 
     def select_entity(self, obj, selector):
         """If passed a numerical wildcard, return nouns matching the
         corresponding input word. Otherwise, treat the selector as a pipe-
         delimited list of noun or room IDs and return those nouns/rooms."""
-        if re.match('%(\d+)', selector) is not None:
-            return obj.state.nouns_by_input_word(int(selector[1:]))
-        else:
-            return set(obj.state.nouns.get(oid) or obj.state.rooms.get(oid)
-                       for oid in selector.split('|')
-                       if (oid in obj.state.nouns or oid in obj.state.rooms))
+        return (self.numerical_wildcard(obj, selector) or
+                self.room_wildcard(obj, selector) or
+                set(obj.state.nouns.get(oid) or obj.state.rooms.get(oid)
+                    for oid in selector.split('|')
+                    if (oid in obj.state.nouns or oid in obj.state.rooms)))

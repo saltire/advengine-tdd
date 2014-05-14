@@ -6,6 +6,7 @@ class Room:
         self.is_start = rdata.get('start') is True
         self.name = rdata.get('name', '')
         self.notes = rdata.get('notes', [])
+        self.tags = set(rdata.get('tags', []))
 
 
     def visit(self):

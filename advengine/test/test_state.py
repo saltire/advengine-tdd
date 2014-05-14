@@ -6,15 +6,20 @@ from advengine.state import State
 
 class Test_State(unittest.TestCase):
     def setUp(self):
-        data = {'rooms': {'bedroom': {'start': True},
+        data = {'rooms': {'bedroom': {'start': True,
+                                      'tags': ['white', 'blue'],
+                                      },
                           'kitchen': {},
                           },
                 'nouns': {'window': {'locs': ['bedroom', 'kitchen']},
                           'blender': {'locs': ['kitchen'],
-                                      'words': ['blender', 'processor', 'item']
+                                      'words': ['blender', 'processor', 'item'],
+                                      'tags': ['white'],
                                       },
                           'wallet': {'locs': ['INVENTORY'],
-                                     'words': ['wallet', 'item']},
+                                     'words': ['wallet', 'item'],
+                                     'tags': ['brown'],
+                                     },
                           },
                 'vars': {'number': 2},
                 'words': [['command', 'input']],
@@ -39,6 +44,12 @@ class Test_State(unittest.TestCase):
         self.assertItemsEqual(self.state.noun_locs(self.window), [self.bedroom, self.kitchen])
         self.assertItemsEqual(self.state.noun_locs(self.window, self.wallet),
                               [self.bedroom, self.kitchen, 'INVENTORY'])
+
+
+    def test_state_returns_all_entities_with_tag(self):
+        self.assertItemsEqual(self.state.entities_by_tag('white'), [self.bedroom, self.blender])
+        self.assertItemsEqual(self.state.entities_by_tag('blue', 'brown'),
+                              [self.bedroom, self.wallet])
 
 
     def test_state_returns_nouns_by_words_only(self):

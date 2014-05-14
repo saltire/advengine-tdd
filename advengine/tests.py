@@ -106,16 +106,10 @@ class Tests(BaseTests):
         return bool(self.state.noun_locs(*nouns))
 
 
-    @selector('noun')
-    def movable(self, nouns):
-        """Check if any given noun can be picked up or dropped."""
-        return any(noun.is_movable for noun in nouns)
-
-
-    @selector('noun')
-    def wearable(self, nouns):
-        """Check if any given noun can be worn."""
-        return any(noun.is_wearable for noun in nouns)
+    @selector('entity')
+    def tagged(self, entities, tags):
+        """Check if any given entity has any of the given tags (separated by pipes)."""
+        return any((entities & self.state.entities_by_tag(tag)) for tag in tags.split('|'))
 
 
     @selector('entity')
