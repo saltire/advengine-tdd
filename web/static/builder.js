@@ -22,7 +22,7 @@ advApp.config(['$routeProvider', 'views', function($routeProvider, views) {
 	// map nav views to templates/controllers
 	for (view in views) {
 		$routeProvider.when('/' + view, {
-			templateUrl: 'partials/' + view,
+			templateUrl: '/static/partials/' + view + '.html',
 			controller: view + 'Controller'
 		});
 	}
@@ -31,7 +31,7 @@ advApp.config(['$routeProvider', 'views', function($routeProvider, views) {
 advApp.controller('advController', ['$scope', '$location', '$http', 'game', 'views',
                                  function($scope, $location, $http, game, views) {
 	// fetch game data
-	$http.get('/gamedata/' + game).then(function(response) {
+	$http.get('/build/gamedata/' + game).then(function(response) {
 		$scope.game = response.data;
 	});
 

@@ -2,7 +2,7 @@
 				<li ng-repeat='controls in game.controls'>
 					<h3>{{stages[$index]}}</h3>
 					<div class='details'>
-						<div ng-repeat='control in controls' ng-include="'partials/control'"></li>
+						<div ng-repeat='control in controls' ng-include="'/static/partials/control.html'"></li>
 					</div>
 				</li>
 			</ul>

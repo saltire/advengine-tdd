@@ -12,7 +12,12 @@ class GameData:
         try:
             data = data.read()
         except AttributeError:
-            pass
+            # try opening the string as a file and reading it
+            try:
+                with open(data, 'rb') as datafile:
+                    data = datafile.read()
+            except (IOError, TypeError):
+                pass
 
         # convert string to dict
         try:

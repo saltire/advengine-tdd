@@ -1,0 +1,30 @@
+{% extends "player.html" %}
+
+{% block content %}
+			<div class='dialogue'>
+	{% for input, output in history %}
+		{% if input %}
+				<p class='input'>{{ input }}</p>
+		{% endif %}
+		{% for msg in output %}
+			{% if msg == 'PAUSE' %}
+				<p class='pause'>Press Enter to continue...</p>
+			{% else %}
+				<p class='output'>{{ msg|replace('\n', '<br />')|replace('\t', '&nbsp;' * 4)|safe }}</p>
+			{% endif %}
+		{% endfor %}
+	{% endfor %}
+			</div>
+			<form class='command' method='post' action='/play/command'>
+				&gt; <input type='text' name='command' />
+				<button class='enter' type='submit'>&crarr;</button>
+			</form>
+			<div class='rightform'>
+				<form class='help' method='get' action='/play/help'>
+					<button type='submit'>Help</button>
+				</form>
+				<form class='newgame' method='post' action='/play/newgame'>
+					<button type='submit'>New game</button>
+				</form>
+			</div>
+{% endblock %}
