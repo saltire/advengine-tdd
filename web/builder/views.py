@@ -1,27 +1,25 @@
-from flask import Flask, jsonify, make_response
+from flask import jsonify, make_response
 
 from advengine.gamedata import GameData
 
-
-app = Flask(__name__)
-app.secret_key = '\xf0\x9c:\xc5\xde3\xa0z^\x13\x12*\xc1\xa0J(\x8e\x9c\xb6\xb5\xa2\xc9\x19\xc3'
+from web import app
 
 
-@app.route('/') # angular
-def index():
+@app.route('/builder') # angular
+def builder():
     # this command caches the file, so disabling during development
     # return send_file('templates/game-ng.html')
 
     return make_response(open('web/templates/game-ng.html').read())
 
 
-@app.route('/partials/<template>')
+@app.route('/builder/partials/<template>')
 def get_partial(template):
     return make_response(open('web/templates/partials/{}.html'.format(template)).read())
 
 
-@app.route('/gamedata')
-@app.route('/gamedata/<game>')
+@app.route('/builder/gamedata')
+@app.route('/builder/gamedata/<game>')
 def get_gamedata(game='starflight'):
     with open('games/{}.json'.format(game), 'rb') as gfile:
         gdata = GameData(gfile)
