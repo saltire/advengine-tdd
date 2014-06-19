@@ -1,23 +1,27 @@
 			<ul class='objects'>
-				<li ng-repeat='noun in game.nouns'>
-					<h3>
-						<span class='obj-id'>{{noun.id}}</span>
-						{{noun.shortname}}
-					</h3>
-					<div class='details'>
+				<li class='details' ng-repeat='noun in game.nouns'>
+					<span class='obj-id'>{{noun.id}}</span>
+					{{noun.shortname}}
+					
+					<div class='editor details' ng-if='noun == currentNoun'>
+						<h3>
+							<span class='obj-id'>{{currentNoun.id}}</span>
+							{{currentNoun.shortname}}
+						</h3>
 						<label>Name</label>
-						<input class='field' type='text' ng-model='noun.name'>
+						<input class='field' type='text' ng-model='currentNoun.name'>
 						
 						<label>Short Desc</label>
-						<input class='field' type='text' ng-model='noun.shortdesc'>
+						<input class='field' type='text' ng-model='currentNoun.shortdesc'>
 						
 						<label>Description</label>
-						<textarea class='field' ng-model='noun.description'></textarea>
+						<textarea class='field' ng-model='currentNoun.description'></textarea>
 						
 						<label>Locations</label>
 						<div class='field'>
-							<span class='tag' ng-repeat='loc in noun.initial_locs'>{{loc}}</span>
+							<span class='tag' ng-repeat='loc in currentNoun.initial_locs'>{{loc}}</span>
 						</div>
 					</div>
+					
 				</li>
 			</ul>

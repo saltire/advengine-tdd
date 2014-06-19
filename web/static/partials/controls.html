@@ -1,8 +1,6 @@
 			<ul class='objects'>
-				<li ng-repeat='controls in game.controls'>
+				<li class='details' ng-repeat='controls in game.controls'>
 					<h3>{{stages[$index]}}</h3>
-					<div class='details'>
-						<div ng-repeat='control in controls' ng-include="'/static/partials/control.html'"></li>
-					</div>
+					<div ng-repeat='control in controls' ng-include="'/static/partials/control.html'"></li>
 				</li>
 			</ul>

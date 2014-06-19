@@ -1,16 +1,19 @@
-			<div class='details'>
+			<div class='details overflow'>
 				<label>Start</label>
 				<select class='startroom field' ng-model='startRoom' ng-options='room.id as getLabel(room.id) for room in game.rooms'>
 					<option value=''>-</option>
 				</select>
 			</div>
 			<ul class='objects'>
-				<li ng-repeat='room in game.rooms'>
-					<h3>
-						<span class='obj-id'>{{room.id}}</span>
-						{{room.name}}
-					</h3>
-					<div class='details'>
+				<li class='details' ng-repeat='room in game.rooms'>
+					<span class='obj-id'>{{room.id}}</span>
+					{{room.name}}
+				
+					<div class='editor details' ng-if='room == currentRoom'>
+						<h3>
+							<span class='obj-id'>{{room.id}}</span>
+							{{room.name}}
+						</h3>
 						<label>Description</label>
 						<textarea class='field' ng-model='room.description'></textarea>
 							

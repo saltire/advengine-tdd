@@ -44,7 +44,7 @@ textarea { resize: vertical; }
 .nav a:hover, .nav a:focus { background: #595750; outline: 0; }
 .nav a.selected { background: #8c897e; font-weight: bold; }
 
-.content { width: 530px; border-radius: 5px; background: #bfbcac; }
+.content { float: left; border-radius: 5px; background: #bfbcac; }
 .content h2 { margin: 0 0 15px; padding: 2px 10px; background: #3f3e39; color: #f2eeda;
 	border-radius: 5px 5px 0 0; }
 .content > div { padding: 0 10px 10px; }
@@ -52,20 +52,24 @@ textarea { resize: vertical; }
 
 /* content */
 
-.objects h3 { background: #595750; margin: 0; padding: 2px 8px; color: #f2eeda; font-size: 18px;
-	font-weight: normal; cursor: pointer; }
-.objects h3 .obj-id { display: block; font-size: 13px; line-height: 13px; }
-.objects .details { margin-bottom: 0; }
+.objects { float: left; }
 
-.details { margin-bottom: 10px; padding: 5px 5px 0; background: #d8d5c3; line-height: 24px;
-	overflow: auto; }
+.details { width: 500px; margin-bottom: 10px; padding: 5px 8px 0; border-radius: 5px; background: #d8d5c3;
+	line-height: 24px; position: relative; }
+.details h3 { margin: -5px -8px 5px; padding: 2px 8px; border-radius: 5px 5px 0 0;
+	background: #595750; color: #f2eeda; font-size: 18px; font-weight: normal; cursor: pointer; }
+.details h3 .obj-id { display: block; font-size: 13px; line-height: 13px; }
+.details.overflow { overflow: auto; }
 
 label { min-height: 24px; margin-bottom: 5px; float: left; clear: both; }
-.field { width: 400px; min-height: 24px; margin-bottom: 5px; box-sizing: border-box; float: right; }
+.field { float: right; width: 400px; min-height: 24px; margin-bottom: 5px;
+	box-sizing: border-box; }
 .field label { margin-bottom: 0; clear: none; }
 .field .field { width: 300px; margin-bottom: 0; }
 
 .tag { display: inline-block; margin-right: 4px; padding: 0 5px; background: #f2eeda; }
+
+.editor { position: absolute; top: 0; left: 100%; margin-left: 20px; }
 
 
 /* specific views */
@@ -73,8 +77,7 @@ label { min-height: 24px; margin-bottom: 5px; float: left; clear: both; }
 .startroom { float: right; }
 .startroom .obj-id { float: left; font-size: 13px; color: #595750; }
 
-.vars { width: 230px; }
-.vars .details { width: 200px; }
+.vars .details { width: 230px; }
 .vars .details .field { width: 90px; text-align: center; }
 
 .words .details { padding-bottom: 5px; }

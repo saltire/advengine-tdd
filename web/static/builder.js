@@ -66,9 +66,14 @@ advApp.controller('roomsController', ['$scope', function($scope) {
 	$scope.getLabel = function(rid) {
 		return rooms[rid].name || rooms[rid].id;
 	}
+
+	//$scope.currentRoom = null;
+	$scope.currentRoom = $scope.game.rooms[0];
 }]);
 
 advApp.controller('nounsController', ['$scope', function($scope) {
+	//$scope.currentNoun = null;
+	$scope.currentNoun = $scope.game.nouns[0];
 }]);
 
 advApp.controller('varsController', ['$scope', function($scope) {

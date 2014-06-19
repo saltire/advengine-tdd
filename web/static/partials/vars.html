@@ -1,4 +1,6 @@
-			<div class='details' ng-repeat='var in game.vars'>
-				<label>{{var.id}}</label>
-				<input class='field' type='number' ng-model='var.value'>
-			</div>
+			<ul class='objects'>
+				<li class='details overflow' ng-repeat='var in game.vars'>
+					<label>{{var.id}}</label>
+					<input class='field' type='number' ng-model='var.value'>
+				</li>
+			</ul>
