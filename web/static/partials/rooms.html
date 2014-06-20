@@ -4,11 +4,14 @@
 					<option value=''>-</option>
 				</select>
 			</div>
+			
+			<span class='add'>＋</span>
+			
 			<ul class='objects'>
-				<li class='details' ng-repeat='room in game.rooms'>
-					<span class='obj-id'>{{room.id}}</span>
-					{{room.name}}
-				
+				<li class='details' ng-repeat='room in game.rooms' ng-click='$parent.currentRoom=room'>
+					<label>{{room.id}}</label>
+					<div class='field'>{{room.name}}</div>
+					
 					<div class='editor details' ng-if='room == currentRoom'>
 						<h3>
 							<span class='obj-id'>{{room.id}}</span>
@@ -18,9 +21,10 @@
 						<textarea class='field' ng-model='room.description'></textarea>
 							
 						<label>Exits</label>
-						<div class='field' ng-repeat='(ex, dest) in room.exits'>
-							<label>{{ex}}</label>
-							<div class='field'>{{getLabel(dest)}}</div>
+						<div class='field'>
+							<label ng-repeat-start='(ex, dest) in room.exits'>{{ex}}</label>
+							<div class='field' ng-repeat-end>{{getLabel(dest)}}</div>
+							<span class='add'>＋</span>
 						</div>
 					</div>
 				</li>

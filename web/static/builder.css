@@ -35,7 +35,7 @@ textarea { resize: vertical; }
 /* page layout */
 
 .header { width: 100%; padding: 5px 25px 10px; background: #3f3e39; color: #f2eeda;
-	position: fixed; top: 0; left: 0; }
+	position: fixed; top: 0; left: 0; z-index: 100; }
 .header h1 { margin: 0; line-height: 30px; font-size: 30px; }
 
 .nav { padding: 10px 0; border-radius: 5px; background: #3f3e39; position: fixed; top: 65px;
@@ -52,33 +52,32 @@ textarea { resize: vertical; }
 
 /* content */
 
-.objects { float: left; }
-
-.details { width: 500px; margin-bottom: 10px; padding: 5px 8px 0; border-radius: 5px; background: #d8d5c3;
-	line-height: 24px; position: relative; }
-.details h3 { margin: -5px -8px 5px; padding: 2px 8px; border-radius: 5px 5px 0 0;
+.details { width: 500px; margin-bottom: 10px; padding: 6px 8px 1px; border-radius: 5px;
+	background: #d8d5c3; line-height: 24px; position: relative; }
+.details h3 { margin: -6px -8px 6px; padding: 3px 8px; border-radius: 5px 5px 0 0;
 	background: #595750; color: #f2eeda; font-size: 18px; font-weight: normal; cursor: pointer; }
 .details h3 .obj-id { display: block; font-size: 13px; line-height: 13px; }
 .details.overflow { overflow: auto; }
 
 label { min-height: 24px; margin-bottom: 5px; float: left; clear: both; }
-.field { float: right; width: 400px; min-height: 24px; margin-bottom: 5px;
-	box-sizing: border-box; }
+.field { display: block; width: 400px; min-height: 24px; margin: 0 0 5px 100px;
+	box-sizing: border-box; position: relative; }
 .field label { margin-bottom: 0; clear: none; }
 .field .field { width: 300px; margin-bottom: 0; }
 
 .tag { display: inline-block; margin-right: 4px; padding: 0 5px; background: #f2eeda; }
+
+.add { width: 15px; background: #3f3e39; color: #fff; line-height: 15px; 
+	text-align: center; cursor: pointer; }
+.field .add { font-size: 10px; line-height: 15px; position: absolute; bottom: 5px; right: 5px; }
 
 .editor { position: absolute; top: 0; left: 100%; margin-left: 20px; }
 
 
 /* specific views */
 
-.startroom { float: right; }
-.startroom .obj-id { float: left; font-size: 13px; color: #595750; }
-
-.vars .details { width: 230px; }
-.vars .details .field { width: 90px; text-align: center; }
+.vars .details { width: 200px; }
+.vars .details .field { width: 100px; text-align: center; }
 
 .words .details { padding-bottom: 5px; }
 

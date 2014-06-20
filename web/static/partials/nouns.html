@@ -1,7 +1,7 @@
 			<ul class='objects'>
-				<li class='details' ng-repeat='noun in game.nouns'>
-					<span class='obj-id'>{{noun.id}}</span>
-					{{noun.shortname}}
+				<li class='details' ng-repeat='noun in game.nouns' ng-click='$parent.currentNoun=noun'>
+					<label>{{noun.id}}</label>
+					<div class='field'>{{noun.shortname}}</div>
 					
 					<div class='editor details' ng-if='noun == currentNoun'>
 						<h3>
@@ -20,6 +20,7 @@
 						<label>Locations</label>
 						<div class='field'>
 							<span class='tag' ng-repeat='loc in currentNoun.initial_locs'>{{loc}}</span>
+							<span class='add'>＋</span>
 						</div>
 					</div>
 					
