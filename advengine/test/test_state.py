@@ -27,9 +27,9 @@ class Test_State(unittest.TestCase):
 
         self.state = State(GameData(data))
 
-        for rid, room in self.state.rooms.iteritems():
+        for rid, room in self.state.rooms.items():
             setattr(self, rid, room)
-        for nid, noun in self.state.nouns.iteritems():
+        for nid, noun in self.state.nouns.items():
             setattr(self, nid, noun)
 
 

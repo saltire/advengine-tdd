@@ -1,7 +1,7 @@
 import random
 import re
 
-from selector import selector
+from .selector import selector
 
 
 class BaseTests:
@@ -107,7 +107,7 @@ class Tests(BaseTests):
         worn, or inside another noun that is present."""
         def is_present(noun):
             return any(loc in (self.state.current_room, 'INVENTORY', 'WORN')
-                       or (loc in self.state.nouns.itervalues() and is_present(loc))
+                       or (loc in iter(self.state.nouns.values()) and is_present(loc))
                        for loc in self.state.noun_locs(noun))
         return any(is_present(noun) for noun in nouns)
 
@@ -115,7 +115,7 @@ class Tests(BaseTests):
     @selector('noun')
     def contained(self, nouns):
         """Check if any given noun is inside some other noun."""
-        return any(loc in self.state.nouns.itervalues() for loc in self.state.noun_locs(*nouns))
+        return any(loc in iter(self.state.nouns.values()) for loc in self.state.noun_locs(*nouns))
 
 
     @selector('noun')

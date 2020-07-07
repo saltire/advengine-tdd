@@ -1,4 +1,4 @@
-from turn import Turn
+from .turn import Turn
 
 
 class State:
@@ -9,16 +9,16 @@ class State:
         self.messages = data.messages
         self.lexicon = data.lexicon
 
-        self.current_room = next(room for room in self.rooms.itervalues() if room.is_start)
+        self.current_room = next(room for room in self.rooms.values() if room.is_start)
         self.current_room.visit()
 
         # junction lists
         self.locations = set()
         self.tags = set()
-        for noun in self.nouns.itervalues():
+        for noun in self.nouns.values():
             self.locations |= set((noun, self.locations_by_id(lid)) for lid in noun.initial_locs)
             self.tags |= set((noun, tag) for tag in noun.initial_tags)
-        for room in self.rooms.itervalues():
+        for room in self.rooms.values():
             self.tags |= set((room, tag) for tag in room.initial_tags)
 
         self.current_turn = None
@@ -59,17 +59,17 @@ class State:
 
     def nouns_by_tag(self, *tags):
         """Return a list of nouns with at least one of the given tags."""
-        return self.entities_by_tag(*tags) & set(self.nouns.itervalues())
+        return self.entities_by_tag(*tags) & set(self.nouns.values())
 
 
     def rooms_by_tag(self, *tags):
         """Return a list of rooms with at least one of the given tags."""
-        return self.entities_by_tag(*tags) & set(self.rooms.itervalues())
+        return self.entities_by_tag(*tags) & set(self.rooms.values())
 
 
     def nouns_by_word(self, *words):
         """Return a list of nouns that match any of the given words."""
-        return set(noun for noun in self.nouns.itervalues() if set(words) & noun.words)
+        return set(noun for noun in self.nouns.values() if set(words) & noun.words)
 
 
     def nouns_by_input_word(self, wordnum):

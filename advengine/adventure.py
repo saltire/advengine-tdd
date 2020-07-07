@@ -1,9 +1,9 @@
 import itertools
 
-from actions import Actions
-from gamedata import GameData
-from state import State
-from tests import Tests
+from .actions import Actions
+from .gamedata import GameData
+from .state import State
+from .tests import Tests
 
 
 class Adventure:
@@ -97,7 +97,7 @@ class Adventure:
                     pargs.append(arg)
 
             msgs = getattr(self.actions, action)(*pargs, **kwargs)
-            if isinstance(msgs, basestring):
+            if isinstance(msgs, str):
                 messages.append(msgs)
             elif msgs is not None:
                 messages.extend(msgs)

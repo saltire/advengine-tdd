@@ -63,9 +63,9 @@ class Test_Actions(unittest.TestCase):
         self.state = State(data)
         self.actions = Actions(self.state)
 
-        for rid, room in self.state.rooms.iteritems():
+        for rid, room in self.state.rooms.items():
             setattr(self, rid, room)
-        for nid, noun in self.state.nouns.iteritems():
+        for nid, noun in self.state.nouns.items():
             setattr(self, nid, noun)
 
 

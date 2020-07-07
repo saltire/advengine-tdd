@@ -1,7 +1,7 @@
 from flask import Flask
 
 from simplekv.fs import FilesystemStore
-from flask.ext.kvsession import KVSessionExtension
+from flask_kvsession import KVSessionExtension
 
 
 app = Flask(__name__)
@@ -14,5 +14,5 @@ def init_session():
     KVSessionExtension(store, app)
 
 
-import builder
-import player
+from . import builder
+from . import player

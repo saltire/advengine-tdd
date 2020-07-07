@@ -21,7 +21,7 @@ class selector:
             # don't evaluate more selectors than there are arguments
             for i, stype in enumerate(self.stypes[:len(args) - 1]):
                 arg = args[i + 1]
-                if isinstance(arg, basestring):
+                if isinstance(arg, str):
                     # argument is a selector string: run selector method and filters
                     argparts = arg.split(':')
                     selector, filters = argparts[0], argparts[1:]
@@ -69,12 +69,12 @@ class selector:
 
     def all_noun(self, obj):
         """Return all nouns."""
-        return set(obj.state.nouns.itervalues())
+        return set(obj.state.nouns.values())
 
 
     def all_room(self, obj):
         """Return all rooms."""
-        return set(obj.state.rooms.itervalues())
+        return set(obj.state.rooms.values())
 
 
     def all_entity(self, obj):

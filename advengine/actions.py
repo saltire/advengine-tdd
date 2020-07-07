@@ -1,5 +1,5 @@
-from selector import selector
-from tests import BaseTests
+from .selector import selector
+from .tests import BaseTests
 
 
 class BaseActions:
@@ -95,7 +95,7 @@ class Actions(BaseActions):
         direction = self.state.sub_words(direction)
         try:
             self.state.current_room = next(self.state.rooms[rid] for exdir, rid
-                                           in self.state.current_room.exits.iteritems()
+                                           in self.state.current_room.exits.items()
                                            if self.state.lexicon.words_match(direction, exdir))
         except StopIteration:
             pass

@@ -26,13 +26,13 @@ def get_gamedata(game='starflight'):
         return [dict([('id', oid)] +
                      # we can't serialize sets as json, so convert set attributes into sorted lists
                      [(attr, sorted(val) if isinstance(val, set) else val)
-                      for attr, val in obj.__dict__.iteritems()])
-                     for oid, obj in objs.iteritems()]
+                      for attr, val in obj.__dict__.items()])
+                     for oid, obj in objs.items()]
 
     return jsonify(nouns=json_ordered_array(gdata.nouns),
                    rooms=json_ordered_array(gdata.rooms),
-                   vars=[{'id': var, 'value': value} for var, value in gdata.vars.iteritems()],
+                   vars=[{'id': var, 'value': value} for var, value in gdata.vars.items()],
                    words=sorted(sorted(wordlist) for wordlist in gdata.lexicon.get_word_sets()),
-                   messages=[{'id': mid, 'msg': msg} for mid, msg in gdata.messages.iteritems()],
-                   controls=gdata.controls.values(),
+                   messages=[{'id': mid, 'msg': msg} for mid, msg in gdata.messages.items()],
+                   controls=list(gdata.controls.values()),
                    )

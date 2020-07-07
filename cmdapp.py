@@ -15,12 +15,12 @@ if __name__ == '__main__':
     while True:
         for message in messages:
             if message == 'PAUSE':
-                raw_input('Press any key...')
-                print
+                input('Press any key...')
+                print()
             else:
                 for line in message.splitlines():
                     for wrapline in textwrap.wrap(line):
-                        print wrapline
-                print
+                        print(wrapline)
+                print()
 
-        messages = adv.do_command(raw_input('> '))
+        messages = adv.do_command(input('> '))
